@@ -2,7 +2,7 @@
   "name": "innovations-website",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/CSI-SIESGST/innovations-website#readme",
   "dependencies": {
-    "express": "^4.17.1",
-    "http": "0.0.1-security",
-    "path": "^0.12.7"
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1"
   }
 }
