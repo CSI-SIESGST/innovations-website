@@ -10,6 +10,8 @@
     <main>
       <section>
         <form id="signup">
+          <label>Team Name:</label>
+          <input type="text" name="team" />
           <label>Email</label>
           <input type="email" name="login" />
           <label>Password</label>
@@ -20,6 +22,7 @@
 
       <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
       <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 
       <script>
@@ -35,20 +38,34 @@
 
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
 
+        var firestore = firebase.firestore();
+
         document
           .getElementById("signup")
           .addEventListener("submit", (event) => {
             event.preventDefault();
+            const team = event.target.team.value;
             const login = event.target.login.value;
             const password = event.target.password.value;
 
-            console.log(login, password);
+            //console.log(login, password);
+            const docRef = firestore.collection('users');
 
             firebase
               .auth()
               .createUserWithEmailAndPassword(login, password)
               .then(({ user }) => {
+                var uid = user.uid;
                 return user.getIdToken().then((idToken) => {
+                  docRef.doc(team).set({
+                    "teamName" : team,
+                    "email" : login,
+                    "userId" : uid,
+                  }).then(() => {
+                    console.log("saved successfully!");
+                  }).catch((err) => {
+                    console.error(err);
+                  })
                   return fetch("/sessionLogin", {
                     method: "POST",
                     headers: {

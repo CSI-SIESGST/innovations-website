@@ -12,11 +12,12 @@ admin.initializeApp({
 });
 
 const csrfMiddleware = csrf({ cookie: true});
+const db = admin.firestore();
 
 const app = express();
 
-//app.set('view engine', 'ejs');
-app.engine("html", require("ejs").renderFile);
+app.set('view engine', 'ejs');
+//app.engine("html", require("ejs").renderFile);
 
 app.use(express.static('static'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -34,12 +35,14 @@ app.get("/", (req,res) => {
 });
 
 app.get("/login", (req, res) => {
-	res.render('login.html');
+	res.render('login.ejs');
 });
 
 app.get('/signup', (req, res) => {
-	res.render('signup.html');
+	res.render('signup.ejs');
 });
+
+var data = {};
 
 app.get('/home', (req, res) => {
 	const sessionCookie = req.cookies.session || "";
@@ -47,8 +50,23 @@ app.get('/home', (req, res) => {
 	admin
 		.auth()
 		.verifySessionCookie(sessionCookie, true)
-		.then(() => {
-			res.render('home.html');
+		.then(async (user) => {
+			console.log(user.uid);
+			db.collection('users').where('userId', '==', user.uid)
+				.get()
+				.then((querySnapshot) => {
+					console.log(querySnapshot);
+					querySnapshot.forEach((doc) => {
+						console.log(doc.id, " => ", doc.data());
+						data = doc.data();
+						console.log(data.teamName);
+					});
+					res.render('home.ejs', {"team": data.teamName});
+				})
+				.catch((err) => {
+					console.log("Error getting data");
+					res.render('home.ejs');
+				})
 		})
 		.catch((err) => {
 			res.redirect('/login')
