@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const session = require('express-session');
 const passport = require('passport');
-const validator = require('validator');
 
 require('dotenv').config();
 
@@ -40,13 +39,13 @@ passport.deserializeUser(function(id, done) {
 });
 
 app.get("/", (req,res) => {
-	
+
 	res.send('Hello World!');
-	
+
 });
 
 app.get("/home", (req,res) => {
-	
+
 	if(req.isAuthenticated())
 	{
 		res.render("home",{team: req.user.teamName});
@@ -55,7 +54,7 @@ app.get("/home", (req,res) => {
 	{
 		res.redirect("/login");
 	}
-	
+
 });
 
 app.get("/logout", (req,res) => {
@@ -71,7 +70,7 @@ app.get("/logout", (req,res) => {
 })
 
 app.get("/login", (req,res) => {
-	
+
 	if(req.isAuthenticated())
 	{
 		res.redirect("home");
@@ -80,11 +79,11 @@ app.get("/login", (req,res) => {
 	{
 		res.render("login");
 	}
-	
+
 });
 
 app.post('/login', (req,res) => {
-	
+
 	if(req.isAuthenticated())
 	{
 		res.redirect("home");
@@ -95,9 +94,9 @@ app.post('/login', (req,res) => {
 			username: req.body.username,
 			password: req.body.password
 		});
-	
+
 		req.login(user, (err) => {
-	
+
 			if(err)
 			{
 				console.log(err);
@@ -109,13 +108,13 @@ app.post('/login', (req,res) => {
 					res.send({message: "done"});
 				});
 			}
-	
+
 		});
 	}
 });
 
 app.get("/signup", (req,res) => {
-	
+
 	if(req.isAuthenticated())
 	{
 		res.redirect("/home");
@@ -124,11 +123,11 @@ app.get("/signup", (req,res) => {
 	{
 		res.render("signup");
 	}
-	
+
 });
 
 app.post('/signup', (req,res) => {
-	
+
 	if(req.isAuthenticated())
 	{
 		res.status(404);
@@ -233,7 +232,7 @@ app.post('/signup', (req,res) => {
 							console.log(JSON.stringify(err))
 							res.send({message: "Server Error"});
 						}
-						
+
 					}
 				}
 				else
@@ -248,7 +247,7 @@ app.post('/signup', (req,res) => {
 			res.send({message: 'Password doesn\'t satisfy the conditions!'})
 		}
 	}
-	
+
 });
 
 
