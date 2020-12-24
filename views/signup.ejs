@@ -26,12 +26,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                if(data.message == 'one-more')
-                {
-                    signupReq();
-                    document.getElementById('status').innerHTML = 'It\'s taking longer than usual';
-                }
-                else if(data.message == 'done')
+                if(data.message == 'done')
                 {
                     location.replace('/home')
                 }

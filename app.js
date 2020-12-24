@@ -142,7 +142,42 @@ app.post('/signup', (req,res) => {
 										}
 										else
 										{
-											res.send({message: "one-more"});
+											User.register(
+												{
+													username: req.body.username,
+													teamName: req.body.team,
+													verified: false,
+													verificationUrl: uuidv4(),
+													pwChangeUrl: '0'
+												}, req.body.password, (err, user) => {
+													if(err)
+													{
+														if(err.name === 'MongoError' && err.code === 11000)
+														{
+															res.send({message: "Team Name already taken"});
+														}
+														else if(err.errors.username !== undefined && err.errors.username.name === 'ValidatorError')
+														{
+															res.send({message: err.errors.username.message});
+														}
+														else if(err.errors.teamName !== undefined && err.errors.teamName.name === 'ValidatorError')
+														{
+															res.send({message: 'Team Name should contain minimum 4 characters!'});
+														}
+														else
+														{
+															console.log(JSON.stringify(err))
+															res.send({message: "Server Error"});
+														}
+													}
+													else
+													{
+														passport.authenticate("local")(req,res,() => {
+															res.send({message: 'done'});
+														});
+													}
+												}
+											)
 										}
 									})
 								}
