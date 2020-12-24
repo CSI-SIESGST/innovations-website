@@ -1,91 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Firebase Server Auth</title>
+    <title>SignUp</title>
     <link rel="stylesheet" href="./mvp.css" />
-  </head>
-  <body>
+    
+    <script type="text/javascript">
+        function signupReq()
+        {
+            var form = new FormData(document.getElementById("signup"));
+            var formBody = [];
+            for ( var key of form.keys()){
+                var encodedKey = encodeURIComponent(key);
+                var encodedValue = encodeURIComponent(form.get(key));
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            fetch("/signup", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'                 
+                },
+                body: formBody
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.message == 'done')
+                {
+                    location.replace('/home')
+                }
+                else
+                {
+                    document.getElementById('status').innerHTML = data.message;
+                }
+            })
+            .catch(error => {
+                document.getElementById('status').innerHTML = 'Server Error!';
+            })
+        }
+    </script>
+</head>
+<body>
     <main>
-      <section>
-        <form id="signup">
-          <label>Team Name:</label>
-          <input type="text" name="team" />
-          <label>Email</label>
-          <input type="email" name="login" />
-          <label>Password</label>
-          <input type="password" name="password" />
-          <button>Sign up</button>
-        </form>
-      </section>
-
-      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-
-      <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyA5FF7JDrpSsgWFMi8rs3qD4ZFPd2r9wbM",
-            authDomain: "innovations-csi.firebaseapp.com",
-            projectId: "innovations-csi",
-            storageBucket: "innovations-csi.appspot.com",
-            messagingSenderId: "260771134512",
-            appId: "1:260771134512:web:32c3b56b5815e2d74381f5"
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
-
-        var firestore = firebase.firestore();
-
-        document
-          .getElementById("signup")
-          .addEventListener("submit", (event) => {
-            event.preventDefault();
-            const team = event.target.team.value;
-            const login = event.target.login.value;
-            const password = event.target.password.value;
-
-            //console.log(login, password);
-            const docRef = firestore.collection('users');
-
-            firebase
-              .auth()
-              .createUserWithEmailAndPassword(login, password)
-              .then(({ user }) => {
-                var uid = user.uid;
-                return user.getIdToken().then((idToken) => {
-                  docRef.doc(team).set({
-                    "teamName" : team,
-                    "email" : login,
-                    "userId" : uid,
-                  }).then(() => {
-                    console.log("saved successfully!");
-                  }).catch((err) => {
-                    console.error(err);
-                  })
-                  return fetch("/sessionLogin", {
-                    method: "POST",
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                      "CSRF-Token": Cookies.get("XSRF-TOKEN"),
-                    },
-                    body: JSON.stringify({ idToken }),
-                  });
-                });
-              })
-              .then(() => {
-                return firebase.auth().signOut();
-              })
-              .then(() => {
-                window.location.assign("/home");
-              });
-            return false;
-          });
-      </script>
+        <section>
+            <form id="signup">
+                <label for="" id="status"></label>
+                <label>Team Name:</label>
+                <input type="text" name="team" />
+                <label>Email</label>
+                <input type="email" name="username" />
+                <label>Password</label>
+                <input type="password" name="password" />
+                <button>Sign up</button>
+            </form>
+        </section>
+        
+        <script type="text/javascript">
+            document.getElementById("signup").addEventListener("submit", (event) => {
+                event.preventDefault();
+                
+                signupReq();
+                return false;
+            })
+        </script>
+        
     </main>
-  </body>
+</body>
 </html>
