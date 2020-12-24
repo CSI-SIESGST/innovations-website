@@ -58,6 +58,18 @@ app.get("/home", (req,res) => {
 	
 });
 
+app.get("/logout", (req,res) => {
+	if(req.isAuthenticated())
+	{
+		req.logout();
+		res.redirect('/');
+	}
+	else
+	{
+		res.redirect('/');
+	}
+})
+
 app.get("/login", (req,res) => {
 	
 	if(req.isAuthenticated())
