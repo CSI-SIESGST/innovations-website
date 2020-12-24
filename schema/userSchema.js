@@ -30,12 +30,8 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    verificationUrl: {
-        type: String,
-        required: true
-    },
-    pwChangeUrl: {
-        type: String,
+    pwChangeReq: {
+        type: Number,
         required: true
     }
     
