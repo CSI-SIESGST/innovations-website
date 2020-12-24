@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const session = require('express-session');
 const passport = require('passport');
-
+const nodemailer = require('nodemailer');
 require('dotenv').config();
-
+const CryptoJS = require('crypto-js');
 const mongoose = require('./db/mongoose');
 const User = require('./schema/userSchema');
 
@@ -82,6 +82,15 @@ app.get("/login", (req,res) => {
 
 });
 
+app.get('/verify', (req,res) => {
+	if(req.isAuthenticated()){
+		res.send('is isAuthenticated :)');
+	}
+	else{
+		res.send('not authenticated');
+	}
+});
+
 app.post('/login', (req,res) => {
 
 	if(req.isAuthenticated())
@@ -117,7 +126,7 @@ app.get("/signup", (req,res) => {
 
 	if(req.isAuthenticated())
 	{
-		res.redirect("/home");
+			res.redirect('/home');
 	}
 	else
 	{
@@ -127,7 +136,8 @@ app.get("/signup", (req,res) => {
 });
 
 app.post('/signup', (req,res) => {
-
+	var username = req.body.team;	//teamname
+	var email = req.body.username; //username
 	if(req.isAuthenticated())
 	{
 		res.status(404);
@@ -238,7 +248,49 @@ app.post('/signup', (req,res) => {
 				else
 				{
 					passport.authenticate("local")(req,res,() => {
-						res.send({message: 'done'});
+
+						var link = 'home';
+						var url;
+						var nowTime = new Date();
+						nowTime = nowTime.getTime().toString();
+						url = 'http://localhost:3000/'+'verify?';
+						var newEmail = CryptoJS.AES.encrypt(email,process.env.EMAIL_SECRET_KEY);
+						var time = CryptoJS.AES.encrypt(nowTime,process.env.TIME_SECRET_KEY);
+						url += 'email=' + encodeURIComponent(newEmail) + '&time=' + encodeURIComponent(time);
+						link = url;
+						var transporter = nodemailer.createTransport({
+							service: 'gmail',
+							auth: {
+								user: process.env.EMAIL_USER,
+								pass: process.env.EMAIL_PASS
+							}
+						});
+						var mailOptions = {
+							from: process.env.EMAIL_USER,
+							to: email,
+							subject: 'Innovation Email Validation',
+							html:
+							`
+							<!DOCTYPE html>
+							<html lang="en" dir="ltr">
+								<body>
+									Hello `+ username + ` thankyou for registering in Innovation.
+									<br>Please verify your email by clicking on this <a href=` + link + `>link</a>
+								</body>
+							</html>
+							`
+						};
+						transporter.sendMail(mailOptions, function(err, info){
+							if(err){
+								res.send('error while sending email..');
+							}
+							else{
+								console.log('email sent!!\n',info.response);
+								res.send('please confirm your mail..');
+							}
+						});
+						res.send({message: 'done'});	//yahape waiting ka waiting..
+
 					});
 				}
 			});
