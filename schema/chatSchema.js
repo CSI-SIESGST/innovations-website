@@ -18,12 +18,12 @@ const chatSchema = new mongoose.Schema({
         ]
     },
     adminUnread: {
-        type: Number,
-        default: 0
+        type: Boolean,
+        default: false
     },
     userUnread: {
-        type: Number,
-        default: 0
+        type: Boolean,
+        default: false
     }
     
 });

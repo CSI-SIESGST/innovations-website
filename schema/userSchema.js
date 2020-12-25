@@ -34,6 +34,16 @@ const userSchema = new mongoose.Schema({
         type: [Number],
         required: true,
         default: []
+    },
+    submitted: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    status: {
+        type: Boolean,
+        required: true,
+        default: false
     }
     
 });
