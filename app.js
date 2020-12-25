@@ -266,18 +266,23 @@ app.post('/signup', (req,res) => {
 						var nowTime = new Date();
 						nowTime = nowTime.getTime().toString();
 						url = 'http://localhost:3000/'+'verify?';
+						// eslint-disable-next-line no-undef
 						var newEmail = CryptoJS.AES.encrypt(email,process.env.EMAIL_SECRET_KEY);
+						// eslint-disable-next-line no-undef
 						var time = CryptoJS.AES.encrypt(nowTime,process.env.TIME_SECRET_KEY);
 						url += 'email=' + encodeURIComponent(newEmail) + '&time=' + encodeURIComponent(time);
 						link = url;
 						var transporter = nodemailer.createTransport({
 							service: 'gmail',
 							auth: {
+								// eslint-disable-next-line no-undef
 								user: process.env.EMAIL_USER,
+								// eslint-disable-next-line no-undef
 								pass: process.env.EMAIL_PASS
 							}
 						});
 						var mailOptions = {
+							// eslint-disable-next-line no-undef
 							from: process.env.EMAIL_USER,
 							to: email,
 							subject: 'Innovation Email Validation',
