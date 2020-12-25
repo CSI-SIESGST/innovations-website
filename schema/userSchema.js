@@ -30,9 +30,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    pwChangeReq: {
-        type: Number,
-        required: true
+    mailTrack: {
+        type: [Number],
+        required: true,
+        default: []
     }
     
 });
