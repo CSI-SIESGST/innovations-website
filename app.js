@@ -1,14 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const ejs = require('ejs');
+require('ejs');
 const session = require('express-session');
 const passport = require('passport');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const CryptoJS = require('crypto-js');
-const mongoose = require('./db/mongoose');
+
+require('./db/mongoose');
 const User = require('./schema/userSchema');
+const Chat = require('./schema/chatSchema');
 
 const app = express();
 
@@ -18,6 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 
 app.use(session({
+	// eslint-disable-next-line no-undef
 	secret: process.env.SECRET_KEY,
 	resave: false,
 	saveUninitialized: false
@@ -153,6 +156,7 @@ app.post('/signup', (req,res) => {
 					teamName: req.body.team,
 					verified: false,
 					pwChangeReq: new Date().getTime()
+				// eslint-disable-next-line no-unused-vars
 				}, req.body.password, (err, user) => {
 				if(err)
 				{
@@ -247,6 +251,14 @@ app.post('/signup', (req,res) => {
 				}
 				else
 				{
+					// eslint-disable-next-line no-unused-vars
+					Chat.create({teamName: req.body.team, messages: []}, (err, chat) => {
+						if(err)
+						{
+							console.log(JSON.stringify(err));
+							console.log(req.body.team)
+						}
+					})
 					passport.authenticate("local")(req,res,() => {
 
 						var link = 'home';
