@@ -13,10 +13,17 @@ const chatSchema = new mongoose.Schema({
             {
                 time: Number,
                 message: String,
-                sender: Boolean,
-                read: Boolean
+                sender: Boolean
             }
         ]
+    },
+    adminUnread: {
+        type: Number,
+        default: 0
+    },
+    userUnread: {
+        type: Number,
+        default: 0
     }
     
 });
