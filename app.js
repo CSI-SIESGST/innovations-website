@@ -136,7 +136,7 @@ app.get("/signup", (req,res) => {
 });
 
 app.post('/signup', (req,res) => {
-	var username = req.body.team;	//teamname
+	var teamname = req.body.team;	//teamname
 	var email = req.body.username; //username
 	if(req.isAuthenticated())
 	{
@@ -274,7 +274,7 @@ app.post('/signup', (req,res) => {
 							<!DOCTYPE html>
 							<html lang="en" dir="ltr">
 								<body>
-									Hello `+ username + ` thankyou for registering in Innovation.
+									Hello `+ teamname + ` thankyou for registering in Innovation.
 									<br>Please verify your email by clicking on this <a href=` + link + `>link</a>
 								</body>
 							</html>
@@ -282,11 +282,10 @@ app.post('/signup', (req,res) => {
 						};
 						transporter.sendMail(mailOptions, function(err, info){
 							if(err){
-								res.send('error while sending email..');
+								console.log(JSON.stringify(err))
 							}
 							else{
 								console.log('email sent!!\n',info.response);
-								res.send('please confirm your mail..');
 							}
 						});
 						res.send({message: 'done'});	//yahape waiting ka waiting..
