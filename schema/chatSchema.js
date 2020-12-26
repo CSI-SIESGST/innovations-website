@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose');
-const findOrCreate = require('mongoose-findorcreate');
 
 const chatSchema = new mongoose.Schema({
     
     teamName: {
         type: String,
+        unique: true,
         required: true
     },
     messages: [
@@ -25,9 +24,6 @@ const chatSchema = new mongoose.Schema({
     }
     
 });
-
-chatSchema.plugin(passportLocalMongoose);
-chatSchema.plugin(findOrCreate);
 
 const Chat = new mongoose.model('Chat', chatSchema);
 

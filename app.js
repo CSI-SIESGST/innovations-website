@@ -4,9 +4,10 @@ const bodyParser = require('body-parser');
 require('ejs');
 const session = require('express-session');
 const passport = require('passport');
-const nodemailer = require('nodemailer');
 require('dotenv').config();
 const CryptoJS = require('crypto-js');
+
+const verifyEmail = require('./functions/verifyEmail');
 
 require('./db/mongoose');
 const User = require('./schema/userSchema');
@@ -51,7 +52,16 @@ app.get("/home", (req,res) => {
 
 	if(req.isAuthenticated())
 	{
-		res.render("home",{team: req.user.teamName});
+		if(!req.user.verified)
+		{
+			res.status(200)
+			res.end('Not Verified')
+		}
+		else
+		{
+			res.render("home",{team: req.user.teamName});
+		}
+		
 	}
 	else
 	{
@@ -139,8 +149,7 @@ app.get("/signup", (req,res) => {
 });
 
 app.post('/signup', (req,res) => {
-	var teamname = req.body.team;	//teamname
-	var email = req.body.username; //username
+
 	if(req.isAuthenticated())
 	{
 		res.status(404);
@@ -251,61 +260,27 @@ app.post('/signup', (req,res) => {
 				}
 				else
 				{
-					// eslint-disable-next-line no-unused-vars
-					Chat.create({teamName: req.body.team, messages: []}, (err, chat) => {
-						if(err)
-						{
-							console.log(JSON.stringify(err));
-							console.log(req.body.team)
-						}
-					})
-					passport.authenticate("local")(req,res,() => {
 
-						var link = 'home';
-						var url;
-						var nowTime = new Date();
-						nowTime = nowTime.getTime().toString();
-						url = 'http://localhost:3000/'+'verify?';
-						// eslint-disable-next-line no-undef
-						var newEmail = CryptoJS.AES.encrypt(email,process.env.EMAIL_SECRET_KEY);
-						// eslint-disable-next-line no-undef
-						var time = CryptoJS.AES.encrypt(nowTime,process.env.TIME_SECRET_KEY);
-						url += 'email=' + encodeURIComponent(newEmail) + '&time=' + encodeURIComponent(time);
-						link = url;
-						var transporter = nodemailer.createTransport({
-							service: 'gmail',
-							auth: {
-								// eslint-disable-next-line no-undef
-								user: process.env.EMAIL_USER,
-								// eslint-disable-next-line no-undef
-								pass: process.env.EMAIL_PASS
-							}
-						});
-						var mailOptions = {
-							// eslint-disable-next-line no-undef
-							from: process.env.EMAIL_USER,
-							to: email,
-							subject: 'Innovation Email Validation',
-							html:
-							`
-							<!DOCTYPE html>
-							<html lang="en" dir="ltr">
-								<body>
-									Hello `+ teamname + ` thankyou for registering in Innovation.
-									<br>Please verify your email by clicking on this <a href=` + link + `>link</a>
-								</body>
-							</html>
-							`
-						};
-						transporter.sendMail(mailOptions, function(err, info){
-							if(err){
-								console.log(JSON.stringify(err))
-							}
-							else{
-								console.log('email sent!!\n',info.response);
-							}
-						});
-						res.send({message: 'done'});	//yahape waiting ka waiting..
+					// eslint-disable-next-line no-undef
+					var verifyURL = CryptoJS.Rabbit.encrypt(req.body.username+' '+ new Date().getTime(), process.env.VERIFY_ENCRYPTION).toString();
+
+					verifyURL = req.headers.host+'/verifymail?v='+encodeURIComponent(verifyURL);
+
+					const mailData = {
+						email: req.body.username,
+						teamName: req.body.team,
+						url: verifyURL
+					}
+
+					verifyEmail(mailData)
+
+					// eslint-disable-next-line no-unused-vars
+					const chat = new Chat({teamName: req.body.team, messages:[]});
+					chat.save()
+
+					passport.authenticate("local")(req,res,() => {
+						
+						res.send({message: 'done'});
 
 					});
 				}
@@ -317,6 +292,54 @@ app.post('/signup', (req,res) => {
 	}
 
 });
+
+app.get('/verifymail', (req,res) => {
+	// eslint-disable-next-line no-undef
+	const decryptedVerification = CryptoJS.Rabbit.decrypt(req.query.v, process.env.VERIFY_ENCRYPTION).toString(CryptoJS.enc.Utf8).split(' ');
+
+	if(decryptedVerification.length != 2)
+	{
+		res.status(404);
+		res.end();
+	}
+
+	const email = decryptedVerification[0]
+	const time = parseInt(decryptedVerification[1])
+
+	if(req.isAuthenticated() && req.user.username!=email)
+	{
+		res.status(404);
+		res.end();
+	}
+
+	if(time+(24*60*60*1000) < new Date().getTime())
+	{
+		res.status(401);
+		res.end('time-up')
+	}
+
+	User.where({username: email}).findOne((err,user) => {
+		if(err)
+		{
+			res.status(404);
+			res.end('Server Error!');
+		}
+		else
+		{
+			if(user.verified)
+			{
+				res.status(404);
+				res.end();
+			}
+			else
+			{
+				user.verified = true;
+				user.save();
+				res.redirect('/login')
+			}
+		}
+	})
+})
 
 
 app.listen(3000, () => {
