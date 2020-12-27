@@ -365,6 +365,45 @@ app.post('/resend-verification', async (req,res) => {
 		res.status(401);
 		res.end('Unauthorised!');
 	}
+});
+
+app.get('/csi-admin-login', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
+	{
+		res.redirect('/csi-admin-panel');
+	}
+	else
+	{
+		res.render('admin-login');
+	}
+});
+
+app.post('/csi-admin-login', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.body.secret == process.env.ADMIN_LOGIN)
+	{
+		// eslint-disable-next-line no-undef
+		req.session[process.env.ADMIN_SESSION_VAR] = process.env.ADMIN_SESSION_VAL;
+		res.redirect('/csi-admin-panel');
+	}
+	else
+	{
+		res.redirect('/csi-admin-login');
+	}
+})
+
+app.get('/csi-admin-panel', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
+	{
+		res.send('Admin Panel');
+		res.end();
+	}
+	else
+	{
+		res.redirect('/csi-admin-login');
+	}
 })
 
 
