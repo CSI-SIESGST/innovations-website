@@ -328,7 +328,7 @@ app.get('/verifymail', (req,res) => {
 		{
 			if(user.verified)
 			{
-				res.status(404);
+				res.redirect('/home')
 				res.end();
 			}
 			else
@@ -339,6 +339,32 @@ app.get('/verifymail', (req,res) => {
 			}
 		}
 	})
+});
+
+app.post('/resend-verification', async (req,res) => {
+	if(req.isAuthenticated())
+	{
+		// eslint-disable-next-line no-undef
+		var verifyURL = CryptoJS.Rabbit.encrypt(req.user.username+' '+ new Date().getTime(), process.env.VERIFY_ENCRYPTION).toString();
+
+		verifyURL = req.headers.host+'/verifymail?v='+encodeURIComponent(verifyURL);
+
+		const mailData = {
+			email: req.user.username,
+			teamName: req.user.teamName,
+			url: verifyURL
+		}
+
+		var mailStatus = await verifyEmail(mailData);
+
+		res.send({message: mailStatus});
+		res.end();
+	}
+	else
+	{
+		res.status(401);
+		res.end('Unauthorised!');
+	}
 })
 
 
