@@ -42,6 +42,66 @@ passport.deserializeUser(function(id, done) {
 	});
 });
 
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+
+io.on('connection', socket => {
+
+    // eslint-disable-next-line no-undef
+    socket.on(process.env.ADMIN_EVENT, () => {
+        // eslint-disable-next-line no-undef
+        socket.join(process.env.ADMIN_ROOM);
+	})
+	
+	socket.on('join-room', (teamId) => {
+		socket.join(teamId);
+	})
+
+    socket.on('msg-to-admin', (teamName, message, teamId) => {
+        Chat.where({teamName: teamName}).findOne((err,chat) => {
+            if(err)
+            {
+                // eslint-disable-next-line no-undef
+                socket.to(teamId).emit('refresh');
+            }
+            else
+            {
+                // eslint-disable-next-line no-undef
+                socket.to(process.env.ADMIN_ROOM).emit('new-msg', teamName, message)
+
+                chat.messages.push({time: new Date().getTime(), message: message, sender: false})
+                chat.adminUnread = true;
+
+                chat.save();
+            }
+        })
+    })
+
+    socket.on('msg-to-user', (teamName, message, teamId) => {
+        Chat.where({teamName: teamName}).findOne((err,chat) => {
+            if(err)
+            {
+                // eslint-disable-next-line no-undef
+                socket.to(process.env.ADMIN_ROOM).emit('refresh');
+            }
+            else
+            {
+                // eslint-disable-next-line no-undef
+                socket.to(teamId).emit('new-msg', teamName, message)
+
+                chat.messages.push({time: new Date().getTime(), message: message, sender: true})
+                chat.userUnread = true;
+
+                chat.save();
+            }
+        })
+    })
+
+})
+
+
 app.get("/", (req,res) => {
 
 	res.send('Hello World!');
@@ -371,7 +431,7 @@ app.get('/csi-admin-login', (req,res) => {
 	// eslint-disable-next-line no-undef
 	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
 	{
-		res.redirect('/csi-admin-panel');
+		res.redirect('/admin-panel');
 	}
 	else
 	{
@@ -385,7 +445,7 @@ app.post('/csi-admin-login', (req,res) => {
 	{
 		// eslint-disable-next-line no-undef
 		req.session[process.env.ADMIN_SESSION_VAR] = process.env.ADMIN_SESSION_VAL;
-		res.redirect('/csi-admin-panel');
+		res.redirect('/admin-panel');
 	}
 	else
 	{
@@ -393,12 +453,52 @@ app.post('/csi-admin-login', (req,res) => {
 	}
 })
 
-app.get('/csi-admin-panel', (req,res) => {
+app.get('/admin-panel', (req,res) => {
 	// eslint-disable-next-line no-undef
 	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
 	{
-		res.send('Admin Panel');
-		res.end();
+		Chat.where({}).find((err,chats) => {
+			if(err)
+			{
+				res.send('Errorrrr!')
+			}
+			else
+			{
+				var unread = chats.filter(chat => {
+					return chat.adminUnread
+				})
+				var read = chats.filter(chat => {
+					return !chat.adminUnread
+				})
+				var newChat = unread.concat(read)
+				// eslint-disable-next-line no-undef
+				res.render('admin-panel', {adminEvent: process.env.ADMIN_EVENT, chats: newChat});
+				res.end();
+			}
+		})
+		
+	}
+	else
+	{
+		res.redirect('/csi-admin-login');
+	}
+})
+
+app.get('/chats/:chatId', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
+	{
+		Chat.findById(req.params.chatId, (err,chat) => {
+			if(err)
+			{
+				res.status(404)
+				res.end('Not Found');
+			}
+			else if(chat)
+			{
+				res.render('admin-chat-box')
+			}
+		})
 	}
 	else
 	{
@@ -407,6 +507,6 @@ app.get('/csi-admin-panel', (req,res) => {
 })
 
 
-app.listen(3000, () => {
+server.listen(3000, () => {
 	console.log('Listening to port 3000');
 });

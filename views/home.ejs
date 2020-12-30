@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Home Page</title>
-    </head>
-    <body>
-        <h1>This is a protected page!!</h1>
-        <% if (team) {%>
-            <h2>Welcome team <%= team %></h2>
-        <% } %>
-        <a href="/logout">Logout</a>
-    </body>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>This is a protected page!!</h1>
+    <% if (team) {%>
+        <h2>Welcome team <span id="teamName"><%= team %></span></h2>
+    <% } %>
+    <a href="/logout">Logout</a>
+    
+    <script>
+        const tn = document.getElementById('teamName').innerHTML;
+    </script>
+</body>
 </html>

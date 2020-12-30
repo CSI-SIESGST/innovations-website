@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+    <title>Admin Panel</title>
+    
+</head>
+<body style="margin: 0; padding: 0; scroll-behavior: smooth;">
+    <div>
+        <div class="row m-0" id="chat-and-frame" style="width: 100%;">
+            <div class="col-3" style="overflow-y: scroll; height: 100%;">
+                <h4 class="py-2">Chat</h4>
+                <div id="chat-section">
+                    <% chats.forEach(chat => {
+                        %><div id="<%= chat.teamName %>" title="<%= chat._id %>">
+                            <a target="uni-frame" href="/chats/<%= chat._id %>">
+                                <p>
+                                    <% if(chat.adminUnread) 
+                                    {%>
+                                        <b><%= chat.teamName %></b>
+                                    <%}
+                                    else
+                                    {%>
+                                        <%= chat.teamName %>
+                                    <%}%>
+                                </p>
+                            </a>
+                        </div><%
+                    }) %> 
+                </div>
+            </div>
+            <div class="col-9" style="height: 100%;">
+                <iframe name="uni-frame" src="./index.html" frameborder="0" style="width: 100%; height: 100%; overflow-y: scroll;"></iframe>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="d-none" id="admin-event"><%= adminEvent %></div>
+
+
+    <script type="text/javascript">
+        window.onresize = () => {
+            document.getElementById('chat-and-frame').style.height = (window.innerHeight - 70) + 'px';
+        }
+        document.getElementById('chat-and-frame').style.height = (window.innerHeight - 70) + 'px';
+    </script>
+
+
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+    <script>
+        
+        const adminEvent = document.getElementById('admin-event').innerHTML;
+        
+        const socket = io('/');
+
+        socket.emit(adminEvent);
+
+        socket.on('refresh', () => {
+            alert('Error Occurred! Refreshing...');
+            location.reload();
+        });
+        
+        socket.on('new-msg', (teamName, message) => {
+            var element = document.getElementById(teamName);
+            if(element)
+            {
+                var elId = element.getAttribute('title')
+                element.remove();
+            }
+            else
+            {
+                location.reload();
+            }
+            element = document.createElement('div');
+            element.setAttribute('id',teamName);
+            element.setAttribute('title', elId);
+            element.innerHTML = '<a target="uni-frame" href="/chats/'+elId+'"><p><b>'+teamName+'</b></p></a>';
+            document.getElementById('chat-section').prepend(element);
+        })
+    </script>
+</body>
+</html>
