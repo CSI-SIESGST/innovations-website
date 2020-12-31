@@ -59,6 +59,27 @@ io.on('connection', socket => {
 		socket.join(chatsId);
 	})
 
+	socket.on('user-read', (chatsId, teamName) => {
+		Chat.findById(chatsId, (err,chat) => {
+			if(err)
+            {
+                // eslint-disable-next-line no-undef
+                socket.to(chatsId).emit('refresh');
+			}
+			else
+			{
+				if(chat.userUnread)
+				{
+					chat.userUnread = false;
+					chat.save();
+				}
+			}
+		})
+
+		// eslint-disable-next-line no-undef
+		socket.to(process.env.ADMIN_ROOM).emit('user-read', teamName)
+	})
+
     socket.on('msg-to-admin', (teamName, message, chatsId) => {
         Chat.where({teamName: teamName}).findOne((err,chat) => {
             if(err)
@@ -127,7 +148,7 @@ app.get("/home", (req,res) => {
 				}
 				else if(chat)
 				{
-					res.render("home",{team: req.user.teamName, chatId: chat._id});
+					res.render("home",{team: req.user.teamName, chatId: chat._id, read: chat.userUnread});
 				}
 			})
 		}

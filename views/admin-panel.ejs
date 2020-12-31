@@ -24,11 +24,11 @@
                                 <p>
                                     <% if(chat.adminUnread) 
                                     {%>
-                                        <b><%= chat.teamName %></b>
+                                        <span style="font-weight: bold;"><%= chat.teamName %></span>
                                     <%}
                                     else
                                     {%>
-                                        <%= chat.teamName %>
+                                        <span style="font-weight: normal;"><%= chat.teamName %></span>
                                     <%}%>
                                 </p>
                             </a>
@@ -83,7 +83,7 @@
             element = document.createElement('div');
             element.setAttribute('id',teamName);
             element.setAttribute('title', elId);
-            element.innerHTML = '<a target="uni-frame" href="/chats/'+elId+'"><p><b>'+teamName+'</b></p></a>';
+            element.innerHTML = '<a target="uni-frame" href="/chats/'+elId+'"><p>< style="font-weight: bold;">'+teamName+'</span></p></a>';
             document.getElementById('chat-section').prepend(element);
         })
     </script>
