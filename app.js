@@ -55,16 +55,16 @@ io.on('connection', socket => {
         socket.join(process.env.ADMIN_ROOM);
 	})
 	
-	socket.on('join-room', (teamId) => {
-		socket.join(teamId);
+	socket.on('join-room', (chatsId) => {
+		socket.join(chatsId);
 	})
 
-    socket.on('msg-to-admin', (teamName, message, teamId) => {
+    socket.on('msg-to-admin', (teamName, message, chatsId) => {
         Chat.where({teamName: teamName}).findOne((err,chat) => {
             if(err)
             {
                 // eslint-disable-next-line no-undef
-                socket.to(teamId).emit('refresh');
+                socket.to(chatsId).emit('refresh');
             }
             else
             {
@@ -79,7 +79,7 @@ io.on('connection', socket => {
         })
     })
 
-    socket.on('msg-to-user', (teamName, message, teamId) => {
+    socket.on('msg-to-user', (teamName, message, chatsId) => {
         Chat.where({teamName: teamName}).findOne((err,chat) => {
             if(err)
             {
@@ -89,7 +89,7 @@ io.on('connection', socket => {
             else
             {
                 // eslint-disable-next-line no-undef
-                socket.to(teamId).emit('new-msg', teamName, message)
+                socket.to(chatsId).emit('new-msg', teamName, message)
 
                 chat.messages.push({time: new Date().getTime(), message: message, sender: true})
                 chat.userUnread = true;
@@ -119,7 +119,17 @@ app.get("/home", (req,res) => {
 		}
 		else
 		{
-			res.render("home",{team: req.user.teamName});
+			Chat.where({teamName: req.user.teamName}).findOne((err,chat) => {
+				if(err)
+				{
+					res.status(501);
+					res.end('Error');
+				}
+				else if(chat)
+				{
+					res.render("home",{team: req.user.teamName, chatId: chat._id});
+				}
+			})
 		}
 		
 	}
@@ -496,13 +506,35 @@ app.get('/chats/:chatId', (req,res) => {
 			}
 			else if(chat)
 			{
-				res.render('admin-chat-box')
+				// eslint-disable-next-line no-undef
+				res.render('admin-chat-box', {adminEvent: process.env.ADMIN_EVENT, chat: chat})
 			}
 		})
 	}
 	else
 	{
 		res.redirect('/csi-admin-login');
+	}
+})
+
+app.get('/user-chat', (req,res) => {
+	if(req.isAuthenticated())
+	{
+		Chat.where({teamName: req.user.teamName}).findOne((err,chat) => {
+			if(err)
+			{
+				res.end('Error')
+			}
+			else if(chat)
+			{
+				res.render('user-chat-box', {chat: chat})
+			}
+		})
+	}
+	else
+	{
+		res.status(401);
+		res.end('Unauthorised')
 	}
 })
 
