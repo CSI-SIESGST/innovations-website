@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Verified</title>
+
+    <script>
+        function resend()
+        {
+            document.getElementById('loading').style.display = 'block';
+
+            fetch("/resend-verification", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'                 
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.message == 0 || data.message == 4 || data.message == 5)
+                {
+                    document.getElementById('status').innerHTML = 'Error Sending Mail';
+                }
+                else if(data.message == 6)
+                {
+                    location.reload();
+                }
+                else if(data.message == 3)
+                {
+                    document.getElementById('status').innerHTML = 'You have reached the email limit of 5 emails/24 hours. Kindly try again after few hours.';
+                }
+                else if(data.message == 1)
+                {
+                    document.getElementById('status').innerHTML = 'Verification Mail Sent. Click on the verification link in the email. You can close this page now!';
+                }
+                else
+                {
+                    document.getElementById('status').innerHTML = 'Unauthorised Request!';
+                }
+
+                document.getElementById('status').style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+            })
+            .catch(error => {
+                document.getElementById('status').innerHTML = 'Error Sending Mail';
+
+                document.getElementById('loading').style.display = 'none';
+            })
+        }
+    </script>
+</head>
+<body>
+
+    <div id="loading" style="position: absolute; left: 0; top: 0; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.7); display: none; z-index: 100;">
+        <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Sending...</h2></span>
+    </div>
+
+    <p id="status" style="display: none; color: red;"></p>
+    <p>User Not Verified!</p>
+    <p>
+        <button onclick="resend()">Resend Verification</button>
+    </p>
+</body>
+</html>

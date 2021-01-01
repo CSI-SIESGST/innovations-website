@@ -26,6 +26,11 @@
     </script>
 </head>
 <body style="margin: 0;">
+
+    <div id="loading" style="position: absolute; left: 0; top: 0; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.7); display: none; z-index: 100;">
+        <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Sending...</h2></span>
+    </div>
+
     <div style="display: flex; flex-direction: column; height: 100vh;">
         <div style="flex-grow: 1; overflow-y: none; position: relative; width: 100%;">
             <div id="chats" style="overflow: auto; position: absolute; width: 100%; bottom: 0; max-height: 100%;">
@@ -40,7 +45,7 @@
                         %>
                         <div class="ml-auto my-1 chat-unit mr-3" style="max-width: 80%; text-align: right;">
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">
-                                <%= message.message %>
+                                <%- message.message %>
                             </div>
                         </div>
                         <%
@@ -50,7 +55,7 @@
                         %>
                         <div class="mr-auto my-1 chat-unit ml-3" style="max-width: 80%; text-align: left;">
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px;">
-                                <%= message.message %>
+                                <%- message.message %>
                             </div>
                         </div>
                         <%
@@ -103,25 +108,35 @@
             var msg = document.getElementById('input').value.trim();
             if(msg.length>0)
             {
-                var element = document.createElement('div');
-                element.setAttribute('class', 'ml-auto my-1 chat-unit mr-3');
-                element.setAttribute('style', 'max-width: 90%; text-align: right;');
-                element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">'+msg.split('\n').join('<br>')+'</div>';
+                
 
-                socket.emit('msg-to-admin', '<%= chat.teamName %>', msg.split('\n').join('<br>'), '<%= chat._id %>')
+                socket.emit('msg-to-admin', '<%= chat.teamName %>', msg.split('\n').join('<br>'), '<%= chat._id %>', () => {
+                    sendAck(msg.split('\n').join('<br>'));
+                })
 
-                document.getElementById('chats').append(element);
+                document.getElementById('loading').style.display = 'block';
 
                 document.getElementById('input').value = '';
-
-                document.getElementById('seen').style.display = 'none';
-
-                document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
             }
             else
             {
                 return;
             }
+        }
+
+        function sendAck(msg)
+        {
+            var element = document.createElement('div');
+            element.setAttribute('class', 'ml-auto my-1 chat-unit mr-3');
+            element.setAttribute('style', 'max-width: 90%; text-align: right;');
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">'+msg.split('\n').join('<br>')+'</div>';
+
+            document.getElementById('chats').append(element);
+
+            document.getElementById('seen').style.display = 'none';
+            document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
+
+            document.getElementById('loading').style.display = 'none';
         }
 
         socket.on('chat-scroll', () => {

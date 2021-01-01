@@ -98,11 +98,10 @@ io.on('connection', socket => {
 			}
 		})
 
-		// eslint-disable-next-line no-undef
 		socket.to(chatsId).emit('admin-read');
 	})
 
-    socket.on('msg-to-admin', (teamName, message, chatsId) => {
+    socket.on('msg-to-admin', (teamName, message, chatsId, callback) => {
         Chat.where({teamName: teamName}).findOne((err,chat) => {
             if(err)
             {
@@ -111,6 +110,7 @@ io.on('connection', socket => {
             }
             else
             {
+				callback();
                 // eslint-disable-next-line no-undef
                 socket.to(process.env.ADMIN_ROOM).emit('new-msg', teamName, message)
 
@@ -122,7 +122,7 @@ io.on('connection', socket => {
         })
     })
 
-    socket.on('msg-to-user', (teamName, message, chatsId) => {
+    socket.on('msg-to-user', (teamName, message, chatsId, callback) => {
         Chat.where({teamName: teamName}).findOne((err,chat) => {
             if(err)
             {
@@ -131,8 +131,8 @@ io.on('connection', socket => {
             }
             else
             {
-                // eslint-disable-next-line no-undef
-                socket.to(chatsId).emit('new-msg', teamName, message)
+				callback();
+				socket.to(chatsId).emit('new-msg', teamName, message)
 
                 chat.messages.push({time: new Date().getTime(), message: message, sender: true})
                 chat.userUnread = true;
@@ -140,7 +140,33 @@ io.on('connection', socket => {
                 chat.save();
             }
         })
-    })
+	})
+	
+	// eslint-disable-next-line no-undef
+	socket.on(process.env.ADMIN_BROADCAST, (message, callback) => {
+
+		message = '<small><b>Broadcast Message</b></small><br>' + message;
+
+		Chat.updateMany({}, {$push: {messages: {time: new Date().getTime(), message: message, sender: true}}}, (err) => {
+			if(err)
+			{
+				console.log(err);
+			}
+			else
+			{
+				Chat.updateMany({}, {userUnread: true}, (error) => {
+					if(error)
+					{
+						console.log(error);
+					}
+				});
+			}
+		});
+
+		callback();
+
+		socket.broadcast.emit('new-msg', '', message)
+	})
 
 })
 
@@ -157,8 +183,7 @@ app.get("/home", (req,res) => {
 	{
 		if(!req.user.verified)
 		{
-			res.status(200)
-			res.end('Not Verified')
+			res.render('not-verified')
 		}
 		else
 		{
@@ -382,7 +407,7 @@ app.get('/verifymail', (req,res) => {
 	if(time+(24*60*60*1000) < new Date().getTime())
 	{
 		res.status(401);
-		res.end('time-up')
+		res.end('Link Timed Out!')
 	}
 
 	User.where({username: email}).findOne((err,user) => {
@@ -534,6 +559,19 @@ app.get('/user-chat', (req,res) => {
 		res.end('Unauthorised')
 	}
 })
+
+app.get('/admin-broadcast', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
+	{
+		// eslint-disable-next-line no-undef
+		res.render('broadcast', {broadcast: process.env.ADMIN_BROADCAST});
+	}
+	else
+	{
+		res.redirect('/csi-admin-login');
+	}
+});
 
 
 server.listen(3000, () => {
