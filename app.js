@@ -110,11 +110,14 @@ io.on('connection', socket => {
             }
             else
             {
-				callback();
-                // eslint-disable-next-line no-undef
-                socket.to(process.env.ADMIN_ROOM).emit('new-msg', teamName, message)
+				var time = new Date().getTime();
 
-                chat.messages.push({time: new Date().getTime(), message: message, sender: false})
+				callback(time);
+
+                // eslint-disable-next-line no-undef
+                socket.to(process.env.ADMIN_ROOM).emit('new-msg', teamName, message, time)
+
+                chat.messages.push({time: time, message: message, sender: false})
                 chat.adminUnread = true;
 
                 chat.save();
@@ -131,10 +134,12 @@ io.on('connection', socket => {
             }
             else
             {
-				callback();
-				socket.to(chatsId).emit('new-msg', teamName, message)
+				var time = new Date().getTime();
 
-                chat.messages.push({time: new Date().getTime(), message: message, sender: true})
+				callback(time);
+				socket.to(chatsId).emit('new-msg', teamName, message, time)
+
+                chat.messages.push({time: time, message: message, sender: true})
                 chat.userUnread = true;
 
                 chat.save();
