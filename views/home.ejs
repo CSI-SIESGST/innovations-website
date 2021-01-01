@@ -18,9 +18,9 @@
                 <h2>Welcome team <span id="teamName"><%= team %></span></h2>
             <% } %>
             <br><br>
-            <button onclick="document.getElementsByTagName('iframe')[0].classList.toggle('d-none'); readUnread();">Show Chat</button>
+            <button onclick="document.getElementsByTagName('iframe')[0].classList.toggle('d-none'); readUnread();">Hide/Show Chat</button>
             
-            <% if(read) {
+            <% if(!unread) {
                 %><span id="new-msg" class="text-danger d-none">New Messages</span><%
             }
             else {
@@ -38,6 +38,8 @@
             <iframe class="d-none" name="uni-frame" src="./user-chat" frameborder="0" style="width: 100%; height: 100%; overflow-y: scroll;"></iframe>
         </div>
     </div>
+
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     
     <script type="text/javascript">
         const socket = io('/');

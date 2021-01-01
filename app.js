@@ -77,7 +77,29 @@ io.on('connection', socket => {
 		})
 
 		// eslint-disable-next-line no-undef
-		socket.to(process.env.ADMIN_ROOM).emit('user-read', teamName)
+		socket.to(process.env.ADMIN_ROOM).emit('user-read', teamName);
+		socket.to(chatsId).emit('chat-scroll');
+	})
+
+	socket.on('admin-read', (chatsId) => {
+		Chat.findById(chatsId, (err,chat) => {
+			if(err)
+            {
+                // eslint-disable-next-line no-undef
+                socket.to(process.env.ADMIN_ROOM).emit('refresh');
+			}
+			else
+			{
+				if(chat.adminUnread)
+				{
+					chat.adminUnread = false;
+					chat.save();
+				}
+			}
+		})
+
+		// eslint-disable-next-line no-undef
+		socket.to(chatsId).emit('admin-read');
 	})
 
     socket.on('msg-to-admin', (teamName, message, chatsId) => {
@@ -148,7 +170,7 @@ app.get("/home", (req,res) => {
 				}
 				else if(chat)
 				{
-					res.render("home",{team: req.user.teamName, chatId: chat._id, read: chat.userUnread});
+					res.render("home",{team: req.user.teamName, chatId: chat._id, unread: chat.userUnread});
 				}
 			})
 		}
@@ -277,52 +299,6 @@ app.post('/signup', (req,res) => {
 								else
 								{
 									res.send({message: 'User already registered, but not verified!'})
-									// User.deleteOne({username: req.body.username}, delErr => {
-									// 	if(delErr)
-									// 	{
-									// 		console.log(delErr);
-									// 		res.send({message: "Server Error"});
-									// 	}
-									// 	else
-									// 	{
-									// 		User.register(
-									// 			{
-									// 				username: req.body.username,
-									// 				teamName: req.body.team,
-									// 				verified: false,
-									// 				verificationUrl: uuidv4(),
-									// 				pwChangeUrl: '0'
-									// 			}, req.body.password, (err, user) => {
-									// 				if(err)
-									// 				{
-									// 					if(err.name === 'MongoError' && err.code === 11000)
-									// 					{
-									// 						res.send({message: "Team Name already taken"});
-									// 					}
-									// 					else if(err.errors.username !== undefined && err.errors.username.name === 'ValidatorError')
-									// 					{
-									// 						res.send({message: err.errors.username.message});
-									// 					}
-									// 					else if(err.errors.teamName !== undefined && err.errors.teamName.name === 'ValidatorError')
-									// 					{
-									// 						res.send({message: 'Team Name should contain minimum 4 characters!'});
-									// 					}
-									// 					else
-									// 					{
-									// 						console.log(JSON.stringify(err))
-									// 						res.send({message: "Server Error"});
-									// 					}
-									// 				}
-									// 				else
-									// 				{
-									// 					passport.authenticate("local")(req,res,() => {
-									// 						res.send({message: 'done'});
-									// 					});
-									// 				}
-									// 			}
-									// 		)
-									// 	}
-									// })
 								}
 							}
 						})

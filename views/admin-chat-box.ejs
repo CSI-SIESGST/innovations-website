@@ -58,21 +58,30 @@
                 }); %> 
             </div>
         </div>
-        <p class="mb-0" style="padding: 5px 10px 0;">
-            <small>
-                <b>Chatting with team <%= chat.teamName %></b>
-            </small>
 
-            <% if(!chat.userUnread && chat.messages[chat.messages.length - 1].sender)
-            {
-                %><small style="text-align: right;" id="seen">Seen</small><%
-            }
-            else
-            {
-                %><small style="text-align: right; display: none;" id="seen">Seen</small><%
-            } %>
-            
-        </p>
+        <div class="row m-0">
+            <div class="col-6">
+                <p class="mb-0" style="padding: 5px 10px 0;">
+                    <small>
+                        <b>Chatting with team <%= chat.teamName %></b>
+                    </small>
+                </p>
+            </div>
+
+            <div class="col-6">
+                <p class="mb-0" style="padding: 5px 10px 0;">
+                    <% if(!chat.userUnread && chat.messages[chat.messages.length - 1] && chat.messages[chat.messages.length - 1].sender)
+                    {
+                        %><small style="text-align: right; display: block;" id="seen">Seen</small><%
+                    }
+                    else
+                    {
+                        %><small style="text-align: right; display: none;" id="seen">Seen</small><%
+                    } %>
+                </p>
+            </div>
+        </div>
+        
         <div id="input-cont" style="display: flex; flex-direction: row; padding: 0 10px 10px;">
             <textarea onkeyup="btnChange(this.value.trim().length);" onchange="btnChange(this.value.trim().length);" type="text" name="" id="input" rows="3" style="flex-grow: 1; resize: none;"></textarea>
             <button onclick="sendMessage();" disabled>Send</button>
@@ -104,6 +113,12 @@
                 
                 element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px;">'+message+'</div>';
                 document.getElementById('chats').append(element);
+
+                document.getElementById('seen').style.display = 'none';
+
+                document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
+
+                socket.emit('admin-read', '<%= chat._id %>')
             }
         })
 
@@ -144,6 +159,8 @@
                 return;
             }
         }
+
+        document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
     </script>
 </body>
 </html>

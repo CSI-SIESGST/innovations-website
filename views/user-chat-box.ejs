@@ -29,7 +29,7 @@
     <div style="display: flex; flex-direction: column; height: 100vh;">
         <div style="flex-grow: 1; overflow-y: none; position: relative; width: 100%;">
             <div id="chats" style="overflow: auto; position: absolute; width: 100%; bottom: 0; max-height: 100%;">
-                <!-- <div class="ml-auto my-1 mr-3" style="max-width: 90%; text-align: right;">
+                <!-- <div class="ml-auto my-1 chat-unit mr-3" style="max-width: 90%; text-align: right;">
                     <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">
                         hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello
                     </div>
@@ -38,7 +38,7 @@
                     if(!message.sender)
                     {
                         %>
-                        <div class="ml-auto my-1 mr-3" style="max-width: 80%; text-align: right;">
+                        <div class="ml-auto my-1 chat-unit mr-3" style="max-width: 80%; text-align: right;">
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">
                                 <%= message.message %>
                             </div>
@@ -48,7 +48,7 @@
                     else
                     {
                         %>
-                        <div class="mr-auto my-1 ml-3" style="max-width: 80%; text-align: left;">
+                        <div class="mr-auto my-1 chat-unit ml-3" style="max-width: 80%; text-align: left;">
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px;">
                                 <%= message.message %>
                             </div>
@@ -59,6 +59,15 @@
             </div>
         </div>
         
+        <% if(!chat.adminUnread && chat.messages[chat.messages.length - 1] && !chat.messages[chat.messages.length - 1].sender)
+        {
+            %><p class="mb-0" id="seen"><small class="text-right d-block pr-3">Seen</small></p><%
+        }
+        else
+        {
+            %><p class="mb-0" id="seen"><small class="text-right pr-3 d-none">Seen</small></p><%
+        } %>
+
         <div id="input-cont" style="display: flex; flex-direction: row; padding: 10px;">
             <textarea onkeyup="btnChange(this.value.trim().length);" onchange="btnChange(this.value.trim().length);" type="text" name="" id="input" rows="3" style="flex-grow: 1; resize: none;"></textarea>
             <button onclick="sendMessage();" disabled>Send</button>
@@ -79,11 +88,15 @@
 
         socket.on('new-msg', (teamName, message) => {
             var element = document.createElement('div');
-            element.setAttribute('class', 'mr-auto my-1 ml-3');
+            element.setAttribute('class', 'mr-auto my-1 chat-unit ml-3');
             element.setAttribute('style', 'max-width: 90%; text-align: left;');
             
             element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px;">'+message+'</div>';
             document.getElementById('chats').append(element);
+
+            document.getElementById('seen').style.display = 'none';
+
+            document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
         })
 
         function sendMessage() {
@@ -91,7 +104,7 @@
             if(msg.length>0)
             {
                 var element = document.createElement('div');
-                element.setAttribute('class', 'ml-auto my-1 mr-3');
+                element.setAttribute('class', 'ml-auto my-1 chat-unit mr-3');
                 element.setAttribute('style', 'max-width: 90%; text-align: right;');
                 element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">'+msg.split('\n').join('<br>')+'</div>';
 
@@ -101,6 +114,8 @@
 
                 document.getElementById('input').value = '';
 
+                document.getElementById('seen').style.display = 'none';
+
                 document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
             }
             else
@@ -108,6 +123,24 @@
                 return;
             }
         }
+
+        socket.on('chat-scroll', () => {
+            document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
+        })
+
+        socket.on('admin-read', () => {
+            var chatUnit = document.getElementsByClassName('chat-unit');
+            if(chatUnit.length>0)
+            {
+                if(chatUnit[chatUnit.length - 1].style.textAlign == 'right')
+                {
+                    document.getElementById('seen').style.display = 'block';
+                    document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
+                }
+            }
+        })
+
+        document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
     </script>
 </body>
 </html>

@@ -20,15 +20,15 @@
                 <div id="chat-section">
                     <% chats.forEach(chat => {
                         %><div id="<%= chat.teamName %>" title="<%= chat._id %>">
-                            <a target="uni-frame" href="/chats/<%= chat._id %>">
+                            <a target="uni-frame" onclick="document.getElementById('<%= chat._id %>').style.fontWeight = 'normal'; socket.emit('admin-read', '<%= chat._id %>');" href="/chats/<%= chat._id %>">
                                 <p>
                                     <% if(chat.adminUnread) 
                                     {%>
-                                        <span style="font-weight: bold;"><%= chat.teamName %></span>
+                                        <span style="font-weight: bold;" id="<%= chat._id %>"><%= chat.teamName %></span>
                                     <%}
                                     else
                                     {%>
-                                        <span style="font-weight: normal;"><%= chat.teamName %></span>
+                                        <span style="font-weight: normal;" id="<%= chat._id %>"><%= chat.teamName %></span>
                                     <%}%>
                                 </p>
                             </a>
@@ -83,7 +83,8 @@
             element = document.createElement('div');
             element.setAttribute('id',teamName);
             element.setAttribute('title', elId);
-            element.innerHTML = '<a target="uni-frame" href="/chats/'+elId+'"><p>< style="font-weight: bold;">'+teamName+'</span></p></a>';
+            element.setAttribute('title', elId);
+            element.innerHTML = '<a target="uni-frame" onclick="document.getElementById(\''+elId+'\').style.fontWeight = \'normal\'; socket.emit(\'admin-read\', \''+elId+'\');" href="/chats/'+elId+'"><p><span style="font-weight: bold;" id="'+elId+'">'+teamName+'</span></p></a>';
             document.getElementById('chat-section').prepend(element);
         })
     </script>
