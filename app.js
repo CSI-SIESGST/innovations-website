@@ -12,6 +12,7 @@ const verifyEmail = require('./functions/verifyEmail');
 require('./db/mongoose');
 const User = require('./schema/userSchema');
 const Chat = require('./schema/chatSchema');
+const Broadcast = require('./schema/broadcastSchema');
 
 const app = express();
 
@@ -112,7 +113,7 @@ io.on('connection', socket => {
             {
 				var time = new Date().getTime();
 
-				callback(time);
+				callback({time: time});
 
                 // eslint-disable-next-line no-undef
                 socket.to(process.env.ADMIN_ROOM).emit('new-msg', teamName, message, time)
@@ -136,7 +137,7 @@ io.on('connection', socket => {
             {
 				var time = new Date().getTime();
 
-				callback(time);
+				callback({time: time});
 				socket.to(chatsId).emit('new-msg', teamName, message, time)
 
                 chat.messages.push({time: time, message: message, sender: true})
@@ -152,7 +153,9 @@ io.on('connection', socket => {
 
 		message = '<small><b>Broadcast Message</b></small><br>' + message;
 
-		Chat.updateMany({}, {$push: {messages: {time: new Date().getTime(), message: message, sender: true}}}, (err) => {
+		var time = new Date().getTime();
+
+		Chat.updateMany({}, {$push: {messages: {time: time, message: message, sender: true}}}, (err) => {
 			if(err)
 			{
 				console.log(err);
@@ -168,9 +171,12 @@ io.on('connection', socket => {
 			}
 		});
 
+		var broadcast = new Broadcast({time: time, message: message})
+		broadcast.save();
+
 		callback();
 
-		socket.broadcast.emit('new-msg', '', message)
+		socket.broadcast.emit('new-msg', '', message, time)
 	})
 
 })
@@ -371,9 +377,26 @@ app.post('/signup', (req,res) => {
 
 					verifyEmail(mailData)
 
-					// eslint-disable-next-line no-unused-vars
-					const chat = new Chat({teamName: req.body.team, messages:[]});
-					chat.save()
+					Broadcast.find({},{'_id': 0, 'time': 1, 'message': 1, 'sender': 1}, (err, broadcast) => {
+						if(err)
+						{
+							console.log(err);
+						}
+						else
+						{
+							if(broadcast.length == 0)
+							{
+								const chat = new Chat({teamName: req.body.team, messages: []});
+								chat.save();
+							}
+							else
+							{
+								const chat = new Chat({teamName: req.body.team, messages: broadcast, userUnread: true});
+								chat.save();
+							}
+							
+						}
+					})
 
 					passport.authenticate("local")(req,res,() => {
 						
@@ -412,7 +435,7 @@ app.get('/verifymail', (req,res) => {
 	if(time+(24*60*60*1000) < new Date().getTime())
 	{
 		res.status(401);
-		res.end('Link Timed Out!')
+		res.render('verification-expired')
 	}
 
 	User.where({username: email}).findOne((err,user) => {
