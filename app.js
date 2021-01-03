@@ -655,6 +655,85 @@ app.post('/changeFee', (req,res) => {
 	}
 })
 
+app.post('/changeR1', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
+	{
+		let key;
+		if(req.body.key == 'true')
+		{
+			key = true;
+		}
+		else
+		{
+			key = false;
+		}
+		User.findById(req.body.id, (err,user) => {
+			if(err)
+			{
+				console.log(err)
+				res.send('Error');
+			}
+			else
+			{
+				if(!key || user.submitted)
+				{
+					user.graded1 = true;
+					user.status1 = key;
+					user.save();
+					res.send({message: 'done'});
+				}
+				else
+				{
+					res.send({message: 'no'});
+				}
+				
+			}
+		})
+	}
+	else
+	{
+		res.status(401);
+		res.end('Unauthorised');
+	}
+})
+
+app.post('/changeR2', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
+	{
+		let key = parseInt(req.body.key);
+		
+		User.findById(req.body.id, (err,user) => {
+			if(err)
+			{
+				console.log(err)
+				res.send('Error');
+			}
+			else
+			{
+				if(user.status1)
+				{
+					user.graded2 = true;
+					user.status2 = key;
+					user.save();
+					res.send({message: 'done'});
+				}
+				else
+				{
+					res.send({message: 'no'});
+				}
+				
+			}
+		})
+	}
+	else
+	{
+		res.status(401);
+		res.end('Unauthorised');
+	}
+})
+
 
 server.listen(3000, () => {
 	console.log('Listening to port 3000');

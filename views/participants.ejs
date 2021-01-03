@@ -78,6 +78,150 @@
                 })
             }
         }
+
+        function changeR1(id)
+        {
+            if(document.getElementById(id).innerHTML.includes('text-success'))
+            {
+                document.getElementById('loading').style.display = 'block';
+
+                var body = 'key=' + encodeURIComponent('false') + '&id=' + encodeURIComponent(id);
+
+                fetch("/changeR1", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'                 
+                    },
+                    body: body
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.message == 'done')
+                    {
+                        document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
+                        document.getElementById('loading').style.display = 'none';
+                    }
+                    else if(data.message == 'no')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has not submitted the abstract!')
+                    }
+                    else
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('Error Changing Data')
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loading').style.display = 'none';
+                    alert('Error Changing Data')
+                })
+                
+            }
+            else
+            {
+                document.getElementById('loading').style.display = 'block';
+
+                var body = 'key=' + encodeURIComponent('true') + '&id=' + encodeURIComponent(id);
+
+                fetch("/changeR1", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'                 
+                    },
+                    body: body
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.message == 'done')
+                    {
+                        document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
+                        document.getElementById('loading').style.display = 'none';
+                    }
+                    else if(data.message == 'no')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has not submitted the abstract!')
+                    }
+                    else
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('Error Changing Data')
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loading').style.display = 'none';
+                    alert('Error Changing Data')
+                })
+            }
+        }
+
+        function changeR2(id,name)
+        {
+            if(document.getElementsByName(id)[0].getAttribute('readonly') == '')
+            {
+                document.getElementsByName(id)[0].style.background = 'rgb(255,255,255)';
+                document.getElementsByName(id)[0].removeAttribute('readonly');
+                document.getElementsByName(id)[0].focus();
+                document.getElementsByName(id)[0].value = '';
+            }
+            else if(document.getElementsByName(id)[0].value != '' && parseInt(document.getElementsByName(id)[0].value) >= 0 && parseInt(document.getElementsByName(id)[0].value) < 101)
+            {
+                document.getElementById('loading').style.display = 'block';
+
+                var body = 'key=' + encodeURIComponent(Math.round(document.getElementsByName(id)[0].value)) + '&id=' + encodeURIComponent(id);
+
+                fetch("/changeR2", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'                 
+                    },
+                    body: body
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.message == 'done')
+                    {
+                        document.getElementsByName(id)[0].value = Math.round(document.getElementsByName(id)[0].value)
+                        document.getElementsByName(name)[0].value = document.getElementsByName(id)[0].value;
+                        document.getElementsByName(id)[0].style.background = '#eee';
+                        document.getElementsByName(id)[0].setAttribute('readonly', '');
+                        document.getElementById('loading').style.display = 'none';
+                    }
+                    else if(data.message == 'no')
+                    {
+                        document.getElementsByName(id)[0].value = document.getElementsByName(name)[0].value;
+                        document.getElementsByName(id)[0].style.background = '#eee';
+                        document.getElementsByName(id)[0].setAttribute('readonly', '');
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has not been selected in round 2!')
+                    }
+                    else
+                    {
+                        document.getElementsByName(id)[0].value = document.getElementsByName(name)[0].value;
+                        document.getElementsByName(id)[0].style.background = '#eee';
+                        document.getElementsByName(id)[0].setAttribute('readonly', '');
+                        document.getElementById('loading').style.display = 'none';
+                        alert('Error Changing Data');
+                    }
+                })
+                .catch(error => {
+                    document.getElementsByName(id)[0].value = document.getElementsByName(name)[0].value;
+                    document.getElementsByName(id)[0].style.background = '#eee';
+                    document.getElementsByName(id)[0].setAttribute('readonly', '');
+                    document.getElementById('loading').style.display = 'none';
+                    alert('Error Changing Data');
+                })
+            }
+            else
+            {
+                document.getElementsByName(id)[0].value = document.getElementsByName(name)[0].value;
+                document.getElementsByName(id)[0].style.background = '#eee';
+                document.getElementsByName(id)[0].setAttribute('readonly', '');
+                document.getElementById('loading').style.display = 'none';
+                alert('The value should be between 0 and 100 inclusive!');
+            }
+        }
     </script>
 </head>
 <body>
@@ -122,6 +266,22 @@
                     {
                         %>Abstract: <b class="text-danger">No</b><%
                     } %>
+                </div>
+                <div class="col-2">
+                    <% if(user.status1)
+                    {
+                        %>R1: <span id="<%= user._id %>"><b class="text-success">Yes</b></span><%
+                    }
+                    else
+                    {
+                        %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
+                    } %>
+                    <button class="ml-1" onclick="changeR1('<%= user._id %>')">!</button>
+                </div>
+                <div class="col-2">
+                    <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" readonly>
+                    <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
+                    <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
                 </div>
             </div>
             <%
