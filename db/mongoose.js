@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+// eslint-disable-next-line no-undef
 mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useCreateIndex: true,
