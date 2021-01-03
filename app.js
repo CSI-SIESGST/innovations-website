@@ -584,7 +584,7 @@ app.get('/user-chat', (req,res) => {
 	else
 	{
 		res.status(401);
-		res.end('Unauthorised')
+		res.end('Unauthorised');
 	}
 })
 
@@ -600,6 +600,60 @@ app.get('/admin-broadcast', (req,res) => {
 		res.redirect('/csi-admin-login');
 	}
 });
+
+app.get('/participants', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
+	{
+		User.where({}).find((err,users) => {
+			if(err)
+			{
+				res.send('Error');
+			}
+			else
+			{
+				res.render('participants', {users: users});
+			}
+		})
+	}
+	else
+	{
+		res.status(401);
+		res.end('Unauthorised');
+	}
+})
+
+app.post('/changeFee', (req,res) => {
+	// eslint-disable-next-line no-undef
+	if(req.session[process.env.ADMIN_SESSION_VAR] && req.session[process.env.ADMIN_SESSION_VAR] == process.env.ADMIN_SESSION_VAL)
+	{
+		let key;
+		if(req.body.key == 'true')
+		{
+			key = true;
+		}
+		else
+		{
+			key = false;
+		}
+		User.where({_id: req.body.id}).updateOne({payment: key}, (err) => {
+			if(err)
+			{
+				console.log(err)
+				res.send('Error');
+			}
+			else
+			{
+				res.send({message: 'done'})
+			}
+		})
+	}
+	else
+	{
+		res.status(401);
+		res.end('Unauthorised');
+	}
+})
 
 
 server.listen(3000, () => {

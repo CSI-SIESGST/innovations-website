@@ -13,11 +13,20 @@
     
 </head>
 <body style="margin: 0; padding: 0; scroll-behavior: smooth;">
+
+    <div style="height: 40px; padding-top: 10px; text-align: right; padding-right: 50px;">
+        <ul style="list-style: none;" class="mb-0">
+            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="/participants" target="uni-frame">Participants</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="#">b</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="#">c</a></li>
+        </ul>
+    </div>
+
     <div>
         <div class="row m-0" id="chat-and-frame" style="width: 100%;">
             <div class="col-2" style="overflow-y: scroll; height: 100%;">
-                <h5 class="pt-2"><a href="/admin-broadcast" target="uni-frame">Broadcast</a></h5>
-                <h4 class="pb-2">Chat</h4>
+                <h5 class="pt-1 mb-0"><a href="/admin-broadcast" target="uni-frame">Broadcast</a></h5>
+                <hr class="mb-2 mt-1">
                 <div id="chat-section">
                     <% chats.forEach(chat => {
                         %><div id="<%= chat.teamName %>" title="<%= chat._id %>">
@@ -38,7 +47,7 @@
                 </div>
             </div>
             <div class="col-10" style="height: 100%;">
-                <iframe name="uni-frame" src="/admin-broadcast" frameborder="0" style="width: 100%; height: 100%; overflow-y: scroll;"></iframe>
+                <iframe name="uni-frame" src="/participants" frameborder="0" style="width: 100%; height: 100%; overflow-y: scroll;"></iframe>
             </div>
         </div>
     </div>

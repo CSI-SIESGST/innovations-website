@@ -64,6 +64,16 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    graded1: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    graded2: {
+        type: Boolean,
+        required: true,
+        default: false
     }
     
 });
