@@ -222,18 +222,57 @@
                 alert('The value should be between 0 and 100 inclusive!');
             }
         }
+
+        function searchTeams(val)
+        {
+            var team = document.getElementsByClassName('searchTeam');
+
+            for(var i=0; i<team.length; i++)
+            {
+                if(team[i].getAttribute('team').toLowerCase().startsWith(val.toLowerCase()))
+                {
+                    team[i].style.display = 'flex';
+                }
+                else
+                {
+                    team[i].style.display = 'none';
+                }
+            }
+        }
     </script>
 </head>
 <body>
+
+
+    <style>
+        details > summary {
+          padding: 4px;
+          width: 200px;
+          background-color: #eeeeee;
+          border: none;
+          box-shadow: 1px 1px 2px #bbbbbb;
+          cursor: pointer;
+        }
+        
+        details > p {
+          background-color: #eeeeee;
+          padding: 4px;
+          margin: 0;
+          box-shadow: 1px 1px 2px #bbbbbb;
+        }
+    </style>
+
+
     <div id="loading" style="position: absolute; left: 0; top: 0; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.7); display: none; z-index: 100;">
         <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Sending...</h2></span>
     </div>
 
     <div>
+        <input type="text" name="" id="" class="w-100" placeholder="Search Teams..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
         <div class="text-danger"><small><b>*</b> is for <b>Unverified</b> team.</small></div>
         <% users.forEach(user => {
             %>
-            <div class="row mx-0 my-2">
+            <div class="row mx-0 my-4 searchTeam" team="<%= user.teamName %>">
 
                 <div class="col-4">
                     <% if(user.verified)
@@ -282,6 +321,14 @@
                     <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" readonly>
                     <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
                     <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
+                </div>
+                <div class="col-12">
+                    <details>
+                        <summary>Team Details:</summary>
+
+                        <p>Pending...</p>
+                    </details>
+
                 </div>
             </div>
             <%
