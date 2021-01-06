@@ -313,7 +313,8 @@ app.post('/signup', (req,res) => {
 					username: req.body.username,
 					teamName: req.body.team,
 					verified: false,
-					teamMembers: []
+					teamMembers: [],
+					contact: ''
 				// eslint-disable-next-line no-unused-vars
 				}, req.body.password, (err, user) => {
 				if(err)
