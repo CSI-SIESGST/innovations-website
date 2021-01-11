@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 require('ejs');
 const session = require('express-session');
 const passport = require('passport');
-require('dotenv').config();
 const CryptoJS = require('crypto-js');
 
 const verifyEmail = require('./functions/verifyEmail');
