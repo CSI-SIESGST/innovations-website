@@ -4,7 +4,7 @@
 		"commonjs": true,
 		"es2020": true
 	},
-	"extends": ["eslint:recommended", "airbnb", "prettier"],
+	"extends": ["eslint:recommended", "prettier"],
 	"plugins": ["prettier"],
 	"rules": {
 		"prettier/prettier": ["error"]
