@@ -121,7 +121,7 @@
             }
             else
             {
-                element.innerHTML = '<a target="uni-frame" onclick="document.getElementById(\''+elId+'\').style.fontWeight = \'normal\'; socket.emit(\'admin-read\', \''+elId+'\');" href="/chats/'+elId+'"><p><span style="font-weight: bold;" id="'+elId+'">'+teamName+'</span></p></a>';
+                element.innerHTML = '<a target="uni-frame" onclick="document.getElementById(\''+elId+'\').style.fontWeight = \'normal\'; socket.emit(\'admin-read\', \''+elId+'\');" href="/chats/'+elId+'"><p class="mb-1"><span style="font-weight: bold;" id="'+elId+'">'+teamName+'</span></p></a>';
             }
 
             document.getElementById('chat-section').prepend(element);
