@@ -35,6 +35,8 @@
     "validator": "^13.5.2"
   },
   "devDependencies": {
-    "eslint": "^7.16.0"
+    "eslint": "^7.17.0",
+    "eslint-config-prettier": "^7.1.0",
+    "prettier": "2.2.1"
   }
 }
