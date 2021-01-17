@@ -5,6 +5,8 @@ require('ejs');
 const session = require('express-session');
 const passport = require('passport');
 const CryptoJS = require('crypto-js');
+const admin = require("firebase-admin");
+const formidable = require("formidable");
 
 const verifyEmail = require('./functions/verifyEmail');
 
@@ -12,6 +14,30 @@ require('./db/mongoose');
 const User = require('./schema/userSchema');
 const Chat = require('./schema/chatSchema');
 const Broadcast = require('./schema/broadcastSchema');
+const serviceAccount = require("./serviceAccountKey.json");
+
+//initialize firebase app
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: "innovations-csi.appspot.com"
+});
+
+//firebase bucket
+var bucket = admin.storage().bucket();
+
+//function to upload file
+async function uploadFile(filepath, filename) {
+    await bucket.upload(filepath, {
+      gzip: true,
+      destination: filename,
+      metadata: {
+        cacheControl: 'public, max-age=31536000',
+      },
+    });
+  
+    console.log(`${filename} uploaded to bucket.`);
+}
+
 
 const app = express();
 
@@ -675,6 +701,19 @@ app.post('/changeR2', (req, res) => {
 		res.end('Unauthorised');
 	}
 });
+
+app.post("/upload", (req, res) => {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+      if(files.file){
+        uploadFile(files.file.path, files.file.name)
+        .then(res.status(200).json({msg: "file uploaded"}))
+        .catch(console.error);
+      }else{
+        res.status(400).json({msg: "no file attached"});
+      }
+    });
+})
 
 server.listen(3000, () => {
 	console.log('Listening to port 3000');

@@ -41,6 +41,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+#firebase key
+serviceAccountKey.json
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
