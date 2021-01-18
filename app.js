@@ -5,6 +5,8 @@ require('ejs');
 const session = require('express-session');
 const passport = require('passport');
 const CryptoJS = require('crypto-js');
+const rateLimit = require('express-rate-limit');
+
 const admin = require('firebase-admin');
 const formidable = require('formidable');
 
@@ -39,6 +41,14 @@ async function uploadFile(filepath, filename) {
 }
 
 const app = express();
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100 // limit each IP to 100 requests per windowMs
+});
+
+app.set('trust proxy', '127.0.0.1');
+app.use(limiter);
 
 app.set('view engine', 'ejs');
 
