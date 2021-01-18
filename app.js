@@ -305,26 +305,9 @@ app.post('/signup', (req, res) => {
 				(err, user) => {
 					if (err) {
 						if (err.name === 'UserExistsError') {
-							User.where({ username: req.body.username }).findOne(
-								(err, user) => {
-									if (err) {
-										console.log(err);
-										res.send({ message: 'Server Error' });
-									} else {
-										if (user.verified) {
-											res.send({
-												message:
-													'User already registered!'
-											});
-										} else {
-											res.send({
-												message:
-													'User already registered, but not verified!'
-											});
-										}
-									}
-								}
-							);
+							res.send({
+								message: 'User already registered!'
+							});
 						} else {
 							if (
 								err.name === 'MongoError' &&
