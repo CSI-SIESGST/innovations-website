@@ -5,7 +5,9 @@ require('ejs');
 const session = require('express-session');
 const passport = require('passport');
 const CryptoJS = require('crypto-js');
+
 const rateLimit = require('express-rate-limit');
+csrf = require('csurf');
 
 const admin = require('firebase-admin');
 const formidable = require('formidable');
@@ -66,6 +68,8 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(csrf());
 
 passport.use(User.createStrategy());
 
