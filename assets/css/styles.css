@@ -1,32 +1,65 @@
-/* Small devices (landscape phones, 544px and up) */
-@media (min-width: 544px) {  
-  h1 {font-size:1.5rem;} /*1rem = 16px*/
+@media (min-width: 200px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 1.09rem;
+  }
 }
 
-/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
-@media (min-width: 768px) {  
-  h1 {font-size:2rem;} /*1rem = 16px*/
+/* Small devices */
+
+@media (min-width: 544px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 1.09rem;
+  }
 }
 
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) { 
-  h1 {font-size:2.5rem;} /*1rem = 16px*/
+/* Medium devices */
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 3rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
 }
 
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {  
-  h1 {font-size:3rem;} /*1rem = 16px*/    
+/* Large devices */
+
+@media (min-width: 992px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Extra large devices */
+
+@media (min-width: 1200px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
 }
 
 .navbar {
   background-color: #DFDAFD;
   height: 10vh;
-  z-index: 1;
+  z-index: 20;
 }
 
 #navbarid {
   background-color: #DFDAFD;
-  z-index: 1;
+  z-index: 25;
 }
 
 .navbar-brand {
@@ -64,16 +97,59 @@
   margin-bottom: 0px;
 }
 
-
-
 .title {
   color: #3F3D56;
   font-family: 'Rubik', sans-serif;
   font-weight: bold;
   padding: 30px;
 }
-#landing-title{
+
+#landing-title {
   margin-top: 30px;
+}
+
+#team-name {
+  color: #3F3D56;
+  font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+  padding: 60px 30px 0px 0px;
+}
+
+#sub-heading {
+  color: #3F3D56;
+  font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 2% 5% 2% 5%;
+}
+
+#sub-heading1, #sub-heading2, #sub-heading3 {
+  color: #3F3D56;
+  font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+  padding: 10px 10px 10px 0px;
+}
+
+#sub-heading1::after, #sub-heading3::after {
+  content: "";
+  display: block;
+  width: 50%;
+  border-bottom: 2px solid #3F3D56;
+}
+
+#sub-heading2::after {
+  content: "";
+  display: block;
+  width: 40%;
+  border-bottom: 2px solid #3F3D56;
+}
+
+#tabs {
+  color: #5390F5;
+  font-family: 'Rubik', sans-serif;
+  font-weight: thin;
+  margin: 5% 5% 5% 5%;
+  display: inline;
 }
 
 p {
@@ -81,7 +157,7 @@ p {
 }
 
 .footer {
-  height: 5vh;
+  height: 15%;
 }
 
 #login {
@@ -102,12 +178,60 @@ form {
   font-family: 'Rubik', sans-serif;
   padding: 0 30px 20px 30px;
 }
+
+label {
+  color: #3F3D56;
+  font-family: 'Rubik', sans-serif;
+}
+
 #register {
   background-color: #FFFFFF;
   border-radius: 35px;
   box-shadow: 0px 0px 10px 6px #00000050;
 }
 
-.container{
+.container {
   margin: auto;
+}
+
+#contactUs-img {
+  margin-bottom: -70px;
+}
+
+.body-text {
+  color: #AAAAAA;
+  font-family: 'Rubik', sans-serif;
+  font-weight: thin;
+}
+
+.map-responsive {
+  overflow: hidden;
+  padding-bottom: 50%;
+  position: relative;
+  height: 0;
+}
+
+.map-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 75%;
+  width: 75%;
+  position: absolute;
+}
+
+#carousel-main {
+  margin: 2% 0% 2% 0%;
+  padding: 0% 10% 0% 10%;
+}
+
+.carousel-inner img {
+  width: 100%;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233F3D56' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233F3D56' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 }
