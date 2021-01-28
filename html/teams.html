@@ -21,6 +21,11 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 		/>
+		<!--Milestone-->
+		<script
+			type="text/javascript"
+			src="../functions/milestones.js"
+		></script>
 	</head>
 
 	<body>
@@ -65,15 +70,16 @@
 
 		<!--Header-->
 		<div class="container d-flex justify-content-center row">
-			<div class="col-12 col-sm-5 col-md-5 col-lg-6 col-xl-6">
+			<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
 				<img
 					src="../assets/images/teams.png"
 					class="img-fluid d-inline-block"
+					id="teams-img1"
 					alt="Responsive image"
 					style="height: 75%"
 				/>
 			</div>
-			<div class="col-12 col-sm-7 col-md-7 col-lg-6 col-xl-6">
+			<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
 				<h1 id="team-name">TEAM NAME</h1>
 				<h3 class="body-text" style="display: inline">
 					Need help ? Chat with us now...
@@ -87,8 +93,26 @@
 			</div>
 		</div>
 
+		<!--Milestones-->
+		<div class="milestones" id="milestone1"></div>
+		<script>
+			$(function () {
+				$('#milestone1').milestones({
+					stage: 1,
+					checks: 0,
+					stageclass: 'doneclass',
+					labels: [
+						'Add Member',
+						'Make Payment',
+						'Submit Abstract',
+						'DONE!'
+					]
+				});
+			});
+		</script>
+
 		<!--Tabs-->
-		<div class="col-12" style="padding: 1% 1% 1% 1%; margin-top: -6%">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 			<ul class="nav nav-tabs" style="margin-bottom: 4%">
 				<li class="nav-item" style="margin-left: 8%">
 					<a
@@ -97,6 +121,11 @@
 						href="#details"
 					>
 						<h3 id="tabs">DETAILS</h3>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="tab" href="#payment">
+						<h3 id="tabs">PAYMENT</h3>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -124,6 +153,7 @@
 										class="form-control"
 										id="firstname1"
 										placeholder="First Name"
+										disabled
 									/>
 								</div>
 								<div class="form-group col-sm-6">
@@ -132,6 +162,7 @@
 										class="form-control"
 										id="lastname1"
 										placeholder="Last Name"
+										disabled
 									/>
 								</div>
 							</div>
@@ -141,6 +172,7 @@
 									class="form-control"
 									id="email1"
 									placeholder="Email"
+									disabled
 								/>
 							</div>
 							<div class="form-group">
@@ -149,6 +181,7 @@
 									class="form-control"
 									id="collegename1"
 									placeholder="College name"
+									disabled
 								/>
 							</div>
 							<div class="form-group">
@@ -157,6 +190,7 @@
 									class="form-control"
 									id="contactnumber1"
 									placeholder="Contact number"
+									disabled
 								/>
 							</div>
 						</form>
@@ -165,7 +199,7 @@
 						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
 					>
 						<img
-							src="../assets/images/incomplete-icon.png"
+							src="../assets/images/complete-icon.png"
 							class="img-fluid"
 							alt="Responsive image"
 							style="margin-left: 40%"
@@ -303,6 +337,15 @@
 				</button>
 			</div>
 
+			<!--PAYMENT TAB-->
+			<div
+				class="tab-pane container fade"
+				id="payment"
+				style="padding-bottom: 10%"
+			>
+				<h2 id="sub-heading">PAYMENT</h2>
+			</div>
+
 			<!--ABSTRACT TAB-->
 			<div
 				class="tab-pane container fade"
@@ -321,6 +364,7 @@
 								<label>Upload your file...</label>
 								<input
 									type="file"
+									accept="application/pdf"
 									class="form-control"
 									id="uploadfile"
 								/>
@@ -337,7 +381,7 @@
 						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
 					>
 						<img
-							src="../assets/images/com.png"
+							src="../assets/images/incomplete-icon.png"
 							class="img-fluid"
 							alt="Responsive image"
 							style="margin-left: 40%; margin-top: 5%"
