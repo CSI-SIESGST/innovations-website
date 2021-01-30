@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="./mvp.css" />
+
+    <script type="text/javascript">
+        function loginReq()
+        {
+            var form = new FormData(document.getElementById("login"));
+            var formBody = [];
+            for ( var key of form.keys()){
+                var encodedKey = encodeURIComponent(key);
+                var encodedValue = encodeURIComponent(form.get(key));
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            fetch("/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'                 
+                },
+                body: formBody
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.message == 'done')
+                {
+                    location.replace('/home')
+                }
+                else
+                {
+                    document.getElementById('status').innerHTML = data.message;
+                }
+            })
+            .catch(error => {
+                document.getElementById('status').innerHTML = 'Incorrect Username or Password!';
+            })
+        }
+    </script>
+    
+</head>
+<body>
+    <main>
+        <section>
+            <form id="login">
+                <label for="" id="status"></label>
+                <label>Email</label>
+                <input type="email" name="username" />
+                <label>Password</label>
+                <input type="password" name="password" />
+                <button>Log in</button>
+            </form>
+        </section>
+        
+        <script type="text/javascript">
+            document.getElementById("login").addEventListener("submit", (event) => {
+                event.preventDefault();
+                
+                loginReq();
+                return false;
+            })
+        </script>
+    </main>
+</body>
+</html>

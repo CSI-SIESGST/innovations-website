@@ -213,7 +213,15 @@ io.on('connection', (socket) => {
 });
 
 app.get('/', (req, res) => {
-	res.send('Hello World!');
+	if (req.isAuthenticated()) {
+		if (!req.user.verified) {
+			res.render('not-verified');
+		} else {
+			res.render('index', { team: req.user.teamName });
+		}
+	} else {
+		res.render('index', { team: null });
+	}
 });
 
 app.get('/home', (req, res) => {
@@ -290,7 +298,7 @@ app.get('/signup', (req, res) => {
 	if (req.isAuthenticated()) {
 		res.redirect('/home');
 	} else {
-		res.render('signup');
+		res.render('register');
 	}
 });
 

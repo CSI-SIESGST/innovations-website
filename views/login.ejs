@@ -1,68 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" href="./mvp.css" />
+<html>
+	<head>
+		<title>LOG IN</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width = device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+	</head>
 
-    <script type="text/javascript">
-        function loginReq()
-        {
-            var form = new FormData(document.getElementById("login"));
-            var formBody = [];
-            for ( var key of form.keys()){
-                var encodedKey = encodeURIComponent(key);
-                var encodedValue = encodeURIComponent(form.get(key));
-                formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
-            fetch("/login", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'                 
-                },
-                body: formBody
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.message == 'done')
-                {
-                    location.replace('/home')
-                }
-                else
-                {
-                    document.getElementById('status').innerHTML = data.message;
-                }
-            })
-            .catch(error => {
-                document.getElementById('status').innerHTML = 'Incorrect Username or Password!';
-            })
-        }
-    </script>
-    
-</head>
-<body>
-    <main>
-        <section>
-            <form id="login">
-                <label for="" id="status"></label>
-                <label>Email</label>
-                <input type="email" name="username" />
-                <label>Password</label>
-                <input type="password" name="password" />
-                <button>Log in</button>
-            </form>
-        </section>
-        
-        <script type="text/javascript">
-            document.getElementById("login").addEventListener("submit", (event) => {
+	<body style="background-color: #5390f5; padding: 30px">
+		<div class="container row" id="login">
+			<div
+				class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
+			>
+				<img
+					src="images/login.png"
+					class="img-fluid w-100"
+					alt="Responsive image"
+				/>
+			</div>
+			<div
+				class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
+			>
+				<form id="log-in">
+					<div class="form-group">
+						<label style="color: red;" id="status"></label><br>
+						<label>Email address</label>
+						<input
+							type="email"
+							name="username"
+							class="form-control"
+							id="inputEmail1"
+							aria-describedby="emailHelp"
+							placeholder="Enter email"
+						/>
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<input
+							type="password"
+							name="password"
+							class="form-control"
+							id="inputPassword1"
+							placeholder="Password"
+						/>
+					</div>
+					<small><a href="#">Forgot password ?</a></small>
+					<button type="submit" class="btn btn-primary btn-block">
+						Submit
+					</button>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function loginReq()
+			{
+				var form = new FormData(document.getElementById("log-in"));
+				var formBody = [];
+				for ( var key of form.keys()){
+					var encodedKey = encodeURIComponent(key);
+					var encodedValue = encodeURIComponent(form.get(key));
+					formBody.push(encodedKey + "=" + encodedValue);
+				}
+				formBody = formBody.join("&");
+				fetch("/login", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'                 
+					},
+					body: formBody
+				})
+				.then(response => response.json())
+				.then(data => {
+					if(data.message == 'done')
+					{
+						location.replace('/home')
+					}
+					else
+					{
+						document.getElementById('status').innerHTML = data.message;
+					}
+				})
+				.catch(error => {
+					document.getElementById('status').innerHTML = "Invalid username or password";
+				})
+			}
+			document.getElementById("log-in").addEventListener("submit", (event) => {
                 event.preventDefault();
                 
                 loginReq();
                 return false;
             })
-        </script>
-    </main>
-</body>
+		</script>
+	</body>
 </html>
