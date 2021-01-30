@@ -214,13 +214,17 @@ io.on('connection', (socket) => {
 
 app.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
-		if (!req.user.verified) {
-			res.render('not-verified');
-		} else {
-			res.render('index', { team: req.user.teamName });
-		}
+		res.render('index', { team: req.user.teamName });
 	} else {
 		res.render('index', { team: null });
+	}
+});
+
+app.get('/info', (req, res) => {
+	if (req.isAuthenticated()) {
+		res.render('info', { team: req.user.teamName });
+	} else {
+		res.render('info', { team: null });
 	}
 });
 

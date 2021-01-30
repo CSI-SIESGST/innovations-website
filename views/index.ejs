@@ -46,6 +46,8 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbarid">
 					<ul class="navbar-nav text-center ml-auto">
+						<% if (team) {%>
+						<% } %>
 						<li class="nav-item">
 							<a href="/info" class="nav-link">Info</a>
 						</li>
@@ -56,7 +58,7 @@
 						</li>
 						<% if (team) { %>
 							<li class="nav-item">
-								<a href="/home" class="nav-link"><%= team %></a>
+								<a href="/home" class="nav-link">Team Profile</a>
 							</li>
 							<li class="nav-item">
 								<a href="/logout" class="nav-link">Logout</a>
