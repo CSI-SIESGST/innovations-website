@@ -278,7 +278,13 @@ app.get('/verify', (req, res) => {
 
 app.post('/login', (req, res) => {
 	if (req.isAuthenticated()) {
-		res.redirect('home');
+		res.redirect('/home');
+	} else if (
+		!(req.body.username && req.body.password) ||
+		req.body.username == '' ||
+		req.body.password == ''
+	) {
+		res.redirect('/login');
 	} else {
 		const user = new User({
 			username: req.body.username,
