@@ -238,7 +238,7 @@ app.get('/home', (req, res) => {
 					res.status(501);
 					res.end('Error');
 				} else if (chat) {
-					res.render('home', {
+					res.render('homenew', {
 						team: req.user.teamName,
 						chatId: chat._id,
 						unread: chat.userUnread
