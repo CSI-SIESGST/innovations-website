@@ -278,7 +278,13 @@ app.get('/verify', (req, res) => {
 
 app.post('/login', (req, res) => {
 	if (req.isAuthenticated()) {
-		res.redirect('home');
+		res.redirect('/home');
+	} else if (
+		!(req.body.username && req.body.password) ||
+		req.body.username == '' ||
+		req.body.password == ''
+	) {
+		res.redirect('/login');
 	} else {
 		const user = new User({
 			username: req.body.username,
@@ -309,6 +315,25 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
 	if (req.isAuthenticated()) {
 		res.status(404);
+	} else if (
+		!(
+			req.body.password &&
+			req.body.username &&
+			req.body.leadername &&
+			req.body.college &&
+			req.body.contact &&
+			req.body.team
+		) ||
+		req.body.password == '' ||
+		req.body.username == '' ||
+		req.body.leadername == '' ||
+		req.body.college == '' ||
+		req.body.contact == '' ||
+		req.body.team == ''
+	) {
+		res.status(404);
+	} else if (req.body.password !== req.body.passwordagain) {
+		res.send({ message: 'Passwords do not match' });
 	} else {
 		let patt = new RegExp(
 			'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'
@@ -317,11 +342,12 @@ app.post('/signup', (req, res) => {
 			User.register(
 				{
 					username: req.body.username,
+					leaderName: req.body.leadername,
+					leaderCollege: req.body.college,
+					leaderContact: req.body.contact,
 					teamName: req.body.team,
 					verified: false,
-					teamMembers: [],
-					contact: ''
-					// eslint-disable-next-line no-unused-vars
+					teamMembers: []
 				},
 				req.body.password,
 				(err, user) => {

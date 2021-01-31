@@ -17,9 +17,17 @@ const userSchema = new mongoose.Schema({
 			message: 'Invalid email address provided'
 		}
 	},
-	contact: {
-		type: String
-		// required: true
+	leaderName: {
+		type: String,
+		required: true
+	},
+	leaderCollege: {
+		type: String,
+		required: true
+	},
+	leaderContact: {
+		type: String,
+		required: true
 	},
 	password: {
 		type: String
