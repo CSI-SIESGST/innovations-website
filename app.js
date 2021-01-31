@@ -572,7 +572,7 @@ app.get('/user-chat', (req, res) => {
 			if (err) {
 				res.end('Error');
 			} else if (chat) {
-				res.render('user-chat-box', { chat: chat });
+				res.render('user-chat-box-new', { chat: chat });
 			}
 		});
 	} else {
