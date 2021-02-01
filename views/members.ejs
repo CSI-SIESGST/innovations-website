@@ -23,6 +23,46 @@
 		/>
 </head>
 <body>
+
+	<!--Navbar-->
+	<nav class="navbar navbar-expand-md mb-4">
+		<div class="container">
+			<a href="/" class="navbar-brand mr-auto"> LOGO </a>
+			<button
+				class="navbar-toggler"
+				data-toggle="collapse"
+				data-target="#navbarid"
+			>
+				<span
+					><i
+						class="fa fa-bars"
+						aria-hidden="true"
+						style="color: #3f3d56"
+					></i
+				></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarid">
+				<ul class="navbar-nav text-center ml-auto">
+					<li class="nav-item">
+						<a href="/info" class="nav-link">Info</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link"
+							>Contact Us</a
+						>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">Team Profile</a>
+					</li>
+					<li class="nav-item">
+						<a href="/logout" class="nav-link">LOG OUT</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
 	<h2 style="text-align: center;">Member Details</h2>
 	<div class="container active" id="details">
 				<form id="mem-form">
@@ -138,7 +178,7 @@
 						</div>
 					</div>
 				</div>
-				</div>
+				
 					<button id="add-mem-btn" class="btn btn-primary">
 						Add another member
 					</button>
@@ -148,8 +188,9 @@
 					<button id="submit" class="btn btn-primary btn-block">
 						Save Members
 					</button>
-				</div>
+				
 				</form>
+				</div>
 			<script>
 				function addMember() {
 					var num = document.getElementsByClassName("member-sec").length;
