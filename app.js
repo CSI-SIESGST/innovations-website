@@ -239,6 +239,18 @@ app.get('/info', (req, res) => {
 	}
 });
 
+app.get('/members', (req, res) => {
+	if(req.isAuthenticated()) {
+		if (!req.user.verified) {
+			res.render('not-verifies');
+		}else{
+			res.render('members');
+		}
+	}else{
+		res.render('login');
+	}
+})
+
 app.get('/home', (req, res) => {
 	if (req.isAuthenticated()) {
 		if (!req.user.verified) {
