@@ -5,7 +5,8 @@
 	"main": "app.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "nodemon app"
+		"dev": "nodemon app",
+		"start": "start http://localhost:3000 & npm run dev"
 	},
 	"repository": {
 		"type": "git",
@@ -40,6 +41,7 @@
 	"devDependencies": {
 		"eslint": "^7.18.0",
 		"eslint-config-prettier": "^7.2.0",
+		"nodemon": "^2.0.7",
 		"prettier": "2.2.1"
 	}
 }
