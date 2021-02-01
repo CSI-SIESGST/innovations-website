@@ -5,7 +5,8 @@
 	"main": "app.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "nodemon app"
+		"dev": "nodemon app",
+		"start": "start http://localhost:3000 & npm run dev"
 	},
 	"repository": {
 		"type": "git",
