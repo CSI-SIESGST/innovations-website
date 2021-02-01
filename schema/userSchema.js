@@ -46,9 +46,15 @@ const userSchema = new mongoose.Schema({
 		{
 			name: String,
 			email: String,
-			contact: String
+			contact: String,
+			college: String
 		}
 	],
+	teamConfirm: {
+		type: Boolean,
+		required: true,
+		default: false
+	},
 	mailTrack: {
 		type: [Number],
 		required: true,

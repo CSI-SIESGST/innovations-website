@@ -244,10 +244,42 @@ app.get('/members', (req, res) => {
 		if (!req.user.verified) {
 			res.redirect('/home');
 		} else {
-			res.render('members');
+			res.render('members', {
+				leaderName: req.user.leaderName,
+				username: req.user.username,
+				leaderCollege: req.user.leaderCollege,
+				leaderContact: req.user.leaderContact,
+				teamConfirm: req.user.teamConfirm,
+				teamMembers: req.user.teamMembers
+			});
 		}
 	} else {
 		res.redirect('/login');
+	}
+});
+
+app.post('/members', (req, res) => {
+	if (req.isAuthenticated()) {
+		if (!req.user.verified) {
+			res.status(401);
+		} else if (req.user.teamConfirm) {
+			res.status(401);
+		} else {
+			const num = req.body.num;
+			for (let i = 2; i <= num; i++) {
+				req.user.teamMembers.push({
+					name: req.body['name' + i],
+					email: req.body['email' + i],
+					contact: req.body['contact' + i],
+					college: req.body['college' + i]
+				});
+			}
+			req.user.teamConfirm = true;
+			req.user.save();
+			res.send({ message: 'done' });
+		}
+	} else {
+		res.status(401);
 	}
 });
 
