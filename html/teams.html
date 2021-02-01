@@ -21,11 +21,6 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 		/>
-		<!--Milestone-->
-		<script
-			type="text/javascript"
-			src="../functions/milestones.js"
-		></script>
 	</head>
 
 	<body>
@@ -68,341 +63,101 @@
 			</div>
 		</nav>
 
-		<!--Header-->
-		<div class="container d-flex justify-content-center row">
-			<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-				<img
-					src="../assets/images/teams.png"
-					class="img-fluid d-inline-block"
-					id="teams-img1"
-					alt="Responsive image"
-					style="height: 75%"
-				/>
-			</div>
-			<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-				<h1 id="team-name">TEAM NAME</h1>
-				<h3 class="body-text" style="display: inline">
-					Need help ? Chat with us now...
-				</h3>
-				<img
-					src="../assets/images/chatIcon.png"
-					class="img-fluid h-25 d-inline-block"
-					alt="Responsive image"
-					style="display: inline; vertical-align: bottom"
-				/>
-			</div>
-		</div>
-
-		<!--Milestones-->
-		<div class="milestones" id="milestone1"></div>
-		<script>
-			$(function () {
-				$('#milestone1').milestones({
-					stage: 1,
-					checks: 0,
-					stageclass: 'doneclass',
-					labels: [
-						'Add Member',
-						'Make Payment',
-						'Submit Abstract',
-						'DONE!'
-					]
-				});
-			});
-		</script>
-
-		<!--Tabs-->
-		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-			<ul class="nav nav-tabs" style="margin-bottom: 4%">
-				<li class="nav-item" style="margin-left: 8%">
-					<a
-						class="nav-link active"
-						data-toggle="tab"
-						href="#details"
-					>
-						<h3 id="tabs">DETAILS</h3>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#payment">
-						<h3 id="tabs">PAYMENT</h3>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#abstract">
-						<h3 id="tabs">ABSTRACT</h3>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#announcements">
-						<h3 id="tabs">ANNOUNCEMENTS</h3>
-					</a>
-				</li>
-			</ul>
-		</div>
-
-		<!--DETAILS TAB-->
-		<div class="tab-content">
-			<div class="tab-pane container active" id="details">
-				<!--MEMBER 1-->
-				<h3 id="sub-heading">MEMBER - 1</h3>
-				<div class="container row">
-					<div
-						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-					>
-						<form>
-							<div class="form-row">
-								<div class="form-group col-sm-6">
-									<input
-										type="text"
-										class="form-control"
-										id="firstname1"
-										placeholder="First Name"
-										disabled
-									/>
-								</div>
-								<div class="form-group col-sm-6">
-									<input
-										type="text"
-										class="form-control"
-										id="lastname1"
-										placeholder="Last Name"
-										disabled
-									/>
-								</div>
-							</div>
-							<div class="form-group">
-								<input
-									type="email"
-									class="form-control"
-									id="email1"
-									placeholder="Email"
-									disabled
-								/>
-							</div>
-							<div class="form-group">
-								<input
-									type="text"
-									class="form-control"
-									id="collegename1"
-									placeholder="College name"
-									disabled
-								/>
-							</div>
-							<div class="form-group">
-								<input
-									type="tel"
-									class="form-control"
-									id="contactnumber1"
-									placeholder="Contact number"
-									disabled
-								/>
-							</div>
-						</form>
-					</div>
-					<div
-						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-					>
-						<img
-							src="../assets/images/complete-icon.png"
-							class="img-fluid"
-							alt="Responsive image"
-							style="margin-left: 40%"
-						/>
-					</div>
-				</div>
-				<!--MEMBER 2-->
-				<h3 id="sub-heading">MEMBER - 2</h3>
-				<div class="container row">
-					<div
-						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-					>
-						<form>
-							<div class="form-row">
-								<div class="form-group col-sm-6">
-									<input
-										type="text"
-										class="form-control"
-										id="firstname2"
-										placeholder="First Name"
-									/>
-								</div>
-								<div class="form-group col-sm-6">
-									<input
-										type="text"
-										class="form-control"
-										id="lastname2"
-										placeholder="Last Name"
-									/>
-								</div>
-							</div>
-							<div class="form-group">
-								<input
-									type="email"
-									class="form-control"
-									id="email2"
-									placeholder="Email"
-								/>
-							</div>
-							<div class="form-group">
-								<input
-									type="text"
-									class="form-control"
-									id="collegename2"
-									placeholder="College name"
-								/>
-							</div>
-							<div class="form-group">
-								<input
-									type="tel"
-									class="form-control"
-									id="contactnumber2"
-									placeholder="Contact number"
-								/>
-							</div>
-						</form>
-					</div>
-					<div
-						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-					>
-						<img
-							src="../assets/images/incomplete-icon.png"
-							class="img-fluid"
-							alt="Responsive image"
-							style="margin-left: 40%"
-						/>
-					</div>
+		<!--Body-->
+		<div class="container-fluid">
+			<div class="row no-gutter">
+				<div
+					class="d-flex align-items-center col-md-4 col-lg-5 welcome"
+				>
+					<h1 id="team-name">WELCOME,<br />TEAM NAME!</h1>
 				</div>
 
-				<!--MEMBER 3-->
-				<h3 id="sub-heading">MEMBER - 3</h3>
-				<div class="container row">
-					<div
-						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-					>
-						<form>
-							<div class="form-row">
-								<div class="form-group col-sm-6">
-									<input
-										type="text"
-										class="form-control"
-										id="firstname3"
-										placeholder="First Name"
-									/>
+				<!--Steps-->
+				<div class="col-md-8 col-lg-7">
+					<div class="d-flex align-items-center py-4">
+						<div class="container info">
+							<div class="row">
+								<div
+									class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3"
+								>
+									<h3 style="text-align: center">
+										Add members to your team!
+									</h3>
 								</div>
-								<div class="form-group col-sm-6">
-									<input
-										type="text"
-										class="form-control"
-										id="lastname3"
-										placeholder="Last Name"
-									/>
+								<div
+									class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3"
+								>
+									<button class="next-button">
+										<i class="fa fa-angle-right fa-3x"></i>
+									</button>
+								</div>
+								<img
+									src="../assets/images/complete-icon.png"
+									class="img-fluid"
+									style="margin-left: 10%; margin-top: -4%"
+								/>
+							</div>
+							<div class="row">
+								<div
+									class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3"
+								>
+									<h3 style="text-align: center">
+										Complete payment
+									</h3>
+								</div>
+								<div
+									class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3"
+								>
+									<button class="next-button">
+										<i class="fa fa-angle-right fa-3x"></i>
+									</button>
+								</div>
+								<img
+									src="../assets/images/incomplete-icon.png"
+									class="img-fluid"
+									style="margin-left: 10%; margin-top: -4%"
+								/>
+							</div>
+							<div class="row">
+								<div
+									class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3"
+								>
+									<h3 style="text-align: center">
+										Submit Abstract
+									</h3>
+								</div>
+								<div
+									class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3"
+								>
+									<button class="next-button">
+										<i class="fa fa-angle-right fa-3x"></i>
+									</button>
+								</div>
+								<img
+									src="../assets/images/incomplete-icon.png"
+									class="img-fluid"
+									style="margin-left: 10%; margin-top: -4%"
+								/>
+							</div>
+							<div class="row">
+								<div
+									class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3"
+								>
+									<h3 style="text-align: center">
+										ROUND ! RESULTS
+									</h3>
+								</div>
+								<div
+									class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3"
+								>
+									<button class="next-button">
+										<i class="fa fa-angle-right fa-3x"></i>
+									</button>
 								</div>
 							</div>
-							<div class="form-group">
-								<input
-									type="email"
-									class="form-control"
-									id="email3"
-									placeholder="Email"
-								/>
-							</div>
-							<div class="form-group">
-								<input
-									type="text"
-									class="form-control"
-									id="collegename3"
-									placeholder="College name"
-								/>
-							</div>
-							<div class="form-group">
-								<input
-									type="tel"
-									class="form-control"
-									id="contactnumber3"
-									placeholder="Contact number"
-								/>
-							</div>
-						</form>
-					</div>
-					<div
-						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-					>
-						<img
-							src="../assets/images/incomplete-icon.png"
-							class="img-fluid"
-							alt="Responsive image"
-							style="margin-left: 40%"
-						/>
+						</div>
 					</div>
 				</div>
-
-				<button type="submit" class="btn btn-primary btn-block">
-					UPDATE
-				</button>
-			</div>
-
-			<!--PAYMENT TAB-->
-			<div
-				class="tab-pane container fade"
-				id="payment"
-				style="padding-bottom: 10%"
-			>
-				<h2 id="sub-heading">PAYMENT</h2>
-			</div>
-
-			<!--ABSTRACT TAB-->
-			<div
-				class="tab-pane container fade"
-				id="abstract"
-				style="padding-bottom: 10%"
-			>
-				<h2 id="sub-heading">SUBMIT YOUR ABSTRACT</h2>
-				<div class="container row">
-					<div
-						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-						id="login"
-						style="padding-top: 5%"
-					>
-						<form>
-							<div class="form-group">
-								<label>Upload your file...</label>
-								<input
-									type="file"
-									accept="application/pdf"
-									class="form-control"
-									id="uploadfile"
-								/>
-							</div>
-							<button
-								type="submit"
-								class="btn btn-primary btn-block"
-							>
-								SUBMIT
-							</button>
-						</form>
-					</div>
-					<div
-						class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-					>
-						<img
-							src="../assets/images/incomplete-icon.png"
-							class="img-fluid"
-							alt="Responsive image"
-							style="margin-left: 40%; margin-top: 5%"
-						/>
-					</div>
-				</div>
-			</div>
-
-			<!--ANNOUNCEMENTS TAB-->
-			<div
-				class="tab-pane container fade"
-				id="announcements"
-				style="padding-bottom: 10%"
-			>
-				<h2 id="sub-heading">ANNOUNCEMENTS</h2>
-				<p id="announcement">Announcements here...</p>
 			</div>
 		</div>
 
