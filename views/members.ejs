@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Members</title>
+	<meta charset="utf-8" />
+		<meta name="viewport" content="width = device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+</head>
+<body>
+
+	<!--Navbar-->
+	<nav class="navbar navbar-expand-md mb-4">
+		<div class="container">
+			<a href="/" class="navbar-brand mr-auto"> LOGO </a>
+			<button
+				class="navbar-toggler"
+				data-toggle="collapse"
+				data-target="#navbarid"
+			>
+				<span
+					><i
+						class="fa fa-bars"
+						aria-hidden="true"
+						style="color: #3f3d56"
+					></i
+				></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarid">
+				<ul class="navbar-nav text-center ml-auto">
+					<li class="nav-item">
+						<a href="/info" class="nav-link">Info</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link"
+							>Contact Us</a
+						>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">Team Profile</a>
+					</li>
+					<li class="nav-item">
+						<a href="/logout" class="nav-link">LOG OUT</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<h2 style="text-align: center;">Member Details</h2>
+	<div class="container active" id="details">
+				<form id="mem-form">
+					<div id="form-content">
+					<div class="member-sec">
+						<h3 id="sub-heading">MEMBER - 1</h3>
+							<div class="container row">
+								<div
+									class="col-12 col-lg-6 col-xl-6 align-self-center justify-content-center">
+									<div class="form-group">
+											<input 
+											type="text"
+											class="form-control"
+											name="name1"
+											placeholder= "Leader Name"
+											disabled
+											required
+											/>
+									</div>
+									<div class="form-group">
+										<input
+											type="email"
+											class="form-control"
+											name="email1"
+											placeholder="Leader Email"
+											disabled
+											required
+										/>
+									</div>
+									<div class="form-group">
+										<input
+											type="text"
+											class="form-control"
+											name="college1"
+											placeholder="Leader College name"
+											disabled
+											required
+										/>
+									</div>
+									<div class="form-group">
+										<input
+											type="tel"
+											class="form-control"
+											name="contact1"
+											placeholder="Leader Contact number"
+											disabled
+											required
+										/>
+									</div>
+								</div>
+								<div
+									class="col-lg-6 d-none d-lg-block align-self-center justify-content-center">
+								<img
+									src="images/complete-icon.png"
+									class="img-fluid"
+									alt="Responsive image"
+									style="margin-left: 40%"
+								/>
+								</div>
+							</div>
+					</div>
+					<div class="member-sec">
+						<h3 id="sub-heading">MEMBER - 2</h3>
+						<div class="container row">
+							<div
+								class="col-12 col-lg-6 align-self-center justify-content-center">
+									<div class="form-group">
+										<input 
+										type="text"
+										class="form-control"
+										placeholder= "Name"
+										name="name2"
+										required
+										/>
+									</div>
+									<div class="form-group">
+										<input
+											type="email"
+											class="form-control"
+											name="email2"
+											placeholder="Email"
+											required
+										/>
+									</div>
+									<div class="form-group">
+										<input
+											type="text"
+											class="form-control"
+											name="college2"
+											placeholder="College name"
+											required
+										/>
+									</div>
+									<div class="form-group">
+										<input
+											type="tel"
+											class="form-control"
+											name="contact2"
+											placeholder="Contact number"
+											required
+										/>
+									</div>
+								</div>
+								<div
+									class="col-lg-6 d-none d-lg-block d-sm-none d-lg-block align-self-center justify-content-center">
+								<img
+									src="images/incomplete-icon.png"
+									class="img-fluid"
+									alt="Responsive image"
+									style="margin-left: 40%"
+								/>
+								</div>
+						</div>
+					</div>
+				</div>
+					<div class="text-center">
+						<button id="add-mem-btn" class="btn btn-primary">
+							Add member slot
+						</button>
+						<button id="rm-mem-btn" class="btn btn-primary">
+							Remove slot
+						</button>
+					</div>
+					<button id="submit" class="btn btn-primary btn-block">
+						Confirm Members
+					</button>
+				
+				</form>
+				</div>
+			<script>
+				function addMember() {
+					var num = document.getElementsByClassName("member-sec").length;
+					document.getElementById("rm-mem-btn").disabled = false;
+					if (num == 2){
+						document.getElementById("form-content").innerHTML += `
+						<div class="member-sec">
+							<h3 id="sub-heading">MEMBER - 3</h3>
+								<div class="container row">
+									<div
+										class="col-12 col-lg-6 align-self-center justify-content-center">
+										<div class="form-group">
+											<input 
+											type="text"
+											class="form-control"
+											name="name3"
+											placeholder= "Name"
+											required
+											/>
+										</div>
+										<div class="form-group">
+											<input
+												type="email"
+												class="form-control"
+												name="email3"
+												placeholder="Email"
+												required
+											/>
+										</div>
+										<div class="form-group">
+											<input
+												type="text"
+												class="form-control"
+												name="college3"
+												placeholder="College name"
+												required
+											/>
+										</div>
+										<div class="form-group">
+											<input
+												type="tel"
+												class="form-control"
+												name="contact3"
+												placeholder="Contact number"
+												required
+											/>
+										</div>
+									</div>
+										<div
+											class="col-lg-6 d-none d-lg-block align-self-center justify-content-center"
+										>
+										<img
+											src="images/incomplete-icon.png"
+											class="img-fluid"
+											alt="Responsive image"
+											style="margin-left: 40%"
+										/>
+										</div>
+									</div>
+								</div>`;
+					}else if (num == 3){
+						document.getElementById("add-mem-btn").disabled = true;
+						document.getElementById("form-content").innerHTML += `
+						<div class="member-sec">
+							<h3 id="sub-heading">MEMBER - 4</h3>
+								<div class="container row">
+									<div
+										class="col-12 col-lg-6 align-self-center justify-content-center">
+										<div class="form-group">
+											<input 
+											type="text"
+											class="form-control"
+											name="name4"
+											placeholder= "Name"
+											required
+											/>
+										</div>
+										<div class="form-group">
+											<input
+												type="email"
+												class="form-control"
+												name="email4"
+												placeholder="Email"
+												required
+											/>
+										</div>
+										<div class="form-group">
+											<input
+												type="text"
+												class="form-control"
+												name="college4"
+												placeholder="College name"
+												required
+											/>
+										</div>
+										<div class="form-group">
+											<input
+												type="tel"
+												class="form-control"
+												name="contact4"
+												placeholder="Contact number"
+												required
+											/>
+										</div>
+									</div>
+										<div
+											class="col-lg-6 col-xl-6 d-none d-lg-block align-self-center justify-content-center"
+										>
+										<img
+											src="images/incomplete-icon.png"
+											class="img-fluid"
+											alt="Responsive image"
+											style="margin-left: 40%"
+										/>
+										</div>
+									</div>
+								</div>`;
+					}
+					
+				}
+				function removeMember(){
+					var members = document.getElementsByClassName("member-sec");
+					if(members.length > 2){
+						members[members.length - 1].remove();
+						document.getElementById("add-mem-btn").disabled = false;
+					}
+					if(members.length == 2){
+						document.getElementById("rm-mem-btn").disabled = true;
+					}
+				}
+
+				document.getElementById("add-mem-btn").addEventListener("click", function(event){
+					event.preventDefault();
+					addMember();
+				})
+
+				document.getElementById("rm-mem-btn").addEventListener("click", function(event){
+					event.preventDefault();
+					removeMember();
+				})
+				
+				document.getElementById("mem-form").addEventListener("submit", function(event){
+					if(confirm('Do you want to confirm your team?\nTeam cannot be edited later!'))
+					{
+						console.log('a');
+					}
+					event.preventDefault();
+				})
+			</script>
+</body>
+</html>

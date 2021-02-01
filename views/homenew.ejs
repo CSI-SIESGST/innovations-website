@@ -93,39 +93,7 @@
 				/>
 			</div>
 		</div>
-
-		<!-- <div class="col-6" style="height: 100vh;">
-            <iframe class="d-none" name="uni-frame" src="./user-chat" frameborder="0" style="width: 100%; height: 100%; overflow-y: scroll;"></iframe>
-        </div> -->
-
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-
-		<script type="text/javascript">
-			const socket = io('/');
-	
-			socket.emit('join-room', '<%= chatId %>');
-	
-			socket.on('refresh', () => {
-				alert('Error Occurred! Refreshing...');
-				location.reload();
-			});
-	
-			socket.on('new-msg', (teamName, message) => {
-				document.getElementById('new-msg').classList.remove('d-none');
-				readUnread();
-			})
-	
-	
-			function readUnread()
-			{
-				if(!document.getElementsByTagName('iframe')[0].classList.contains('d-none'))
-				{
-					document.getElementById('new-msg').classList.add('d-none');
-					socket.emit('user-read', '<%= chatId %>', tn)
-				}
-			}
-		</script>
-
+		
 		<!--Milestones-->
 		<div class="milestones" id="milestone1"></div>
 		<script>

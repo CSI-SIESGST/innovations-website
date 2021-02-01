@@ -16,7 +16,18 @@ require('./db/mongoose');
 const User = require('./schema/userSchema');
 const Chat = require('./schema/chatSchema');
 const Broadcast = require('./schema/broadcastSchema');
-const serviceAccount = require('./serviceAccountKey.json');
+const serviceAccount = {
+	type: 'service_account',
+	project_id: process.env.PROJECT_ID,
+	private_key_id: process.env.PRIVATE_KEY_ID,
+	private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+	client_email: process.env.CLIENT_EMAIL,
+	client_id: process.env.CLIENT_ID,
+	auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+	token_uri: 'https://oauth2.googleapis.com/token',
+	auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+	client_x509_cert_url: process.env.CERT_URL
+};
 
 //initialize firebase app
 admin.initializeApp({
@@ -225,6 +236,18 @@ app.get('/info', (req, res) => {
 		res.render('info', { team: req.user.teamName });
 	} else {
 		res.render('info', { team: null });
+	}
+});
+
+app.get('/members', (req, res) => {
+	if (req.isAuthenticated()) {
+		if (!req.user.verified) {
+			res.redirect('/home');
+		} else {
+			res.render('members');
+		}
+	} else {
+		res.redirect('/login');
 	}
 });
 
@@ -745,6 +768,6 @@ app.post('/upload', (req, res) => {
 	});
 });
 
-server.listen(3000, () => {
-	console.log('Listening to port 3000');
-});
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, console.log(`Server started on port ${PORT}`));
