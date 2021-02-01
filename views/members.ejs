@@ -178,15 +178,16 @@
 						</div>
 					</div>
 				</div>
-				
-					<button id="add-mem-btn" class="btn btn-primary">
-						Add another member
-					</button>
-					<button id="rm-mem-btn" class="btn btn-primary">
-						Remove a member
-					</button>
+					<div class="text-center">
+						<button id="add-mem-btn" class="btn btn-primary">
+							Add member slot
+						</button>
+						<button id="rm-mem-btn" class="btn btn-primary">
+							Remove slot
+						</button>
+					</div>
 					<button id="submit" class="btn btn-primary btn-block">
-						Save Members
+						Confirm Members
 					</button>
 				
 				</form>
@@ -332,7 +333,11 @@
 					removeMember();
 				})
 				
-				document.getElementById("submit").addEventListener("click", function(event){
+				document.getElementById("mem-form").addEventListener("submit", function(event){
+					if(confirm('Do you want to confirm your team?\nTeam cannot be edited later!'))
+					{
+						console.log('a');
+					}
 					event.preventDefault();
 				})
 			</script>
