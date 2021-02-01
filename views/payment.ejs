@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Payment
+        </title>
+        <meta charset="utf-8" />
+		<meta name="viewport" content="width = device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-md">
+			<div class="container">
+				<a href="/" class="navbar-brand mr-auto"> LOGO </a>
+				<button
+					class="navbar-toggler"
+					data-toggle="collapse"
+					data-target="#navbarid"
+				>
+					<span
+						><i
+							class="fa fa-bars"
+							aria-hidden="true"
+							style="color: #3f3d56"
+						></i
+					></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarid">
+					<ul class="navbar-nav text-center ml-auto">
+						<li class="nav-item">
+							<a href="/info" class="nav-link">Info</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link"
+								>Contact Us</a
+							>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">Team Profile</a>
+						</li>
+						<li class="nav-item">
+							<a href="/logout" class="nav-link">LOG OUT</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+        </nav>
+        
+        <% if (!payment) { %>
+        <h1 class="text-dark mt-2" style="text-align: center;">Payment Instruction</h1>
+
+        <div class="container pt-5">
+            <ul style="font-size: x-large;">
+                <li>Add all the members in your group.</li>
+                <li>Contact on of the oranizers given below.</li>
+                <li>Make the payment as instructed.</li>
+                <li>Check your payment status in your teams profile.</li>
+            </ul>
+        </div>
+        <% } else { %>
+            <div class="container">
+                <div class="text-center align-middle pt-5">
+                    <img
+                        src="images/complete-icon.png"
+                        class="img-fluid"
+                        alt="Responsive image"
+                    />
+                </div>
+                <h2 style="text-align: center;" class="pt-3" >Payment Successful</h2>
+            </div>
+        <% } %>
+    </body>
+</html>

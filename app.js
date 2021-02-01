@@ -283,6 +283,20 @@ app.post('/members', (req, res) => {
 	}
 });
 
+app.get('/payment', (req, res) => {
+	if(req.isAuthenticated()){
+		if(!req.user.verified){
+			res.render('not-verified');
+		}else{
+			res.render('payment', {
+				payment: req.user.payment,
+			});
+		}
+	}else{
+		res.redirect('/login')
+	}
+})
+
 app.get('/home', (req, res) => {
 	if (req.isAuthenticated()) {
 		if (!req.user.verified) {
