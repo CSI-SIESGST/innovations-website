@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Abstract Upload</title>
+	<meta charset="utf-8" />
+		<meta name="viewport" content="width = device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md mb-4">
+		<div class="container">
+			<a href="/" class="navbar-brand mr-auto"> LOGO </a>
+			<button
+				class="navbar-toggler"
+				data-toggle="collapse"
+				data-target="#navbarid"
+			>
+				<span
+					><i
+						class="fa fa-bars"
+						aria-hidden="true"
+						style="color: #3f3d56"
+					></i
+				></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarid">
+				<ul class="navbar-nav text-center ml-auto">
+					<li class="nav-item">
+						<a href="/info" class="nav-link">Info</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link"
+							>Contact Us</a
+						>
+					</li>
+					<li class="nav-item">
+						<a href="/home" class="nav-link">Team Profile</a>
+					</li>
+					<li class="nav-item">
+						<a href="/logout" class="nav-link">LOG OUT</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <% if (!submitted) { %>
+    <h2 id="sub-heading" style="text-align: center;">SUBMIT YOUR ABSTRACT</h2>
+				<div class="container">
+                    <div
+                        style="margin: 0 auto;"
+						class="col-12 col-md-6 align-self-center justify-content-center"
+						style="padding-top: 5%"
+					>
+						<form id="abstract-form">
+                            <label id="status"></label>
+							<div class="form-group">
+								<label>Upload your file...</label>
+								<input
+									type="file"
+									accept="multipart/form-data"
+                                    class="form-control"
+                                    name="file"
+								/>
+							</div>
+                            <button
+                                id="submit"
+                                class="btn btn-primary btn-block">
+								SUBMIT
+							</button>
+						</form>
+                    </div>
+            </div>
+    </form>
+    <h3 style="text-align: center;"><u>Note:</u></h3>
+    <h4 style="text-align: center;">You need to confirm members and make payment before submitting your abstract.</h4>
+    <% if (!(payment && teamConfirm)) { %>
+        <script>
+           document.getElementById("submit").addEventListener("click", function(event){
+               event.preventDefault();
+               alert("Team confirmation or payment is pending");
+           })
+        </script>
+    <% }else { %>
+        <script>
+            document.getElementById("submit").addEventListener("click", function(event){
+                event.preventDefault();
+                if(confirm("Are you sure you this document as your abstract?\nOnce Submitted it cannot be changes later")){
+                    var form = new FormData(document.getElementById('abstract-form'));
+                    
+                    fetch('/upload', {
+							method: 'POST',
+							headers: {
+							},
+							body: form
+						})
+							.then((response) => response.json())
+							.then((data) => {
+								if (data.message == 'done') {
+									location.replace('/upload');
+								} else {
+									document.getElementById('status').innerHTML =
+										data.message;
+								}
+							})
+							.catch((error) => {
+								document.getElementById('status').innerHTML =
+									'Server Error!';
+					});
+                }
+            })
+        </script>
+    <% } %>
+    <% }else { %>
+        <div class="container">
+            <div class="text-center align-middle pt-5">
+                <img
+                    src="images/complete-icon.png"
+                    class="img-fluid"
+                    alt="Responsive image"
+                />
+            </div>
+            <h2 style="text-align: center;" class="pt-3" >Abstract Submitted</h2>
+    <% } %>
+</body>
+</html>

@@ -286,7 +286,7 @@ app.post('/members', (req, res) => {
 app.get('/payment', (req, res) => {
 	if(req.isAuthenticated()){
 		if(!req.user.verified){
-			res.render('not-verified');
+			res.redirect('/home');
 		}else{
 			res.render('payment', {
 				payment: req.user.payment,
@@ -295,7 +295,49 @@ app.get('/payment', (req, res) => {
 	}else{
 		res.redirect('/login')
 	}
-})
+});
+
+app.get('/upload', (req, res) => {
+	if(req.isAuthenticated()){
+		if(!req.user.verified){
+			res.redirect('/home');
+		}else{
+			res.render('abstract', {
+				teamConfirm: req.user.teamConfirm,
+				payment: req.user.payment,
+				submitted: req.user.submitted
+			});
+		}
+	}else{
+		res.redirect('/login');
+	}
+});
+
+app.post('/upload', (req, res) => {
+	console.log(req.user.teamConfirm);
+	if(!req.isAuthenticated()){
+		if(!req.user.verified || !req.user.payment || !req.user.teamConfirm || req.user.submitted){
+			res.status(401).end()
+		}else{
+			var form = new formidable.IncomingForm();
+			form.parse(req, function (err, fields, files) {
+				if (files.file) {
+					uploadFile(files.file.path, req.user.teamName + "_abstract.pdf")
+						.then(() => {
+							req.user.submitted = true;
+							req.user.save();
+							res.status(200).json({ message: 'done' })
+						})
+						.catch(console.error);
+				} else {
+					res.status(400).json({ msg: 'no file attached' });
+				}
+			});
+		}
+	}else{
+		res.status(401).end()
+	}
+});
 
 app.get('/home', (req, res) => {
 	if (req.isAuthenticated()) {
@@ -799,19 +841,6 @@ app.post('/changeR2', (req, res) => {
 		res.status(401);
 		res.end('Unauthorised');
 	}
-});
-
-app.post('/upload', (req, res) => {
-	var form = new formidable.IncomingForm();
-	form.parse(req, function (err, fields, files) {
-		if (files.file) {
-			uploadFile(files.file.path, files.file.name)
-				.then(res.status(200).json({ msg: 'file uploaded' }))
-				.catch(console.error);
-		} else {
-			res.status(400).json({ msg: 'no file attached' });
-		}
-	});
 });
 
 const PORT = process.env.PORT || 3000;
