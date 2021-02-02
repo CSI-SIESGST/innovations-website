@@ -38,17 +38,13 @@
 
     <div style="display: flex; flex-direction: column; height: 100vh;">
         <div style="flex-grow: 1; overflow-y: none; position: relative; width: 100%;">
-            <div id="chats" style="overflow: auto; position: absolute; width: 100%; bottom: 0; max-height: 100%;">
-                <!-- <div class="ml-auto my-1 chat-unit mr-3" style="max-width: 90%; text-align: right;">
-                    <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">
-                        hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello
-                    </div>
-                </div> -->
+            <div id="chats" class="px-1" style="overflow: auto; position: absolute; width: 100%; bottom: 0; max-height: 100%;">
+                
                 <% chat.messages.forEach(message => {
                     if(!message.sender)
                     {
                         %>
-                        <div class="ml-auto my-1 chat-unit mr-3" style="max-width: 80%; text-align: right;">
+                        <div class="ml-auto my-1 chat-unit mr-2" style="max-width: 80%; text-align: right;">
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px; width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
@@ -70,7 +66,7 @@
                     else
                     {
                         %>
-                        <div class="mr-auto my-1 chat-unit ml-3" style="max-width: 80%; text-align: left;">
+                        <div class="mr-auto my-1 chat-unit ml-2" style="max-width: 80%; text-align: left;">
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px; width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
@@ -95,11 +91,11 @@
         
         <% if(!chat.adminUnread && chat.messages[chat.messages.length - 1] && !chat.messages[chat.messages.length - 1].sender)
         {
-            %><p class="mb-0 p-0" id="seen"><small class="text-right d-block pr-5 text-dark"><i class="fas fa-eye"></i></small></p><%
+            %><p class="mb-0 p-0" id="seen"><small class="text-right d-block pr-4 text-dark"><i class="fas fa-eye"></i></small></p><%
         }
         else
         {
-            %><p class="mb-0 p-0" style="display: none;" id="seen"><small class="text-right d-block pr-5 text-dark"><i class="fas fa-eye"></i></small></p><%
+            %><p class="mb-0 p-0" style="display: none;" id="seen"><small class="text-right d-block pr-4 text-dark"><i class="fas fa-eye"></i></small></p><%
         } %>
 
         <div id="input-cont" style="display: flex; flex-direction: row; padding: 10px;">
@@ -122,7 +118,7 @@
 
         socket.on('new-msg', (teamName, message, time) => {
             var element = document.createElement('div');
-            element.setAttribute('class', 'mr-auto my-1 chat-unit ml-3');
+            element.setAttribute('class', 'mr-auto my-1 chat-unit ml-2');
             element.setAttribute('style', 'max-width: 90%; text-align: left;');
 
             var finalTime = new Date(time);
@@ -170,7 +166,7 @@
         function sendAck(msg, time)
         {
             var element = document.createElement('div');
-            element.setAttribute('class', 'ml-auto my-1 chat-unit mr-3');
+            element.setAttribute('class', 'ml-auto my-1 chat-unit mr-2');
             element.setAttribute('style', 'max-width: 90%; text-align: right;');
 
             var finalTime = new Date(time);

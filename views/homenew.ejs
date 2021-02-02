@@ -18,6 +18,22 @@
 			rel="stylesheet"
 		/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+
+		<script>
+			function chatToggle() {
+				if(document.getElementById('chat-close').style.display == 'none')
+				{
+					document.getElementById('chatbox-home').style.bottom = '0';
+					document.getElementById('chat-close').style.display = 'block';
+				}
+				else
+				{
+					document.getElementById('chatbox-home').style.bottom = '-468px';
+					document.getElementById('chat-close').style.display = 'none';
+				}
+			}
+			
+		</script>
 	</head>
 
 	<body>
@@ -61,17 +77,17 @@
 		</nav>
 
 
-		<div class="chatbox-home position-fixed bg-white" style="bottom: 0; right: 30px;">
+		<div id="chatbox-home" class="chatbox-home position-fixed bg-white">
 			
-			<div class="chat-home-text bg-primary text-white  p-1 pl-4 pb-2 border-bottom">
+			<div class="chat-home-text bg-primary text-white p-1 pl-4 pb-2 border-bottom" onclick="chatToggle();" style="cursor: pointer;">
 				<div class="row">
 					<div class="col-8">Chat with Admin</div>
-					<div class="col-4 text-right pr-5"><i class="fas fa-times" style="cursor: pointer;"></i></div>
+					<div id="chat-close" class="col-4 text-right pr-5" style="display: none;"><i class="fas fa-times" id="chat-close-icon"></i></div>
 				</div>
 				
 			</div>
 
-			<iframe name="uni-frame" src="./user-chat" frameborder="0" style="width: 100%; height: calc(100% - 32px); overflow-y: scroll;"></iframe>
+			<iframe name="uni-frame" id="chat-frame" src="./user-chat" frameborder="0" style="width: 100%; height: calc(100% - 32px); overflow-y: scroll;"></iframe>
 		</div>
 
 
@@ -79,8 +95,8 @@
 			<div class="row">
 				<div class="col-sm-6 text-center">
 					<h1 id="team-name">WELCOME,<br /><%= team %></h1>
-					<h3 id="chat-click" class="body-text mb-0" style="cursor: pointer;">
-						<span class="d-inline-block" style="max-width: 75%;">Need help? Chat Now...</span>
+					<h3 id="chat-click" class="body-text mb-0" style="cursor: pointer;" onclick="chatToggle();">
+						<span class="d-inline-block" style="max-width: 75%;">Need help? Chat Now...<br><a href="#"><small class="text-danger">New Messages!</small></a></span>
 						<img
 						src="images/chatIcon.png"
 						class="d-inline-block"
