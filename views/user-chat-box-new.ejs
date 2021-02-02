@@ -62,7 +62,7 @@
                                 else if(hours < 12){hours = hours + ':' + minutes + ' AM'}
                                 else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
                                 else {hours = (hours % 12) + ':' + minutes + ' PM'} %>
-                                <small class="text-white pt-2" style="display: block; text-align: right;"><%= time.getDate() %>/<%= month %>/<%= time.getFullYear() %> <%= hours %></small>
+                                <small class="pt-2" style="display: block; text-align: right; color: #ddd;"><%= time.getDate() %>/<%= month %>/<%= time.getFullYear() %> <%= hours %></small>
                             </div>
                         </div>
                         <%
@@ -84,7 +84,7 @@
                                 else if(hours < 12){hours = hours + ':' + minutes + ' AM'}
                                 else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
                                 else {hours = (hours % 12) + ':' + minutes + ' PM'} %>
-                                <small class="text-white pt-2" style="display: block; text-align: left"><%= time.getDate() %>/<%= month %>/<%= time.getFullYear() %> <%= hours %></small>
+                                <small class="pt-2" style="display: block; text-align: left; color: #ddd;"><%= time.getDate() %>/<%= month %>/<%= time.getFullYear() %> <%= hours %></small>
                             </div>
                         </div>
                         <%
@@ -95,11 +95,11 @@
         
         <% if(!chat.adminUnread && chat.messages[chat.messages.length - 1] && !chat.messages[chat.messages.length - 1].sender)
         {
-            %><p class="mb-0 p-0" id="seen"><small class="text-right d-block pr-5"><i class="fas fa-eye"></i></small></p><%
+            %><p class="mb-0 p-0" id="seen"><small class="text-right d-block pr-5 text-dark"><i class="fas fa-eye"></i></small></p><%
         }
         else
         {
-            %><p class="mb-0 p-0" style="display: none;" id="seen"><small class="text-right d-block pr-5"><i class="fas fa-eye"></i></small></p><%
+            %><p class="mb-0 p-0" style="display: none;" id="seen"><small class="text-right d-block pr-5 text-dark"><i class="fas fa-eye"></i></small></p><%
         } %>
 
         <div id="input-cont" style="display: flex; flex-direction: row; padding: 10px;">
@@ -138,7 +138,7 @@
             else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
             else {hours = (hours % 12) + ':' + minutes + ' PM'}
             
-            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px;">'+message+'<br><small class="text-white pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px;">'+message+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
             document.getElementById('chats').append(element);
 
             document.getElementById('seen').style.display = 'none';
@@ -186,7 +186,7 @@
             else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
             else {hours = (hours % 12) + ':' + minutes + ' PM'}
 
-            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px;">'+msg+'<br><small class="text-white pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px;">'+msg+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
 
             document.getElementById('chats').append(element);
 
