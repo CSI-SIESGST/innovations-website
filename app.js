@@ -352,7 +352,10 @@ app.get('/home', (req, res) => {
 					res.render('homenew', {
 						team: req.user.teamName,
 						chatId: chat._id,
-						unread: chat.userUnread
+						unread: chat.userUnread,
+						teamConfirm: req.user.teamConfirm,
+						payment: req.user.payment,
+						submitted: req.user.submitted
 					});
 				}
 			});
