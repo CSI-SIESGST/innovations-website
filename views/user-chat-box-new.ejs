@@ -9,6 +9,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="css/styles.css" />
+
 
     <title>User Chat</title>
 
@@ -44,7 +49,7 @@
                     {
                         %>
                         <div class="ml-auto my-1 chat-unit mr-3" style="max-width: 80%; text-align: right;">
-                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px;">
+                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px; width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
                                 <% var time = new Date(message.time);
@@ -66,7 +71,7 @@
                     {
                         %>
                         <div class="mr-auto my-1 chat-unit ml-3" style="max-width: 80%; text-align: left;">
-                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px;">
+                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px; width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
                                 <% var time = new Date(message.time);
@@ -90,16 +95,16 @@
         
         <% if(!chat.adminUnread && chat.messages[chat.messages.length - 1] && !chat.messages[chat.messages.length - 1].sender)
         {
-            %><p class="mb-0" id="seen"><small class="text-right d-block pr-3">Seen</small></p><%
+            %><p class="mb-0 p-0" id="seen"><small class="text-right d-block pr-5"><i class="fas fa-eye"></i></small></p><%
         }
         else
         {
-            %><p class="mb-0" id="seen"><small class="text-right pr-3 d-none">Seen</small></p><%
+            %><p class="mb-0 p-0" style="display: none;" id="seen"><small class="text-right d-block pr-5"><i class="fas fa-eye"></i></small></p><%
         } %>
 
         <div id="input-cont" style="display: flex; flex-direction: row; padding: 10px;">
-            <textarea onkeyup="btnChange(this.value.trim().length);" onchange="btnChange(this.value.trim().length);" type="text" name="" id="input" rows="3" style="flex-grow: 1; resize: none; border-radius: 10px;"></textarea>
-            <button onclick="sendMessage();" disabled>Send</button>
+            <textarea class="form-control chat-send chat-send-txtar border-primary" onkeyup="btnChange(this.value.trim().length);" onchange="btnChange(this.value.trim().length);" type="text" name="" id="input" rows="1"></textarea>
+            <button class="btn btn-primary my-0 chat-send" onclick="sendMessage();" disabled><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
     
