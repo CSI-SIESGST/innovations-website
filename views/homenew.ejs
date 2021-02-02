@@ -17,10 +17,7 @@
 			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
 			rel="stylesheet"
 		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-		/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 	</head>
 
 	<body>
@@ -63,131 +60,137 @@
 			</div>
 		</nav>
 
-		<!--Body-->
-		<div class="container-fluid">
-			<div class="row no-gutter">
-				<div
-					class="d-flex align-items-center col-md-4 col-lg-5 welcome"
-				>
-					<h1 id="team-name">WELCOME,<br /><%= team %></h1>
-				</div>
 
-				<!--Steps-->
-				<div class="col-md-8 col-lg-7">
-					<div class="d-flex align-items-center py-4">
-						<div class="container info">
-							<div class="row">
-								<div
-									class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3"
-								>
-									<h3 style="text-align: center">
-										Add members to your team!
-									</h3>
-								</div>
-								<div
-									class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3"
-								>
-									<button class="next-button">
-										<a href="/members"><i class="fa fa-angle-right fa-3x"></i></a>
-									</button>
-								</div>
-								<% if (teamConfirm) { %>
-								<img
-										src="images/complete-icon-new.png"
-										class="img-fluid"
-										style="margin-left: 10%; margin-top: -4%"
-								/>
-								<% } else { %>
-									<img
-										src="images/incomplete-icon-new.png"
-										class="img-fluid"
-										style="margin-left: 10%; margin-top: -4%"
-									/>
-								<% } %>
+		
+
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 text-center">
+					<h1 id="team-name">WELCOME,<br /><%= team %></h1>
+					<h3 id="chat-click" class="body-text mb-0" style="cursor: pointer;">
+						<span class="d-inline-block" style="max-width: 75%;">Need help? Chat Now...</span>
+						<img
+						src="images/chatIcon.png"
+						class="d-inline-block"
+						style="width: auto; height: 50px; vertical-align: top; transform: translateY(-20px);"
+						/>
+					</h3>
+					
+				</div>
+				<div class="col-sm-6 pt-5">
+					<% if (teamConfirm) { %>
+						<div class="row" onclick="location.href='/members'" style="cursor: pointer;">
+							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
+								<h3>
+									View Members
+								</h3>
+								<small class="text-success">Confirmed</small>
 							</div>
-							<div class="row">
-								<div
-									class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3"
-								>
-									<h3 style="text-align: center">
-										Complete payment
-									</h3>
-								</div>
-								<div
-									class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3"
-								>
-									<button class="next-button">
-										<a href="/payment"><i class="fa fa-angle-right fa-3x"></i></a>
-									</button>
-								</div>
-								<% if (payment) { %>
-									<img
-										src="images/complete-icon-new.png"
-										class="img-fluid"
-										style="margin-left: 10%; margin-top: -4%"
-									/>
-								<% } else { %>
-									<img
-										src="images/incomplete-icon-new.png"
-										class="img-fluid"
-										style="margin-left: 10%; margin-top: -4%"
-									/>
-									<% } %>
-							</div>
-							<div class="row">
-								<div
-									class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3"
-								>
-									<h3 style="text-align: center">
-										Submit Abstract
-									</h3>
-								</div>
-								<div
-									class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3"
-								>
-									<button class="next-button">
-										<a href="/upload"><i class="fa fa-angle-right fa-3x"></i></a>
-									</button>
-								</div>
-								<% if (submitted) { %>
-									<img
-										src="images/complete-icon-new.png"
-										class="img-fluid"
-										style="margin-left: 10%; margin-top: -4%"
-									/>
-								<% } else { %>
-									<img
-										src="images/incomplete-icon-new.png"
-										class="img-fluid"
-										style="margin-left: 10%; margin-top: -4%"
-									/>
-								<% } %>
-							</div>
-							<div class="row">
-								<div
-									class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3"
-								>
-									<h3 style="text-align: center">
-										ROUND ! RESULTS
-									</h3>
-								</div>
-								<div
-									class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3"
-								>
-									<button class="next-button">
-										<i class="fa fa-angle-right fa-3x"></i>
-									</button>
-								</div>
+							<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
+								<button class="next-button text-primary">
+									<i class="fas fa-check-circle fa-2x"></i>
+								</button>
 							</div>
 						</div>
-					</div>
+					<% } else { %>
+						<div class="row" onclick="location.href='/members'" style="cursor: pointer;">
+							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
+								<h3>
+									Add members to your team!
+								</h3>
+								<small>Last Date: ....</small>
+							</div>
+							<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
+								<button class="next-button text-primary">
+									<i class="fa fa-angle-right fa-3x"></i>
+								</button>
+							</div>
+						</div>
+					<% } %>
+						
+					<hr>
+
+					<% if (payment) { %>
+						<div class="row">
+							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
+								<h3>
+									Payment Status
+								</h3>
+								<small class="text-success">Done</small>
+							</div>
+							<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
+								<button class="next-button text-primary">
+									<i class="fas fa-check-circle fa-2x"></i>
+								</button>
+							</div>
+						</div>
+					<% } else { %>
+						<div class="row" onclick="location.href='/payment'" style="cursor: pointer;">
+							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
+								<h3>
+									Payment Status
+								</h3>
+								<small class="text-danger">Pending</small>
+							</div>
+							<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
+								<button class="next-button text-primary">
+									<i class="fa fa-angle-right fa-3x"></i>
+								</button>
+							</div>
+						</div>
+					<% } %>
+
+					<hr>
+
+					<% if (submitted) { %>
+						<div class="row">
+							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
+								<h3>
+									Submit Abstract
+								</h3>
+								<small>Last Date: ....</small>
+							</div>
+							<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
+								<button class="next-button text-primary">
+									<i class="fas fa-check-circle fa-2x"></i>
+								</button>
+							</div>
+						</div>
+					<% } else {
+						if(!payment || !teamConfirm) { %>
+							<div class="row">
+						<% } else { %>
+							<div class="row" onclick="location.href='/upload'" style="cursor: pointer;">
+						<% } %>
+							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
+								<h3>
+									Submit Abstract
+								</h3>
+								<% if(!payment || !teamConfirm) {
+									%><small class="text-danger">Please complete above steps to submit abstract!</small><br><%
+								} %> 
+								<small>Last Date: ....</small>
+							</div>
+							<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
+								<% if(!payment || !teamConfirm) { %>
+									<button class="next-button text-dark" disabled>
+										<i class="fa fa-angle-right fa-3x"></i>
+									</button>
+								<% } else { %>
+									<button class="next-button text-primary">
+										<i class="fa fa-angle-right fa-3x"></i>
+									</button>
+								<% } %>
+								
+							</div>
+						</div>
+					<% } %>
+
 				</div>
 			</div>
 		</div>
 
-		<!--Footer-->
-		<div class="container footer">
-			<a href="#" class="navbar-brand mr-auto"> LOGO </a>
-		</div>
+		
 	</body>
 </html>

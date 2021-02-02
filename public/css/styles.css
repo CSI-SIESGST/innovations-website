@@ -124,7 +124,14 @@
 	color: #3f3d56;
 	font-family: 'Rubik', sans-serif;
 	font-weight: bold;
-	padding: 60px 0px 0px 60px;
+	padding-top: 20px;
+}
+
+@media (min-width: 576px) {
+	#team-name {
+		padding-top: 50vh;
+		transform: translate(0, -50%);
+	}
 }
 
 #sub-heading {
@@ -199,7 +206,6 @@ p {
 form {
 	color: #3f3d56;
 	font-family: 'Rubik', sans-serif;
-	padding: 30px 30px 20px 30px;
 }
 
 label {
@@ -231,7 +237,12 @@ label {
 .body-text {
 	color: #aaaaaa;
 	font-family: 'Rubik', sans-serif;
-	font-weight: thin;
+}
+
+@media (min-width: 576px) {
+	#chat-click {
+		transform: translate(0, -30vh);
+	}
 }
 
 .map-responsive {
