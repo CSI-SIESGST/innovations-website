@@ -142,11 +142,15 @@
             document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
         })
 
+        function htmlEntities(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
         function sendMessage() {
             var msg = document.getElementById('input').value.trim();
             if(msg.length>0)
             {
-                
+                msg = htmlEntities(msg);
 
                 socket.emit('msg-to-admin', '<%= chat.teamName %>', msg.split('\n').join('<br>'), '<%= chat._id %>', (time) => {
                     sendAck(msg.split('\n').join('<br>'), time.time);

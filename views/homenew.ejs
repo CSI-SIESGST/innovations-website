@@ -20,6 +20,14 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
 		<script>
+			var permission = false;
+			var sendNotification = false;
+			var currentMessage;
+			var prevBody = '';
+			var count = 0;
+			var notify;
+			var notifOn = false;
+
 			function chatToggle() {
 				if(document.getElementById('chat-close').style.display == 'none')
 				{
@@ -27,7 +35,7 @@
 					document.getElementById('chat-close').style.display = 'block';
 					document.getElementById('chat-active').style.display = 'block';
 
-					document.getElementById('chat-frame').contentDocument.getElementById('input').focus()
+					document.getElementById('chat-frame').contentDocument.getElementById('input').focus();
 				}
 				else
 				{
@@ -99,7 +107,7 @@
 			<div class="chat-home-text bg-primary text-white p-1 pl-4 pb-2 border-bottom" onclick="chatToggle();" style="cursor: pointer;">
 				<div class="row">
 					<div class="col-8">Chat with Admin</div>
-					<div id="chat-close" class="col-4 text-right pr-5" style="display: none;">
+					<div id="chat-close" class="col-4 text-right pr-4" style="display: none;">
 						<button class="btn btn-sm m-0 btn-danger py-0 bg-danger"><i class="fas fa-times" id="chat-close-icon"></i></button>
 						
 					</div>
@@ -262,6 +270,7 @@
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
 		<script>
+
 			const tn = '<%= team %>';
 			const socket = io('/');
 
@@ -278,13 +287,36 @@
 			});
 
 			socket.on('new-msg', (teamName, message) => {
+				currentMessage = message;
 				document.getElementById('new-msg').style.display = 'block';
 				document.getElementById('new-msg-dot').style.display = 'block';
+				sendNotification = true;
 				readUnread();
 				playSound();
 			})
 
-			document.onvisibilitychange = ()=>{readUnread()}
+			document.onvisibilitychange = ()=>{
+				if(document.visibilityState == 'visible')
+				{
+					closeNotification();
+				}
+				readUnread()
+			}
+
+			function closeNotification() {
+				if(notifOn)
+				{
+					notify.close();
+					count = 0;
+					prevBody = '';
+					notifOn = false;
+				}
+				
+			}
+
+			function htmlEntitiesReverse(str) {
+				return String(str).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+			}
 
 			function readUnread()
 			{
@@ -292,8 +324,82 @@
 				{
 					document.getElementById('new-msg').style.display = 'none';
 					document.getElementById('new-msg-dot').style.display = 'none';
-					socket.emit('user-read', '<%= chatId %>', tn)
+					socket.emit('user-read', '<%= chatId %>', tn);
+					sendNotification = false;
+					closeNotification();
 				}
+				else if(document.visibilityState == 'visible')
+				{
+					closeNotification();
+				}
+				else if(sendNotification && permission)
+				{
+					currentMessage = currentMessage.replaceAll('<small><b>Broadcast Message</b></small><br>','')
+					currentMessage = currentMessage.replaceAll('<br>',' ');
+
+					currentMessage = htmlEntitiesReverse(currentMessage)
+
+					if(count==3)
+					{
+						prevBody = prevBody.split('\n')
+						if(prevBody[0]==='...')
+						{
+							prevBody.shift();
+						}
+						prevBody.shift();
+						prevBody.unshift('...');
+						prevBody.push(currentMessage);
+						prevBody = prevBody.join('\n');
+					}
+					else
+					{
+						prevBody = prevBody.split('\n');
+						if(prevBody[0] !== '')
+						{
+							prevBody.push(currentMessage);
+						}
+						else
+						{
+							prevBody[0] = currentMessage;
+						}
+						
+						prevBody = prevBody.join('\n');
+						count++;
+					}
+					notify = new Notification('Message from Innovations', {
+                        body: prevBody,
+						icon: 'https://res.cloudinary.com/ashokc/image/upload/c_scale,w_1239/v1580042610/CSI/logo_pds7uc.png',
+						tag: 'msg',
+						renotify: true,
+						silent: true
+					});
+					notify.onclick = (event) => {
+						window.focus();
+						document.getElementById('chatbox-home').style.bottom = '0';
+						document.getElementById('chat-close').style.display = 'block';
+						document.getElementById('chat-active').style.display = 'block';
+
+						document.getElementById('chat-frame').contentDocument.getElementById('input').focus();
+						readUnread();
+						count = 0;
+						prevBody = '';
+						notifOn = false;
+					}
+					sendNotification = false;
+					notifOn = true;
+				}
+			}
+		</script>
+
+		<script>
+			if(window.Notification && Notification.permission !== 'denied')
+			{
+				Notification.requestPermission(status => {
+					if(status == 'granted')
+					{
+						permission = true;
+					}
+				})
 			}
 		</script>
 		

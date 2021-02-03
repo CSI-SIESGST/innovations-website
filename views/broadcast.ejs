@@ -47,10 +47,16 @@
 
         const broadcast = '<%= broadcast %>';
 
+        function htmlEntities(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
         function sendMessage() {
             var msg = document.getElementById('input').value.trim();
             if(msg.length>0)
             {
+                msg = htmlEntities(msg);
+
                 socket.emit(broadcast, msg.split('\n').join('<br>'), () => {
                     sendAck();
                 });
