@@ -34,12 +34,28 @@
 					document.getElementById('chatbox-home').style.bottom = '0';
 					document.getElementById('chat-close').style.display = 'block';
 					document.getElementById('chat-active').style.display = 'block';
+					if(window.innerWidth<=575)
+					{
+						document.getElementById('chatbox-home').style.height = '100vh';
+					}
+					else
+					{
+						document.getElementById('chatbox-home').style.height = '500px';
+					}
 
 					document.getElementById('chat-frame').contentDocument.getElementById('input').focus();
 				}
 				else
 				{
-					document.getElementById('chatbox-home').style.bottom = '-468px';
+					if(window.innerWidth<=575)
+					{
+						var btm = window.innerHeight - 32;
+						document.getElementById('chatbox-home').style.bottom = '-'+btm+'px';
+					}
+					else
+					{
+						document.getElementById('chatbox-home').style.bottom = '-468px';
+					}
 					document.getElementById('chat-close').style.display = 'none';
 					document.getElementById('chat-active').style.display = 'none';
 				}
