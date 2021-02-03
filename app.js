@@ -284,49 +284,57 @@ app.post('/members', (req, res) => {
 });
 
 app.get('/payment', (req, res) => {
-	if(req.isAuthenticated()){
-		if(!req.user.verified){
+	if (req.isAuthenticated()) {
+		if (!req.user.verified) {
 			res.redirect('/home');
-		}else{
+		} else {
 			res.render('payment', {
-				payment: req.user.payment,
+				payment: req.user.payment
 			});
 		}
-	}else{
-		res.redirect('/login')
+	} else {
+		res.redirect('/login');
 	}
 });
 
 app.get('/upload', (req, res) => {
-	if(req.isAuthenticated()){
-		if(!req.user.verified){
+	if (req.isAuthenticated()) {
+		if (!req.user.verified) {
 			res.redirect('/home');
-		}else{
+		} else {
 			res.render('abstract', {
 				teamConfirm: req.user.teamConfirm,
 				payment: req.user.payment,
 				submitted: req.user.submitted
 			});
 		}
-	}else{
+	} else {
 		res.redirect('/login');
 	}
 });
 
 app.post('/upload', (req, res) => {
 	console.log(req.user.teamConfirm);
-	if(!req.isAuthenticated()){
-		if(!req.user.verified || !req.user.payment || !req.user.teamConfirm || req.user.submitted){
-			res.status(401).end()
-		}else{
+	if (!req.isAuthenticated()) {
+		if (
+			!req.user.verified ||
+			!req.user.payment ||
+			!req.user.teamConfirm ||
+			req.user.submitted
+		) {
+			res.status(401).end();
+		} else {
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, fields, files) {
 				if (files.file) {
-					uploadFile(files.file.path, req.user.teamName + "_abstract.pdf")
+					uploadFile(
+						files.file.path,
+						req.user.teamName + '_abstract.pdf'
+					)
 						.then(() => {
 							req.user.submitted = true;
 							req.user.save();
-							res.status(200).json({ message: 'done' })
+							res.status(200).json({ message: 'done' });
 						})
 						.catch(console.error);
 				} else {
@@ -334,8 +342,8 @@ app.post('/upload', (req, res) => {
 				}
 			});
 		}
-	}else{
-		res.status(401).end()
+	} else {
+		res.status(401).end();
 	}
 });
 
@@ -747,6 +755,26 @@ app.get('/participants', (req, res) => {
 				res.send('Error');
 			} else {
 				res.render('participants', { users: users });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
+app.get('/verified-users', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.where({ verified: true }).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('verified', { users: users });
 			}
 		});
 	} else {

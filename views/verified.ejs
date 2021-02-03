@@ -269,20 +269,13 @@
 
     <div>
         <input type="text" name="" id="" class="w-100" placeholder="Search Teams..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
-        <div class="text-danger"><small><b>*</b> is for <b>Unverified</b> team.</small></div>
+        
         <% users.forEach(user => {
             %>
             <div class="row mx-0 my-4 searchTeam" team="<%= user.teamName %>">
 
                 <div class="col-4">
-                    <% if(user.verified)
-                    {
-                        %>Team: <b><%= user.teamName %></b><%
-                    }
-                    else
-                    {
-                        %>Team: <b><%= user.teamName %><span class="text-danger"> *</span></b><%
-                    } %>
+                    Team: <b><%= user.teamName %></b>
                     
                 </div>
                 <div class="col-2">
