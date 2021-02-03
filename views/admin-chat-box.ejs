@@ -44,7 +44,7 @@
                     {
                         %>
                         <div class="ml-auto my-1 chat-unit mr-3" style="max-width: 80%; text-align: right;">
-                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">
+                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
                                 <% var time = new Date(message.time);
@@ -66,7 +66,7 @@
                     {
                         %>
                         <div class="mr-auto my-1 chat-unit ml-3" style="max-width: 80%; text-align: left;">
-                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px;">
+                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
                                 <% var time = new Date(message.time);
@@ -151,19 +151,25 @@
                 else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
                 else {hours = (hours % 12) + ':' + minutes + ' PM'}
                 
-                element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px;">'+message+'<br><small class="text-muted pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+                element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+message+'<br><small class="text-muted pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
                 document.getElementById('chats').append(element);
 
                 document.getElementById('seen').style.display = 'none';
 
                 document.getElementById('chats').scrollTop = document.getElementById('chats').scrollHeight;
 
-                setTimeout(() => {
-                    socket.emit('admin-read', '<%= chat._id %>');
-                }, 1000);
+
+                if(document.visibilityState == 'visible')
+                {
+                    setTimeout(() => {
+                        socket.emit('admin-read', '<%= chat._id %>');
+                    }, 1000);
+                }
                 
             }
         })
+
+        document.onvisibilitychange = () => {document.visibilityState == 'visible' && socket.emit('admin-read', '<%= chat._id %>')}
 
         socket.on('user-read', (teamName) => {
             if(teamName == '<%= chat.teamName %>')
@@ -217,7 +223,7 @@
             else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
             else {hours = (hours % 12) + ':' + minutes + ' PM'}
 
-            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px;">'+msg+'<br><small class="text-muted pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+msg+'<br><small class="text-muted pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
 
             document.getElementById('chats').append(element);
 

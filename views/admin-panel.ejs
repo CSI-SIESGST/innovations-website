@@ -87,6 +87,12 @@
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
     <script>
+
+        function playSound(sound) {
+            const url = sound ?  'message.mp3' : 'msg_bg.mp3';
+            var beepsound = new Audio(url); 
+            beepsound.play(); 
+        }
         
         const adminEvent = document.getElementById('admin-event').innerHTML;
         
@@ -117,11 +123,13 @@
 
             if(document.getElementsByTagName('iframe')[0].contentDocument.URL.includes(elId))
             {
-                element.innerHTML = '<a target="uni-frame" onclick="document.getElementById(\''+elId+'\').style.fontWeight = \'normal\'; socket.emit(\'admin-read\', \''+elId+'\');" href="/chats/'+elId+'"><p><span style="font-weight: normal;" id="'+elId+'">'+teamName+'</span></p></a>';
+                element.innerHTML = '<a target="uni-frame" onclick="document.getElementById(\''+elId+'\').style.fontWeight = \'normal\'; socket.emit(\'admin-read\', \''+elId+'\');" href="/chats/'+elId+'"><p class="mb-1"><span style="font-weight: normal;" id="'+elId+'">'+teamName+'</span></p></a>';
+                playSound(true);
             }
             else
             {
                 element.innerHTML = '<a target="uni-frame" onclick="document.getElementById(\''+elId+'\').style.fontWeight = \'normal\'; socket.emit(\'admin-read\', \''+elId+'\');" href="/chats/'+elId+'"><p class="mb-1"><span style="font-weight: bold;" id="'+elId+'">'+teamName+'</span></p></a>';
+                playSound(false);
             }
 
             document.getElementById('chat-section').prepend(element);

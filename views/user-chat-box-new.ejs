@@ -45,7 +45,7 @@
                     {
                         %>
                         <div class="ml-auto my-1 chat-unit mr-2" style="max-width: 80%; text-align: right;">
-                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px; width: 100%; overflow-wrap: break-word;">
+                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
                                 <% var time = new Date(message.time);
@@ -67,7 +67,7 @@
                     {
                         %>
                         <div class="mr-auto my-1 chat-unit ml-2" style="max-width: 80%; text-align: left;">
-                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px; width: 100%; overflow-wrap: break-word;">
+                            <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
                                 <% var time = new Date(message.time);
@@ -98,7 +98,7 @@
             %><p class="mb-0 p-0" style="display: none;" id="seen"><small class="text-right d-block pr-4 text-dark"><i class="fas fa-eye"></i></small></p><%
         } %>
 
-        <div id="input-cont" style="display: flex; flex-direction: row; padding: 10px;">
+        <div id="input-cont" style="display: flex; flex-direction: row; padding: 5px 10px 12px;;">
             <textarea class="form-control chat-send chat-send-txtar border-primary" onkeyup="btnChange(this.value.trim().length);" onchange="btnChange(this.value.trim().length);" type="text" name="" id="input" rows="1"></textarea>
             <button class="btn btn-primary my-0 chat-send" onclick="sendMessage();" disabled><i class="fas fa-paper-plane"></i></button>
         </div>
@@ -134,7 +134,7 @@
             else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
             else {hours = (hours % 12) + ':' + minutes + ' PM'}
             
-            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px;">'+message+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+message+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
             document.getElementById('chats').append(element);
 
             document.getElementById('seen').style.display = 'none';
@@ -182,7 +182,7 @@
             else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
             else {hours = (hours % 12) + ':' + minutes + ' PM'}
 
-            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px;">'+msg+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+msg+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
 
             document.getElementById('chats').append(element);
 

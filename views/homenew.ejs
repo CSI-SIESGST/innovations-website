@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>TEAM NAME</title>
+		<title>Home | Innovations</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width = device-width, initial-scale=1" />
 		<link
@@ -25,12 +25,17 @@
 				{
 					document.getElementById('chatbox-home').style.bottom = '0';
 					document.getElementById('chat-close').style.display = 'block';
+					document.getElementById('chat-active').style.display = 'block';
+
+					document.getElementById('chat-frame').contentDocument.getElementById('input').focus()
 				}
 				else
 				{
 					document.getElementById('chatbox-home').style.bottom = '-468px';
 					document.getElementById('chat-close').style.display = 'none';
+					document.getElementById('chat-active').style.display = 'none';
 				}
+				readUnread()
 			}
 			
 		</script>
@@ -76,13 +81,28 @@
 			</div>
 		</nav>
 
+		<div id="chat-active" style="display: none; z-index: 5; top: 0; left: 0;" class="position-fixed w-100 h-100"></div>
+
 
 		<div id="chatbox-home" class="chatbox-home position-fixed bg-white">
+
+			<% if(unread) { %> 
+			<div class="position-absolute bg-danger" id="new-msg-dot">
+				
+			</div>
+			<% } else { %> 
+			<div class="position-absolute bg-danger" style="display: none;" id="new-msg-dot">
+			
+			</div>
+			<% } %> 
 			
 			<div class="chat-home-text bg-primary text-white p-1 pl-4 pb-2 border-bottom" onclick="chatToggle();" style="cursor: pointer;">
 				<div class="row">
 					<div class="col-8">Chat with Admin</div>
-					<div id="chat-close" class="col-4 text-right pr-5" style="display: none;"><i class="fas fa-times" id="chat-close-icon"></i></div>
+					<div id="chat-close" class="col-4 text-right pr-5" style="display: none;">
+						<button class="btn btn-sm m-0 btn-danger py-0 bg-danger"><i class="fas fa-times" id="chat-close-icon"></i></button>
+						
+					</div>
 				</div>
 				
 			</div>
@@ -96,7 +116,19 @@
 				<div class="col-sm-6 text-center">
 					<h1 id="team-name">WELCOME,<br /><%= team %></h1>
 					<h3 id="chat-click" class="body-text mb-0" style="cursor: pointer;" onclick="chatToggle();">
-						<span class="d-inline-block" style="max-width: 75%;">Need help? Chat Now...<br><a href="#"><small class="text-danger">New Messages!</small></a></span>
+						<span class="d-inline-block" style="max-width: 75%;">
+							Need help? Chat Now...
+							<br>
+							<% if(unread) { %> 
+							<a href="#" id="new-msg">
+								<small class="text-danger">You have Unread Messages!</small>
+							</a>
+							<% } else { %> 
+							<a href="#" id="new-msg" style="display: none;">
+								<small class="text-danger">New Messages!</small>
+							</a>
+							<% } %> 
+						</span>
 						<img
 						src="images/chatIcon.png"
 						class="d-inline-block"
@@ -105,7 +137,7 @@
 					</h3>
 					
 				</div>
-				<div class="col-sm-6 pt-5">
+				<div class="col-sm-6 pt-5 pb-5">
 					<% if (teamConfirm) { %>
 						<div class="row" onclick="location.href='/members'" style="cursor: pointer;">
 							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
@@ -220,6 +252,50 @@
 			</div>
 		</div>
 
+
+		<script>
+			document.getElementById('chat-active').addEventListener('click',function(event) {
+				chatToggle();
+			})
+		</script>
+
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+		<script>
+			const tn = '<%= team %>';
+			const socket = io('/');
+
+			function playSound() {
+				var beepsound = new Audio('message.mp3'); 
+				beepsound.play(); 
+			}
+
+			socket.emit('join-room', '<%= chatId %>');
+
+			socket.on('refresh', () => {
+				alert('Error Occurred! Refreshing...');
+				location.reload();
+			});
+
+			socket.on('new-msg', (teamName, message) => {
+				document.getElementById('new-msg').style.display = 'block';
+				document.getElementById('new-msg-dot').style.display = 'block';
+				readUnread();
+				playSound();
+			})
+
+			document.onvisibilitychange = ()=>{readUnread()}
+
+			function readUnread()
+			{
+				if(!(document.getElementById('chat-close').style.display == 'none') && document.visibilityState == 'visible')
+				{
+					document.getElementById('new-msg').style.display = 'none';
+					document.getElementById('new-msg-dot').style.display = 'none';
+					socket.emit('user-read', '<%= chatId %>', tn)
+				}
+			}
+		</script>
 		
 	</body>
 </html>
