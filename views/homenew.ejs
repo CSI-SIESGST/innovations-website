@@ -36,7 +36,7 @@
 					document.getElementById('chat-active').style.display = 'block';
 					if(window.innerWidth<=575)
 					{
-						document.getElementById('chatbox-home').style.height = '100vh';
+						document.getElementById('chatbox-home').style.height = '100%';
 					}
 					else
 					{
@@ -49,6 +49,7 @@
 				{
 					if(window.innerWidth<=575)
 					{
+						document.getElementById('chatbox-home').style.height = window.innerHeight + 'px';
 						var btm = window.innerHeight - 32;
 						document.getElementById('chatbox-home').style.bottom = '-'+btm+'px';
 					}
