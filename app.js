@@ -342,6 +342,19 @@ app.get('/payment', (req, res) => {
 	}
 });
 
+app.get('/results', (req, res) => {
+	if (req.isAuthenticated() && req.user.verified && req.user.submitted) {
+			res.render('results', {
+				teamConfirm: req.user.teamConfirm,
+				payment: req.user.payment,
+				submitted: req.user.submitted
+			});
+		
+	} else {
+		res.redirect('/home');
+	}
+});
+
 app.get('/upload', (req, res) => {
 	if (req.isAuthenticated()) {
 		if (!req.user.verified) {
