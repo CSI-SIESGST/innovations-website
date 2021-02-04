@@ -1,7 +1,7 @@
 {
 	"name": "innovations-website",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Official website for national level project competition - Innovations",
 	"main": "app.js",
 	"scripts": {
 		"test": "start http://localhost:3000 & npm run dev",
@@ -30,13 +30,13 @@
 		"express-session": "^1.17.1",
 		"firebase-admin": "^9.4.2",
 		"formidable": "^1.2.2",
-		"mongoose": "^5.11.14",
+		"mongoose": "^5.11.15",
 		"mongoose-findorcreate": "^3.0.0",
 		"passport": "^0.4.1",
 		"passport-local": "^1.0.0",
 		"passport-local-mongoose": "^6.1.0",
 		"qs": "^6.9.6",
-		"socket.io": "^3.1.0",
+		"socket.io": "^3.1.1",
 		"validator": "^13.5.2"
 	},
 	"devDependencies": {
