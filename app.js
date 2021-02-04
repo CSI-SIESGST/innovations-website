@@ -783,6 +783,33 @@ app.get('/verified-users', (req, res) => {
 	}
 });
 
+app.get('/round1s', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.where({ submitted: true }).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				let graded = users.filter((user) => {
+					return user.graded1;
+				});
+				let ungraded = users.filter((user) => {
+					return !user.graded1;
+				});
+
+				res.render('round1s', { graded: graded, ungraded: ungraded });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
 app.post('/changeFee', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (
@@ -796,12 +823,18 @@ app.post('/changeFee', (req, res) => {
 		} else {
 			key = false;
 		}
-		User.where({ _id: req.body.id }).updateOne({ payment: key }, (err) => {
+		User.findById(req.body.id, (err, user) => {
 			if (err) {
 				console.log(err);
 				res.send('Error');
 			} else {
-				res.send({ message: 'done' });
+				if (!user.submitted) {
+					user.payment = key;
+					user.save();
+					res.send({ message: 'done' });
+				} else {
+					res.send({ message: 'no' });
+				}
 			}
 		});
 	} else {
@@ -829,6 +862,8 @@ app.post('/changeR1', (req, res) => {
 				res.send('Error');
 			} else {
 				if (!key || user.submitted) {
+					user.graded2 = false;
+					user.status2 = 0;
 					user.graded1 = true;
 					user.status1 = key;
 					user.save();
