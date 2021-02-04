@@ -1,7 +1,7 @@
 {
 	"name": "innovations-website",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Official website for national level project competition - Innovations",
 	"main": "app.js",
 	"scripts": {
 		"test": "start http://localhost:3000 & npm run dev",
