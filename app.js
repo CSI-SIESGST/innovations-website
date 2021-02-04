@@ -808,6 +808,26 @@ app.get('/delete-user', (req, res) => {
 	}
 });
 
+app.get('/delete-broadcast', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		Broadcast.where({}).find((err, messages) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('deleteBroadcast', { messages: messages });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
 app.get('/participants', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (
@@ -869,6 +889,52 @@ app.get('/round1s', (req, res) => {
 				res.render('round1s', { graded: graded, ungraded: ungraded });
 			}
 		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
+app.post('/delete-broadcast', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		const time = Number(req.body.time);
+		Broadcast.deleteOne({ time: time }, (err) => {
+			if (err) {
+				res.send({ message: 'no' });
+			}
+		});
+
+		if (req.body.mode != '2') {
+			Chat.updateMany(
+				{ 'messages.time': time, 'messages.sender': true },
+				{ $set: { 'messages.$.message': '<i>Message Deleted</i>' } },
+				(err) => {
+					if (err) {
+						res.send({ message: 'no' });
+					} else {
+						res.send({ message: 'done' });
+					}
+				}
+			);
+		} else {
+			Chat.updateMany(
+				{},
+				{ $pull: { messages: { time: time, sender: true } } },
+				{ multi: false },
+				(err) => {
+					if (err) {
+						res.send({ message: 'no' });
+					} else {
+						res.send({ message: 'done' });
+					}
+				}
+			);
+		}
 	} else {
 		res.status(401);
 		res.end('Unauthorised');
