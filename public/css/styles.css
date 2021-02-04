@@ -52,13 +52,13 @@
 }
 
 .navbar {
-	background-color: #dfdafd;
+	background-color: #ddd;
 	height: 10vh;
 	z-index: 20;
 }
 
 #navbarid {
-	background-color: #dfdafd;
+	background-color: #ddd;
 	z-index: 25;
 }
 
