@@ -91,9 +91,7 @@ const userSchema = new mongoose.Schema({
 		default: false
 	},
 	uploadLink: {
-		type: String,
-		required: true,
-		default: ' '
+		type: String
 	}
 });
 
