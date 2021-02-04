@@ -318,7 +318,7 @@
                     <button class="ml-1" onclick="changeR1('<%= user._id %>')">!</button>
                 </div>
                 <div class="col-2">
-                    <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" readonly>
+                    <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" min="0" max="100" readonly>
                     <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
                     <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
                 </div>
