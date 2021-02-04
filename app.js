@@ -906,35 +906,35 @@ app.post('/delete-broadcast', (req, res) => {
 		Broadcast.deleteOne({ time: time }, (err) => {
 			if (err) {
 				res.send({ message: 'no' });
+			} else if (req.body.mode != '2') {
+				Chat.updateMany(
+					{ 'messages.time': time, 'messages.sender': true },
+					{
+						$set: { 'messages.$.message': '<i>Message Deleted</i>' }
+					},
+					(err) => {
+						if (err) {
+							res.send({ message: 'no' });
+						} else {
+							res.send({ message: 'done' });
+						}
+					}
+				);
+			} else {
+				Chat.updateMany(
+					{},
+					{ $pull: { messages: { time: time, sender: true } } },
+					{ multi: false },
+					(err) => {
+						if (err) {
+							res.send({ message: 'no' });
+						} else {
+							res.send({ message: 'done' });
+						}
+					}
+				);
 			}
 		});
-
-		if (req.body.mode != '2') {
-			Chat.updateMany(
-				{ 'messages.time': time, 'messages.sender': true },
-				{ $set: { 'messages.$.message': '<i>Message Deleted</i>' } },
-				(err) => {
-					if (err) {
-						res.send({ message: 'no' });
-					} else {
-						res.send({ message: 'done' });
-					}
-				}
-			);
-		} else {
-			Chat.updateMany(
-				{},
-				{ $pull: { messages: { time: time, sender: true } } },
-				{ multi: false },
-				(err) => {
-					if (err) {
-						res.send({ message: 'no' });
-					} else {
-						res.send({ message: 'done' });
-					}
-				}
-			);
-		}
 	} else {
 		res.status(401);
 		res.end('Unauthorised');
