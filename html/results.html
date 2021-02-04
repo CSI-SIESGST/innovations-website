@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RESULTS</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width = device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="../assets/css/styles.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+	</head>
+
+	<body>
+		<!--Navbar-->
+		<nav class="navbar navbar-expand-md">
+			<div class="container">
+				<a href="#" class="navbar-brand mr-auto"> LOGO </a>
+				<button
+					class="navbar-toggler"
+					data-toggle="collapse"
+					data-target="#navbarid"
+				>
+					<span
+						><i
+							class="fa fa-bars"
+							aria-hidden="true"
+							style="color: #3f3d56"
+						></i
+					></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarid">
+					<ul class="navbar-nav text-center ml-auto">
+						<li class="nav-item">
+							<a href="index.html" class="nav-link">Home</a>
+						</li>
+						<li class="nav-item">
+							<a href="info.html" class="nav-link">Info</a>
+						</li>
+						<li class="nav-item">
+							<a href="contact.html" class="nav-link"
+								>Contact Us</a
+							>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">LOG OUT</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!--Body-->
+		<div class="container-fluid">
+			<div class="row">
+				<div
+					class="d-flex align-items-center col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 results-title"
+				>
+					<h1 id="team-name">RESULTS</h1>
+				</div>
+			</div>
+
+			<hr style="background: #ddd; height: 1px; width: 95%" />
+
+			<div class="row">
+				<!--ROUNDS-->
+				<div class="col-md-9 col-lg-9">
+					<div class="d-flex align-items-center py-4">
+						<div class="container">
+							<!--Round 1-->
+							<div class="row" style="margin-left: 5%">
+								<div class="col-12 mx-auto py-3">
+									<h3>ROUND 1</h3>
+								</div>
+								<div class="container">
+									<p
+										style="background-color: #ddd"
+										id="result1"
+									>
+										Round 1 result goes here.
+									</p>
+								</div>
+							</div>
+
+							<!--Round 2-->
+							<div class="row" style="margin-left: 5%">
+								<div
+									class="col-12 py-3"
+									style="margin-bottom: -3%"
+								>
+									<h3>ROUND 2</h3>
+								</div>
+								<!--Search Bar-->
+
+								<!--Leaderboard-->
+								<div class="container">
+									<form>
+										<input
+											type="search"
+											name="search"
+											placeholder="Search.."
+										/>
+									</form>
+									<table id="rankings">
+										<tr>
+											<th><h3>TEAM NAME</h3></th>
+											<th><h3>SCORES</h3></th>
+										</tr>
+										<tr>
+											<td>Abc</td>
+											<td>100</td>
+										</tr>
+										<tr>
+											<td>Abc</td>
+											<td>100</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Footer-->
+		<div class="container footer">
+			<a href="#" class="navbar-brand mr-auto"> LOGO </a>
+		</div>
+	</body>
+</html>
