@@ -6,6 +6,7 @@ const session = require('express-session');
 const passport = require('passport');
 const CryptoJS = require('crypto-js');
 const rateLimit = require('express-rate-limit');
+const anchorme = require('anchorme').default;
 
 const admin = require('firebase-admin');
 const formidable = require('formidable');
@@ -173,6 +174,28 @@ io.on('connection', (socket) => {
 			} else {
 				var time = new Date().getTime();
 
+				message = anchorme({
+					input: message,
+					options: {
+						attributes: { target: '_blank', class: 'msg-link' },
+						truncate: function (string) {
+							if (string.indexOf('teams.microsoft.com') > -1) {
+								return 40;
+							} else {
+								return 10;
+							}
+						},
+						middleTruncation: false,
+						specialTransform: [
+							{
+								test: /^https:\/\/teams.microsoft.com/,
+								transform: (string) =>
+									`<a target="_blank" class="msg-link" href="${string}">Microsoft Teams Meeting</a>`
+							}
+						]
+					}
+				});
+
 				callback({ time: time });
 				socket.to(chatsId).emit('new-msg', teamName, message, time);
 
@@ -190,6 +213,28 @@ io.on('connection', (socket) => {
 
 	// eslint-disable-next-line no-undef
 	socket.on(process.env.ADMIN_BROADCAST, (message, callback) => {
+		message = anchorme({
+			input: message,
+			options: {
+				attributes: { target: '_blank', class: 'msg-link' },
+				truncate: function (string) {
+					if (string.indexOf('teams.microsoft.com') > -1) {
+						return 40;
+					} else {
+						return 10;
+					}
+				},
+				middleTruncation: false,
+				specialTransform: [
+					{
+						test: /^https:\/\/teams.microsoft.com/,
+						transform: (string) =>
+							`<a target="_blank" class="msg-link" href="${string}">Microsoft Teams Meeting</a>`
+					}
+				]
+			}
+		});
+
 		message = '<small><b>Broadcast Message</b></small><br>' + message;
 
 		var time = new Date().getTime();
@@ -740,6 +785,26 @@ app.get('/admin-broadcast', (req, res) => {
 		res.render('broadcast', { broadcast: process.env.ADMIN_BROADCAST });
 	} else {
 		res.redirect('/csi-admin-login');
+	}
+});
+
+app.get('/delete-user', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.where({}).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('deleteUser', { users: users });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
 	}
 });
 

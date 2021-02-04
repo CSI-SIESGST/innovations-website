@@ -19,6 +19,7 @@
 	},
 	"homepage": "https://github.com/CSI-SIESGST/innovations-website#readme",
 	"dependencies": {
+		"anchorme": "^2.1.2",
 		"axios": "^0.21.1",
 		"body-parser": "^1.19.0",
 		"crypto-js": "^4.0.0",

@@ -451,4 +451,15 @@ textarea::-webkit-scrollbar-thumb {
 	left: -5px;
 }
 
+.msg-link {
+	color: #fff;
+	opacity: 1;
+	text-decoration: underline;
+}
+
+.msg-link:hover {
+	opacity: 0.8;
+	color: #fff;
+}
+
 /* //Chatbox */
