@@ -50,7 +50,18 @@ async function uploadFile(filepath, filename) {
 	});
 
 	console.log(`${filename} uploaded to bucket.`);
-}
+};
+
+async function generateSignedUrl(filename){
+	const options = {
+		version: 'v2',
+		action: 'read',
+		expires: Date.now() + 1000 * 60 * 60,
+	};
+
+	const [url] = await bucket.file(filename).getSignedUrl(options);
+	return(url);
+};
 
 const app = express();
 
@@ -64,6 +75,7 @@ app.use(limiter);
 
 app.set('view engine', 'ejs');
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
@@ -303,6 +315,23 @@ app.get('/members', (req, res) => {
 	}
 });
 
+app.post('/abstract', (req, res) => {
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	){
+		generateSignedUrl(req.body.filename)
+		.then(url => {
+			console.log(url);
+			res.status(200).json({url});
+		});
+	}else{
+		res.redirect('/cs--admin-login');
+	}
+	//res.status(200).json({url: url});
+})
+
 app.post('/members', (req, res) => {
 	if (req.isAuthenticated()) {
 		if (!req.user.verified) {
@@ -391,6 +420,7 @@ app.post('/upload', (req, res) => {
 					)
 						.then(() => {
 							req.user.submitted = true;
+							req.user.uploadLink = req.user.teamName + '_abstract.pdf';
 							req.user.save();
 							res.status(200).json({ message: 'done' });
 						})
@@ -457,6 +487,7 @@ app.get('/verify', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
+	console.log(req.body)
 	if (req.isAuthenticated()) {
 		res.redirect('/home');
 	} else if (
