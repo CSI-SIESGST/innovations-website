@@ -191,7 +191,11 @@ io.on('connection', (socket) => {
 					options: {
 						attributes: { target: '_blank', class: 'msg-link' },
 						truncate: function (string) {
-							if (string.indexOf('teams.microsoft.com') > -1) {
+							if (
+								string.startsWith(
+									'https://teams.microsoft.com'
+								) > -1
+							) {
 								return 40;
 							} else {
 								return 10;
@@ -230,7 +234,7 @@ io.on('connection', (socket) => {
 			options: {
 				attributes: { target: '_blank', class: 'msg-link' },
 				truncate: function (string) {
-					if (string.indexOf('teams.microsoft.com') > -1) {
+					if (string.startsWith('https://teams.microsoft.com') > -1) {
 						return 40;
 					} else {
 						return 10;
