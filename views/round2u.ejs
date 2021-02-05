@@ -15,14 +15,7 @@
 
         function changeR2(id,name)
         {
-            if(document.getElementsByName(id)[0].getAttribute('readonly') == '')
-            {
-                document.getElementsByName(id)[0].style.background = 'rgb(255,255,255)';
-                document.getElementsByName(id)[0].removeAttribute('readonly');
-                document.getElementsByName(id)[0].focus();
-                document.getElementsByName(id)[0].value = '';
-            }
-            else if(document.getElementsByName(id)[0].value != '' && parseInt(document.getElementsByName(id)[0].value) >= 0 && parseInt(document.getElementsByName(id)[0].value) < 101)
+            if(document.getElementsByName(id)[0].value != '' && parseInt(document.getElementsByName(id)[0].value) >= 0 && parseInt(document.getElementsByName(id)[0].value) < 101)
             {
                 document.getElementById('loading').style.display = 'block';
 
@@ -39,42 +32,28 @@
                 .then(data => {
                     if(data.message == 'done')
                     {
-                        document.getElementsByName(id)[0].value = Math.round(document.getElementsByName(id)[0].value)
-                        document.getElementsByName(name)[0].value = document.getElementsByName(id)[0].value;
-                        document.getElementsByName(id)[0].style.background = '#eee';
-                        document.getElementsByName(id)[0].setAttribute('readonly', '');
                         document.getElementById('loading').style.display = 'none';
+                        document.getElementById(name).remove();
+                        alert('Graded!');
                     }
                     else if(data.message == 'no')
                     {
-                        document.getElementsByName(id)[0].value = document.getElementsByName(name)[0].value;
-                        document.getElementsByName(id)[0].style.background = '#eee';
-                        document.getElementsByName(id)[0].setAttribute('readonly', '');
                         document.getElementById('loading').style.display = 'none';
                         alert('User has not been selected in round 2!')
                     }
                     else
                     {
-                        document.getElementsByName(id)[0].value = document.getElementsByName(name)[0].value;
-                        document.getElementsByName(id)[0].style.background = '#eee';
-                        document.getElementsByName(id)[0].setAttribute('readonly', '');
                         document.getElementById('loading').style.display = 'none';
                         alert('Error Changing Data');
                     }
                 })
                 .catch(error => {
-                    document.getElementsByName(id)[0].value = document.getElementsByName(name)[0].value;
-                    document.getElementsByName(id)[0].style.background = '#eee';
-                    document.getElementsByName(id)[0].setAttribute('readonly', '');
                     document.getElementById('loading').style.display = 'none';
                     alert('Error Changing Data');
                 })
             }
             else
             {
-                document.getElementsByName(id)[0].value = document.getElementsByName(name)[0].value;
-                document.getElementsByName(id)[0].style.background = '#eee';
-                document.getElementsByName(id)[0].setAttribute('readonly', '');
                 document.getElementById('loading').style.display = 'none';
                 alert('The value should be between 0 and 100 inclusive!');
             }
@@ -120,16 +99,16 @@
     </style>
 
 
-    <div id="loading" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background: rgba(71, 38, 38, 0.7); display: none; z-index: 100;">
+    <div id="loading" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.7); display: none; z-index: 100;">
         <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Sending...</h2></span>
     </div>
 
     <div>
         <input type="text" name="" id="" class="w-100" placeholder="Search Teams..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
-        <h5 class="mt-3">Graded Round 2</h5>
-        <% graded.forEach(user => {
+        <h5 class="mt-3">Unraded Round 2</h5>
+        <% ungraded.forEach(user => {
             %>
-            <div class="row mx-0 my-4 searchTeam" team="<%= user.teamName %>">
+            <div class="row mx-0 my-4 searchTeam" id="<%= user.teamName %>" team="<%= user.teamName %>">
 
                 <div class="col-6">
                     <%
@@ -144,19 +123,14 @@
                     %>
                     
                 </div>
-                <div class="col-2">
-                    <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" min="0" max="100" readonly>
-                    <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
-                    <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
+                <div class="col-6">
+                    <input type="number" class="w-75" name="<%= user._id %>" id="" step="1" min="0" max="100">
+                    <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">Grade</button>
                 </div>
                 <div class="col-12">
                     
                     <details>
-                        <% if(user.teamConfirm) { %>
-                            <summary class="text-success">Member Details</summary>
-                        <% } else { %>
-                            <summary class="text-danger">Member Details</summary>
-                        <% } %>
+                        <summary class="text-success">Member Details</summary>
 
                         <p>
                             <div class="row">

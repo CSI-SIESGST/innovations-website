@@ -831,26 +831,6 @@ app.get('/admin-broadcast', (req, res) => {
 	}
 });
 
-app.get('/delete-user', (req, res) => {
-	// eslint-disable-next-line no-undef
-	if (
-		req.session[process.env.ADMIN_SESSION_VAR] &&
-		req.session[process.env.ADMIN_SESSION_VAR] ==
-			process.env.ADMIN_SESSION_VAL
-	) {
-		User.where({}).find((err, users) => {
-			if (err) {
-				res.send('Error');
-			} else {
-				res.render('deleteUser', { users: users });
-			}
-		});
-	} else {
-		res.status(401);
-		res.end('Unauthorised');
-	}
-});
-
 app.get('/delete-broadcast', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (

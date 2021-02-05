@@ -18,7 +18,7 @@
             
             for(var i=0; i<teams.length; i++)
             {
-                if(teams[i].id.toLowerCase().startsWith(val.toLowerCase()))
+                if(teams[i].id.toLowerCase().trim().startsWith(val.toLowerCase().trim()))
                 {
                     teams[i].style.display = 'block';
                 }
@@ -39,8 +39,7 @@
 <body style="margin: 0; padding: 0; scroll-behavior: smooth;">
 
     <div style="height: 40px; padding-top: 10px; text-align: right;">
-        <ul style="list-style: none;" class="mb-0 pl-0">
-            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="delete-user" onclick="underlineMe('delete-user')" href="/delete-user" target="uni-frame">Delete User</a></li>
+        <ul style="list-style: none;" class="mb-0 pl-0 pr-5">
             <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="delete-broadcast" onclick="underlineMe('delete-broadcast')" href="/delete-broadcast" target="uni-frame">Delete Broadcast</a></li>
             <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="participants" onclick="underlineMe('participants')" href="/participants" style="text-decoration: underline;" target="uni-frame">Participants</a></li>
             <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="verified-users" onclick="underlineMe('verified-users')" href="/verified-users" target="uni-frame">Verified</a></li>

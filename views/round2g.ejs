@@ -120,7 +120,7 @@
     </style>
 
 
-    <div id="loading" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background: rgba(71, 38, 38, 0.7); display: none; z-index: 100;">
+    <div id="loading" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.7); display: none; z-index: 100;">
         <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Sending...</h2></span>
     </div>
 
@@ -152,11 +152,7 @@
                 <div class="col-12">
                     
                     <details>
-                        <% if(user.teamConfirm) { %>
-                            <summary class="text-success">Member Details</summary>
-                        <% } else { %>
-                            <summary class="text-danger">Member Details</summary>
-                        <% } %>
+                        <summary class="text-success">Member Details</summary>
 
                         <p>
                             <div class="row">
