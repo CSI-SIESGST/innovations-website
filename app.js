@@ -50,18 +50,18 @@ async function uploadFile(filepath, filename) {
 	});
 
 	console.log(`${filename} uploaded to bucket.`);
-};
+}
 
-async function generateSignedUrl(filename){
+async function generateSignedUrl(filename) {
 	const options = {
 		version: 'v2',
 		action: 'read',
-		expires: Date.now() + 1000 * 60 * 60,
+		expires: Date.now() + 1000 * 60 * 60
 	};
 
 	const [url] = await bucket.file(filename).getSignedUrl(options);
-	return(url);
-};
+	return url;
+}
 
 const app = express();
 
@@ -320,17 +320,16 @@ app.post('/abstract', (req, res) => {
 		req.session[process.env.ADMIN_SESSION_VAR] &&
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
-	){
-		generateSignedUrl(req.body.filename)
-		.then(url => {
+	) {
+		generateSignedUrl(req.body.filename).then((url) => {
 			console.log(url);
-			res.status(200).json({url});
+			res.status(200).json({ url });
 		});
-	}else{
-		res.redirect('/cs--admin-login');
+	} else {
+		res.redirect('/csi-admin-login');
 	}
 	//res.status(200).json({url: url});
-})
+});
 
 app.post('/members', (req, res) => {
 	if (req.isAuthenticated()) {
@@ -373,12 +372,11 @@ app.get('/payment', (req, res) => {
 
 app.get('/results', (req, res) => {
 	if (req.isAuthenticated() && req.user.verified && req.user.submitted) {
-			res.render('results', {
-				teamConfirm: req.user.teamConfirm,
-				payment: req.user.payment,
-				submitted: req.user.submitted
-			});
-		
+		res.render('results', {
+			teamConfirm: req.user.teamConfirm,
+			payment: req.user.payment,
+			submitted: req.user.submitted
+		});
 	} else {
 		res.redirect('/home');
 	}
@@ -420,7 +418,8 @@ app.post('/upload', (req, res) => {
 					)
 						.then(() => {
 							req.user.submitted = true;
-							req.user.uploadLink = req.user.teamName + '_abstract.pdf';
+							req.user.uploadLink =
+								req.user.teamName + '_abstract.pdf';
 							req.user.save();
 							res.status(200).json({ message: 'done' });
 						})
@@ -487,7 +486,7 @@ app.get('/verify', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-	console.log(req.body)
+	console.log(req.body);
 	if (req.isAuthenticated()) {
 		res.redirect('/home');
 	} else if (
