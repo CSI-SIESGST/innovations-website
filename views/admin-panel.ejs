@@ -28,26 +28,33 @@
                 }
             }
         }
+
+        function underlineMe(id) {
+            $('.uline').css('text-decoration','none');
+            $('#'+id).css('text-decoration','underline');
+        }
     </script>
     
 </head>
 <body style="margin: 0; padding: 0; scroll-behavior: smooth;">
 
-    <div style="height: 40px; padding-top: 10px; text-align: right; padding-right: 50px;">
-        <ul style="list-style: none;" class="mb-0">
-            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="/delete-user" target="uni-frame">Delete User</a></li>
-            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="/delete-broadcast" target="uni-frame">Delete Broadcast</a></li>
-            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="/participants" target="uni-frame">Participants</a></li>
-            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="/verified-users" target="uni-frame">Verified</a></li>
-            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="/round1s" target="uni-frame">Round 1</a></li>
-            <li style="display: inline-block; padding: 0 25px; font-size: 20px; line-height: 20px; text-align: center;"><a href="/round2s" target="uni-frame">Round 2</a></li>
+    <div style="height: 40px; padding-top: 10px; text-align: right;">
+        <ul style="list-style: none;" class="mb-0 pl-0">
+            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="delete-user" onclick="underlineMe('delete-user')" href="/delete-user" target="uni-frame">Delete User</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="delete-broadcast" onclick="underlineMe('delete-broadcast')" href="/delete-broadcast" target="uni-frame">Delete Broadcast</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="participants" onclick="underlineMe('participants')" href="/participants" style="text-decoration: underline;" target="uni-frame">Participants</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="verified-users" onclick="underlineMe('verified-users')" href="/verified-users" target="uni-frame">Verified</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-danger" id="round1u" onclick="underlineMe('round1u')" href="/round1u" target="uni-frame" title="Ungraded!">Round1-U</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-danger" id="round2u" onclick="underlineMe('round2u')" href="/round2u" target="uni-frame" title="Ungraded!">Round2-U</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-success" id="round1g" onclick="underlineMe('round1g')" href="/round1g" target="uni-frame" title="Ungraded!">Round1-G</a></li>
+            <li style="display: inline-block; padding: 0 25px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-success" id="round2g" onclick="underlineMe('round2g')" href="/round2g" target="uni-frame" title="Ungraded!">Round2-G</a></li>
         </ul>
     </div>
 
     <div>
         <div class="row m-0" id="chat-and-frame" style="width: 100%;">
             <div class="col-2" style="overflow-y: auto; height: 100%;">
-                <h5 class="pt-1 mb-0"><a href="/admin-broadcast" target="uni-frame">Broadcast</a></h5>
+                <h5 class="pt-1 mb-0"><a class="uline" id="broadcast" onclick="underlineMe('broadcast')" href="/admin-broadcast" target="uni-frame">Broadcast</a></h5>
                 <hr class="mb-2 mt-1">
                 <input class="mb-1 w-100" type="text" name="" id="" placeholder="Search Team" onchange="searchChat(this.value);" onkeyup="searchChat(this.value);">
                 <div id="chat-section">

@@ -12,160 +12,6 @@
     <title>Participants</title>
 
     <script>
-        function changeFee(id, userId)
-        {
-            if(document.getElementById(id).innerHTML.includes('text-success'))
-            {
-                document.getElementById('loading').style.display = 'block';
-
-                var body = 'key=' + encodeURIComponent('false') + '&id=' + encodeURIComponent(userId);
-
-                fetch("/changeFee", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'                 
-                    },
-                    body: body
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.message == 'done')
-                    {
-                        document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                    else if(data.message == 'no')
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Cannot change fee status as user has already submitted the abstract!')
-                    }
-                    else
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Error Changing Data')
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('loading').style.display = 'none';
-                    alert('Error Changing Data')
-                })
-                
-            }
-            else
-            {
-                document.getElementById('loading').style.display = 'block';
-
-                var body = 'key=' + encodeURIComponent('true') + '&id=' + encodeURIComponent(userId);
-
-                fetch("/changeFee", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'                 
-                    },
-                    body: body
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.message == 'done')
-                    {
-                        document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                    else
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Error Changing Data')
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('loading').style.display = 'none';
-                    alert('Error Changing Data')
-                })
-            }
-        }
-
-        function changeR1(id, graded2, tn)
-        {
-            if(graded2 == 'true' && !confirm('User is already graded for round 2!\nThis operation will reset round 2 grade of user.\nDo you want to proceed?'))
-            {
-                return;
-            }
-            document.getElementsByName(id)[0].value = '0';
-            document.getElementsByName(tn)[0].value = '0';
-            if(document.getElementById(id).innerHTML.includes('text-success'))
-            {
-                document.getElementById('loading').style.display = 'block';
-
-                var body = 'key=' + encodeURIComponent('false') + '&id=' + encodeURIComponent(id);
-
-                fetch("/changeR1", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'                 
-                    },
-                    body: body
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.message == 'done')
-                    {
-                        document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                    else if(data.message == 'no')
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('User has not submitted the abstract!')
-                    }
-                    else
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Error Changing Data')
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('loading').style.display = 'none';
-                    alert('Error Changing Data')
-                })
-                
-            }
-            else
-            {
-                document.getElementById('loading').style.display = 'block';
-
-                var body = 'key=' + encodeURIComponent('true') + '&id=' + encodeURIComponent(id);
-
-                fetch("/changeR1", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'                 
-                    },
-                    body: body
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.message == 'done')
-                    {
-                        document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                    else if(data.message == 'no')
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('User has not submitted the abstract!')
-                    }
-                    else
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Error Changing Data')
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('loading').style.display = 'none';
-                    alert('Error Changing Data')
-                })
-            }
-        }
 
         function changeR2(id,name)
         {
@@ -193,7 +39,6 @@
                 .then(data => {
                     if(data.message == 'done')
                     {
-                        document.getElementsByClassName(id)[0].setAttribute('disabled','')
                         document.getElementsByName(id)[0].value = Math.round(document.getElementsByName(id)[0].value)
                         document.getElementsByName(name)[0].value = document.getElementsByName(id)[0].value;
                         document.getElementsByName(id)[0].style.background = '#eee';
@@ -275,18 +120,18 @@
     </style>
 
 
-    <div id="loading" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.7); display: none; z-index: 100;">
+    <div id="loading" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background: rgba(71, 38, 38, 0.7); display: none; z-index: 100;">
         <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Sending...</h2></span>
     </div>
 
     <div>
         <input type="text" name="" id="" class="w-100" placeholder="Search Teams..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
-        
-        <% users.forEach(user => {
+        <h5 class="mt-3">Graded Round 2</h5>
+        <% graded.forEach(user => {
             %>
             <div class="row mx-0 my-4 searchTeam" team="<%= user.teamName %>">
 
-                <div class="col-4">
+                <div class="col-6">
                     <%
                     if(user.uploadLink)
                     {
@@ -300,39 +145,7 @@
                     
                 </div>
                 <div class="col-2">
-                    <% if(user.payment)
-                    {
-                        %>Fee: <span id="<%= user.teamName %>"><b class="text-success">Yes</b></span><%
-                    }
-                    else
-                    {
-                        %>Fee: <span id="<%= user.teamName %>"><b class="text-danger">No</b></span><%
-                    } %>
-                    <button class="ml-1" onclick="changeFee('<%= user.teamName %>', '<%= user._id %>')">!</button>
-                </div>
-                <div class="col-2">
-                    <% if(user.submitted)
-                    {
-                        %>Abstract: <b class="text-success">Yes</b><%
-                    }
-                    else
-                    {
-                        %>Abstract: <b class="text-danger">No</b><%
-                    } %>
-                </div>
-                <div class="col-2">
-                    <% if(user.status1)
-                    {
-                        %>R1: <span id="<%= user._id %>"><b class="text-success">Yes</b></span><%
-                    }
-                    else
-                    {
-                        %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
-                    } %>
-                    <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>','<%= user.graded2 %>','<%= user.teamName %>')">!</button>
-                </div>
-                <div class="col-2">
-                    <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" min="0" max="100" step="1" readonly>
+                    <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" min="0" max="100" readonly>
                     <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
                     <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
                 </div>

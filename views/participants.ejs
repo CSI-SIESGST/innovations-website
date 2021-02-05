@@ -84,12 +84,14 @@
             }
         }
 
-        function changeR1(id, graded2)
+        function changeR1(id, graded2, tn)
         {
             if(graded2 == 'true' && !confirm('User is already graded for round 2!\nThis operation will reset round 2 grade of user.\nDo you want to proceed?'))
             {
                 return;
             }
+            document.getElementsByName(id)[0].value = '0';
+            document.getElementsByName(tn)[0].value = '0';
             if(document.getElementById(id).innerHTML.includes('text-success'))
             {
                 document.getElementById('loading').style.display = 'block';
@@ -191,6 +193,7 @@
                 .then(data => {
                     if(data.message == 'done')
                     {
+                        document.getElementsByClassName(id)[0].setAttribute('disabled','')
                         document.getElementsByName(id)[0].value = Math.round(document.getElementsByName(id)[0].value)
                         document.getElementsByName(name)[0].value = document.getElementsByName(id)[0].value;
                         document.getElementsByName(id)[0].style.background = '#eee';
@@ -238,7 +241,7 @@
 
             for(var i=0; i<team.length; i++)
             {
-                if(team[i].getAttribute('team').toLowerCase().startsWith(val.toLowerCase()))
+                if(team[i].getAttribute('team').toLowerCase().trim().startsWith(val.toLowerCase().trim()))
                 {
                     team[i].style.display = 'flex';
                 }
@@ -332,7 +335,7 @@
                     {
                         %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
                     } %>
-                    <button class="ml-1" onclick="changeR1('<%= user._id %>','<%= user.graded2 %>')">!</button>
+                    <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>','<%= user.graded2 %>','<%= user.teamName %>')">!</button>
                 </div>
                 <div class="col-2">
                     <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" min="0" max="100" readonly>

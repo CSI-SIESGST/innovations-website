@@ -322,7 +322,7 @@ app.post('/abstract', (req, res) => {
 			process.env.ADMIN_SESSION_VAL
 	) {
 		generateSignedUrl(req.body.filename).then((url) => {
-			console.log(url);
+			console.log({ url });
 			res.status(200).json({ url });
 		});
 	} else {
@@ -911,25 +911,78 @@ app.get('/verified-users', (req, res) => {
 	}
 });
 
-app.get('/round1s', (req, res) => {
+app.get('/round1u', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (
 		req.session[process.env.ADMIN_SESSION_VAR] &&
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
 	) {
-		User.where({ submitted: true }).find((err, users) => {
+		User.where({ submitted: true, graded1: false }).find((err, users) => {
 			if (err) {
 				res.send('Error');
 			} else {
-				let graded = users.filter((user) => {
-					return user.graded1;
-				});
-				let ungraded = users.filter((user) => {
-					return !user.graded1;
-				});
+				res.render('round1u', { ungraded: users });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
 
-				res.render('round1s', { graded: graded, ungraded: ungraded });
+app.get('/round2u', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.where({ status1: true, graded2: false }).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('round2u', { ungraded: users });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
+app.get('/round1g', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.where({ graded1: true }).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('round1g', { graded: users });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
+app.get('/round2g', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.where({ graded2: true }).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('round2g', { graded: users });
 			}
 		});
 	} else {
