@@ -406,7 +406,7 @@ app.get('/upload', (req, res) => {
 
 app.post('/upload', (req, res) => {
 	console.log(req.user.teamConfirm);
-	if (!req.isAuthenticated()) {
+	if (req.isAuthenticated()) {
 		if (
 			!req.user.verified ||
 			!req.user.payment ||

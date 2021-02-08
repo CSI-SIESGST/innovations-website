@@ -110,6 +110,37 @@
                 }
             }
         }
+
+        function abstractReq(filename) {
+            document.getElementById('loading').style.display = 'block';
+
+            var body = 'filename=' + encodeURIComponent(filename);
+
+            fetch("/abstract", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'                 
+                },
+                body: body
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.url)
+                {
+                    window.open(data.url)
+                    document.getElementById('loading').style.display = 'none';
+                }
+                else
+                {
+                    document.getElementById('loading').style.display = 'none';
+                    alert('Error retrieving abstract!');
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading').style.display = 'none';
+                alert('Error retrieving abstract!');
+            })
+        }
     </script>
 </head>
 <body>
@@ -153,7 +184,7 @@
                     <%
                     if(user.uploadLink)
                     {
-                        %>Team: <a href="<%= user.uploadLink %>" target="_blank"><b><%= user.teamName %></b></a><%
+                        %>Team: <a href="#" onclick="abstractReq('<%= user.uploadLink %>')"><b><%= user.teamName %></b></a><%
                     }
                     else
                     {
