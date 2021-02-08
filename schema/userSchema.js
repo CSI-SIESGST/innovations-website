@@ -92,6 +92,11 @@ const userSchema = new mongoose.Schema({
 	},
 	uploadLink: {
 		type: String
+	},
+	resetPw: {
+		time: Number,
+		code: Number,
+		available: Boolean
 	}
 });
 

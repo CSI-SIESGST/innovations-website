@@ -12,6 +12,7 @@ const admin = require('firebase-admin');
 const formidable = require('formidable');
 
 const verifyEmail = require('./functions/verifyEmail');
+const resetPassword = require('./functions/resetPassword');
 
 require('./db/mongoose');
 const User = require('./schema/userSchema');
@@ -328,7 +329,6 @@ app.post('/abstract', (req, res) => {
 			process.env.ADMIN_SESSION_VAL
 	) {
 		generateSignedUrl(req.body.filename).then((url) => {
-			console.log({ url });
 			res.status(200).json({ url });
 		});
 	} else {
@@ -477,9 +477,93 @@ app.get('/logout', (req, res) => {
 
 app.get('/login', (req, res) => {
 	if (req.isAuthenticated()) {
-		res.redirect('home');
+		res.redirect('/home');
 	} else {
 		res.render('login');
+	}
+});
+
+app.get('/forgot-password', (req, res) => {
+	if (req.isAuthenticated()) {
+		res.redirect('/home');
+	} else if (req.session[process.env.RESET_SESSION_VAR]) {
+		res.render('reset-form');
+	} else {
+		res.render('forgot-password');
+	}
+});
+
+app.post('/forgot-password', async (req, res) => {
+	if (req.isAuthenticated()) {
+		res.redirect('/home');
+	} else {
+		const mailData = {
+			email: req.body.username,
+			code: Math.floor(Math.random() * 900000) + 100000
+		};
+
+		var mailStatus = await resetPassword(mailData);
+
+		if (mailStatus == 1) {
+			req.session[process.env.RESET_SESSION_VAR] = req.body.username;
+		}
+
+		res.send({ message: mailStatus });
+		res.end();
+	}
+});
+
+app.post('/reset-password', async (req, res) => {
+	if (req.isAuthenticated() && req.session[process.env.RESET_SESSION_VAR]) {
+		res.redirect('/home');
+	} else {
+		let patt = new RegExp(
+			'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'
+		);
+		if (
+			req.body.password &&
+			req.body.pwagain &&
+			req.body.code &&
+			req.body.password != '' &&
+			req.body.pwagain != '' &&
+			req.body.code != '' &&
+			req.body.password === req.body.pwagain &&
+			patt.test(req.body.password)
+		) {
+			User.where({
+				username: req.session[process.env.RESET_SESSION_VAR]
+			}).findOne((err, user) => {
+				if (user.resetPw.code == req.body.code) {
+					if (user.resetPw.available) {
+						if (user.resetPw.time + 300000 > new Date().getTime()) {
+							user.setPassword(req.body.password, (error) => {
+								if (error) {
+									res.send({ message: 5 });
+									console.log(error);
+								} else {
+									user.resetPw.available = false;
+									user.save();
+									req.session[
+										process.env.RESET_SESSION_VAR
+									] = null;
+									res.send({ message: 1 });
+								}
+							});
+						} else {
+							req.session[process.env.RESET_SESSION_VAR] = null;
+							res.send({ message: 4 });
+						}
+					} else {
+						req.session[process.env.RESET_SESSION_VAR] = null;
+						res.send({ message: 3 });
+					}
+				} else {
+					res.send({ message: 2 });
+				}
+			});
+		} else {
+			res.send({ message: 0 });
+		}
 	}
 });
 
