@@ -28,7 +28,7 @@
 		"express": "^4.17.1",
 		"express-rate-limit": "^5.2.5",
 		"express-session": "^1.17.1",
-		"firebase-admin": "^9.4.2",
+		"firebase-admin": "^9.5.0",
 		"formidable": "^1.2.2",
 		"mongoose": "^5.11.15",
 		"mongoose-findorcreate": "^3.0.0",
