@@ -150,10 +150,10 @@
             var msg = document.getElementById('input').value.trim();
             if(msg.length>0)
             {
-                msg = htmlEntities(msg);
+                //msg = htmlEntities(msg);
 
-                socket.emit('msg-to-admin', '<%= chat.teamName %>', msg.split('\n').join('<br>'), '<%= chat._id %>', (time) => {
-                    sendAck(msg.split('\n').join('<br>'), time.time);
+                socket.emit('msg-to-admin', '<%= chat.teamName %>', msg, '<%= chat._id %>', (time) => {
+                    sendAck(htmlEntities(msg).replace(/(\r\n|\n)/g, "<br/>"), time.time);
                 })
 
                 document.getElementById('loading').style.display = 'block';

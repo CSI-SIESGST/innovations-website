@@ -195,8 +195,8 @@
             {
                 msg = htmlEntities(msg)
 
-                socket.emit('msg-to-user', '<%= chat.teamName %>', msg.split('\n').join('<br>'), '<%= chat._id %>', (time) => {
-                    sendAck(msg.split('\n').join('<br>'), time.time);
+                socket.emit('msg-to-user', '<%= chat.teamName %>', msg.replace(/(\r\n|\n)/g, "<br/>"), '<%= chat._id %>', (time) => {
+                    sendAck(msg.replace(/(\r\n|\n)/g, "<br/>"), time.time);
                 });
 
                 document.getElementById('loading').style.display = 'block';

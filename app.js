@@ -162,14 +162,21 @@ io.on('connection', (socket) => {
 
 				callback({ time: time });
 
+				let fmsg = String(message)
+					.replace(/&/g, '&amp;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;')
+					.replace(/"/g, '&quot;')
+					.replace(/(\r\n|\n)/g, '<br/>');
+
 				// eslint-disable-next-line no-undef
 				socket
 					.to(process.env.ADMIN_ROOM)
-					.emit('new-msg', teamName, message, time);
+					.emit('new-msg', teamName, fmsg, time);
 
 				chat.messages.push({
 					time: time,
-					message: message,
+					message: fmsg,
 					sender: false
 				});
 				chat.adminUnread = true;
@@ -576,7 +583,6 @@ app.get('/verify', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-	console.log(req.body);
 	if (req.isAuthenticated()) {
 		res.redirect('/home');
 	} else if (
