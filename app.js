@@ -645,13 +645,18 @@ app.post('/signup', (req, res) => {
 			'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'
 		);
 		if (patt.test(req.body.password)) {
+			let ftn = String(req.body.team)
+				.replace(/&/g, '&amp;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;');
 			User.register(
 				{
 					username: req.body.username,
 					leaderName: req.body.leadername,
 					leaderCollege: req.body.college,
 					leaderContact: req.body.contact,
-					teamName: req.body.team,
+					teamName: ftn,
 					verified: false,
 					teamMembers: []
 				},
