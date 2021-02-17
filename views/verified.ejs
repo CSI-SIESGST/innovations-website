@@ -338,8 +338,11 @@
                     else
                     {
                         %>Fee: <span id="<%= user.teamName %>"><b class="text-danger">No</b></span><%
-                    } %>
-                    <button class="ml-1" onclick="changeFee('<%= user.teamName %>', '<%= user._id %>')">!</button>
+                    }
+                    if(!user.submitted && user.teamConfirm) { %>
+                        <button class="ml-1" onclick="changeFee('<%= user.teamName %>', '<%= user._id %>')">!</button>
+                    <% } %>
+                    
                 </div>
                 <div class="col-2">
                     <% if(user.submitted)
@@ -359,13 +362,19 @@
                     else
                     {
                         %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
-                    } %>
-                    <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>','<%= user.graded2 %>','<%= user.teamName %>')">!</button>
+                    }
+                    if(user.submitted) { %>
+                        <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>','<%= user.graded2 %>','<%= user.teamName %>')">!</button>
+                    <% } %>
+                    
                 </div>
                 <div class="col-2">
                     <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" min="0" max="100" step="1" readonly>
                     <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
-                    <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
+                    <% if(user.status1) { %>
+                        <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
+                    <% } %>
+                    
                 </div>
                 <div class="col-12">
                     
