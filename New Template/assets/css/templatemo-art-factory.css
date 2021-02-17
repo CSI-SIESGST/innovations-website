@@ -804,8 +804,8 @@ TRY IT ... with or without CENTER CENTER
 		margin-bottom: 100px;
 	}
 	.welcome-area .header-text {
-		top: 30% !important;
-		transform: perspective(1px) translateY(-50%) !important;
+		top: 55% !important;
+		transform: perspective(1px) translateY(-30%) !important;
 		text-align: center;
 	}
 	.welcome-area .header-text .buttons {
