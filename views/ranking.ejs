@@ -37,12 +37,15 @@
 
     <input type="text" name="" id="" class="w-100 mb-2" placeholder="Search Teams..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
 
-    <% users.forEach(user => {
+    <%
+    let i = 1;
+    users.forEach(user => {
         %>
         <div class="searchTeam my-1" team="<%= user.teamName %>">
-            <%= user.teamName %> - <%= user.status2 %>
+            <%= i %>. <%= user.teamName %> - <%= user.status2 %>
         </div>
         <%
+        i++;
     }); %>
 </body>
 </html>
