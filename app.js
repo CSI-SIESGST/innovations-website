@@ -879,6 +879,32 @@ app.get('/admin-panel', (req, res) => {
 	}
 });
 
+app.get('/ranking', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.find({ graded2: true }).sort({status2: -1}).exec((err,users)=>{
+			if(err)
+			{
+				res.status(500).send('There was an error!');
+			}
+			else if(users)
+			{
+				res.render('ranking', {users: users})
+			}
+			else
+			{
+				res.status(500).send('There was an error!');
+			}
+		});
+	} else {
+		res.status(401).send('Unauthorised!');
+	}
+});
+
 app.get('/chats/:chatId', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (
