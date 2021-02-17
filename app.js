@@ -351,13 +351,30 @@ app.post('/members', (req, res) => {
 		} else if (req.user.teamConfirm) {
 			res.status(401);
 		} else {
-			const num = req.body.num;
+			const num = parseInt(req.body.num);
+
 			for (let i = 2; i <= num; i++) {
 				req.user.teamMembers.push({
-					name: req.body['name' + i],
-					email: req.body['email' + i],
-					contact: req.body['contact' + i],
-					college: req.body['college' + i]
+					name: String(req.body['name' + i])
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;'),
+					email: String(req.body['email' + i])
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;'),
+					contact: String(req.body['contact' + i])
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;'),
+					college: String(req.body['college' + i])
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;')
 				});
 			}
 			req.user.teamConfirm = true;
@@ -645,18 +662,33 @@ app.post('/signup', (req, res) => {
 			'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'
 		);
 		if (patt.test(req.body.password)) {
-			let ftn = String(req.body.team)
-				.replace(/&/g, '&amp;')
-				.replace(/</g, '&lt;')
-				.replace(/>/g, '&gt;')
-				.replace(/"/g, '&quot;');
 			User.register(
 				{
-					username: req.body.username,
-					leaderName: req.body.leadername,
-					leaderCollege: req.body.college,
-					leaderContact: req.body.contact,
-					teamName: ftn,
+					username: String(req.body.username)
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;'),
+					leaderName: String(req.body.leadername)
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;'),
+					leaderCollege: String(req.body.college)
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;'),
+					leaderContact: String(req.body.contact)
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;'),
+					teamName: String(req.body.team)
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;'),
 					verified: false,
 					teamMembers: []
 				},
@@ -886,20 +918,17 @@ app.get('/ranking', (req, res) => {
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
 	) {
-		User.find({ graded2: true }).sort({status2: -1}).exec((err,users)=>{
-			if(err)
-			{
-				res.status(500).send('There was an error!');
-			}
-			else if(users)
-			{
-				res.render('ranking', {users: users})
-			}
-			else
-			{
-				res.status(500).send('There was an error!');
-			}
-		});
+		User.find({ graded2: true })
+			.sort({ status2: -1 })
+			.exec((err, users) => {
+				if (err) {
+					res.status(500).send('There was an error!');
+				} else if (users) {
+					res.render('ranking', { users: users });
+				} else {
+					res.status(500).send('There was an error!');
+				}
+			});
 	} else {
 		res.status(401).send('Unauthorised!');
 	}
