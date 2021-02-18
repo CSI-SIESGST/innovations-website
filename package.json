@@ -30,7 +30,7 @@
 		"express-session": "^1.17.1",
 		"firebase-admin": "^9.5.0",
 		"formidable": "^1.2.2",
-		"mongoose": "^5.11.16",
+		"mongoose": "^5.11.17",
 		"mongoose-findorcreate": "^3.0.0",
 		"passport": "^0.4.1",
 		"passport-local": "^1.0.0",
