@@ -442,20 +442,26 @@ app.post('/upload', (req, res) => {
 			var form = new formidable.IncomingForm();
 			form.parse(req, function (err, fields, files) {
 				if (files.file) {
-					uploadFile(
-						files.file.path,
-						req.user.teamName + '_abstract.pdf'
-					)
-						.then(() => {
-							req.user.submitted = true;
-							req.user.uploadLink =
-								req.user.teamName + '_abstract.pdf';
-							req.user.save();
-							res.status(200).json({ message: 'done' });
-						})
-						.catch(console.error);
+					if (files.file.type != 'application/pdf') {
+						res.status(400).json({
+							message: 'file must be of type pdf'
+						});
+					} else {
+						uploadFile(
+							files.file.path,
+							req.user.teamName + '_abstract.pdf'
+						)
+							.then(() => {
+								req.user.submitted = true;
+								req.user.uploadLink =
+									req.user.teamName + '_abstract.pdf';
+								req.user.save();
+								res.status(200).json({ message: 'done' });
+							})
+							.catch(console.error);
+					}
 				} else {
-					res.status(400).json({ msg: 'no file attached' });
+					res.status(400).json({ message: 'no file attached' });
 				}
 			});
 		}
