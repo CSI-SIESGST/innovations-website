@@ -6,6 +6,17 @@
 		<meta name="viewport" content="width = device-width, initial-scale=1" />
 		<link
 			rel="stylesheet"
+			type="text/css"
+			href="assets/css/bootstrap.min.css"
+		/>
+		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="assets/css/templatemo-art-factory.css"
+		/>
+		<link
+			rel="stylesheet"
 			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 		/>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -15,6 +26,10 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" />
 		<link
 			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
 			rel="stylesheet"
 		/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
@@ -68,7 +83,37 @@
 
 	<body>
 		<!--Navbar-->
-		<nav class="navbar navbar-expand-md">
+		<header class="header-area header-sticky" style="height: auto; box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06)">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<nav class="main-nav";">
+							<a href="/" class="logo" style="color: #3f3d56;">INNOVATIONS</a>
+							<!-- Navbar -->
+							<ul class="nav">
+								<li class="scroll-to-section" style="color: #3f3d56;">
+									<a href="#" class="active">Home</a>
+								</li>
+								<!-- <li class="scroll-to-section"><a href="#about" style="color: #3f3d56;">About</a></li>
+								<li class="scroll-to-section">
+									<a href="#services">INNOVATIONS 2020</a>
+								</li>
+								<li class="scroll-to-section">
+									<a href="#frequently-question">FAQs</a>
+								</li> -->
+								<li class="scroll-to-section">
+									<a href="/logout" style="color: #3f3d56;">Logout</a>
+								</li>
+							</ul>
+							<a class="menu-trigger">
+								<span>Menu</span>
+							</a>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- <nav class="navbar navbar-expand-md">
 			<div class="container">
 				<a href="#" class="navbar-brand mr-auto"> LOGO </a>
 				<button
@@ -104,7 +149,8 @@
 					</ul>
 				</div>
 			</div>
-		</nav>
+		</nav> -->
+		<div style="padding: 50px;"></div>
 
 		<div id="chat-active" style="display: none; z-index: 5; top: 0; left: 0;" class="position-fixed w-100 h-100"></div>
 
