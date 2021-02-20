@@ -12,8 +12,16 @@
     <title>Participants</title>
 
     <script>
-        function changeFee(id, userId)
+        function changeFee(id, userId, graded)
         {
+            if(graded == 'true' && !confirm('User is already been graded for round 2.\nDo you want to reset his round 2 grades?'))
+            {
+                return;
+            }
+
+            document.getElementsByName(userId)[0].value = 0;
+            document.getElementsByName(id)[0].value = 0;
+
             if(document.getElementById(id).innerHTML.includes('text-success'))
             {
                 document.getElementById('loading').style.display = 'block';
@@ -34,10 +42,10 @@
                         document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
                         document.getElementById('loading').style.display = 'none';
                     }
-                    else if(data.message == 'no')
+                    else if(data.message == 'nope')
                     {
                         document.getElementById('loading').style.display = 'none';
-                        alert('Cannot change fee status as user has already submitted the abstract!')
+                        alert('Cannot change fee status as user has already not qualified round 1')
                     }
                     else
                     {
@@ -71,6 +79,11 @@
                         document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
                         document.getElementById('loading').style.display = 'none';
                     }
+                    else if(data.message == 'nope')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('Cannot change fee status as user has already not qualified round 1')
+                    }
                     else
                     {
                         document.getElementById('loading').style.display = 'none';
@@ -84,14 +97,8 @@
             }
         }
 
-        function changeR1(id, graded2, tn)
+        function changeR1(id)
         {
-            if(graded2 == 'true' && !confirm('User is already graded for round 2!\nThis operation will reset round 2 grade of user.\nDo you want to proceed?'))
-            {
-                return;
-            }
-            document.getElementsByName(id)[0].value = '0';
-            document.getElementsByName(tn)[0].value = '0';
             if(document.getElementById(id).innerHTML.includes('text-success'))
             {
                 document.getElementById('loading').style.display = 'block';
@@ -111,6 +118,11 @@
                     {
                         document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
                         document.getElementById('loading').style.display = 'none';
+                    }
+                    else if(data.message == 'nope')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has already paid the fee!')
                     }
                     else if(data.message == 'no')
                     {
@@ -148,6 +160,11 @@
                     {
                         document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
                         document.getElementById('loading').style.display = 'none';
+                    }
+                    else if(data.message == 'nope')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has already paid the fee!')
                     }
                     else if(data.message == 'no')
                     {
@@ -206,7 +223,7 @@
                         document.getElementsByName(id)[0].style.background = '#eee';
                         document.getElementsByName(id)[0].setAttribute('readonly', '');
                         document.getElementById('loading').style.display = 'none';
-                        alert('User has not been selected in round 2!')
+                        alert('User has not paid the fee yet!')
                     }
                     else
                     {
@@ -336,20 +353,7 @@
                     } %>
                     
                 </div>
-                <div class="col-2">
-                    <% if(user.payment)
-                    {
-                        %>Fee: <span id="<%= user.teamName %>"><b class="text-success">Yes</b></span><%
-                    }
-                    else
-                    {
-                        %>Fee: <span id="<%= user.teamName %>"><b class="text-danger">No</b></span><%
-                    }
-                    if(!user.submitted && user.teamConfirm) { %>
-                        <button class="ml-1" onclick="changeFee('<%= user.teamName %>', '<%= user._id %>')">!</button>
-                    <% } %>
-
-                </div>
+                
                 <div class="col-2">
                     <% if(user.submitted)
                     {
@@ -370,14 +374,35 @@
                         %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
                     }
                     if(user.submitted) { %>
-                        <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>','<%= user.graded2 %>','<%= user.teamName %>')">!</button>
+                        <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>')">!</button>
                     <% } %>
 
                 </div>
+
+                <div class="col-2">
+                    <%
+                    if(!user.status1)
+                    {
+                        %>Fee: <span id="<%= user.teamName %>"><b class="text-primary">NA</b></span><%
+                    }
+                    else if(user.payment)
+                    {
+                        %>Fee: <span id="<%= user.teamName %>"><b class="text-success">Yes</b></span><%
+                    }
+                    else
+                    {
+                        %>Fee: <span id="<%= user.teamName %>"><b class="text-danger">No</b></span><%
+                    }
+                    if(user.status1) { %>
+                        <button class="ml-1" onclick="changeFee('<%= user.teamName %>', '<%= user._id %>', '<%= user.graded2 %>')">!</button>
+                    <% } %>
+
+                </div>
+
                 <div class="col-2">
                     <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" min="0" max="100" readonly>
                     <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
-                    <% if(user.status1) { %>
+                    <% if(user.payment && user.status1) { %>
                         <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
                     <% } %>
                 </div>

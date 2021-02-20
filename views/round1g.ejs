@@ -13,12 +13,8 @@
 
     <script>
 
-        function changeR1(id, graded2)
+        function changeR1(id)
         {
-            if(graded2 == 'true' && !confirm('User is already graded for round 2!\nThis operation will reset round 2 grade of user.\nDo you want to proceed?'))
-            {
-                return;
-            }
             if(document.getElementById(id).innerHTML.includes('text-success'))
             {
                 document.getElementById('loading').style.display = 'block';
@@ -38,6 +34,11 @@
                     {
                         document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
                         document.getElementById('loading').style.display = 'none';
+                    }
+                    else if(data.message == 'nope')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has already paid the fee!')
                     }
                     else if(data.message == 'no')
                     {
@@ -75,6 +76,11 @@
                     {
                         document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
                         document.getElementById('loading').style.display = 'none';
+                    }
+                    else if(data.message == 'nope')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has already paid the fee!')
                     }
                     else if(data.message == 'no')
                     {
@@ -203,7 +209,7 @@
                     {
                         %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
                     } %>
-                    <button class="ml-1" onclick="changeR1('<%= user._id %>','<%= user.graded2 %>')">!</button>
+                    <button class="ml-1" onclick="changeR1('<%= user._id %>')">!</button>
                 </div>
                 <div class="col-12">
                     

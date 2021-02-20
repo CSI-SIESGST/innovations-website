@@ -37,6 +37,11 @@
                         alert('Graded!')
                         document.getElementById('loading').style.display = 'none';
                     }
+                    else if(data.message == 'nope')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has already paid the fee!')
+                    }
                     else if(data.message == 'no')
                     {
                         document.getElementById('loading').style.display = 'none';
@@ -74,6 +79,11 @@
                         document.getElementsByClassName(tn)[0].remove();
                         alert('Graded!')
                         document.getElementById('loading').style.display = 'none';
+                    }
+                    else if(data.message == 'nope')
+                    {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('User has already paid the fee!')
                     }
                     else if(data.message == 'no')
                     {

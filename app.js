@@ -431,12 +431,7 @@ app.get('/upload', (req, res) => {
 app.post('/upload', (req, res) => {
 	console.log(req.user.teamConfirm);
 	if (req.isAuthenticated()) {
-		if (
-			!req.user.verified ||
-			!req.user.payment ||
-			!req.user.teamConfirm ||
-			req.user.submitted
-		) {
+		if (!req.user.verified || !req.user.teamConfirm || req.user.submitted) {
 			res.status(401).end();
 		} else {
 			var form = new formidable.IncomingForm();
@@ -1074,13 +1069,15 @@ app.get('/round2u', (req, res) => {
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
 	) {
-		User.where({ status1: true, graded2: false }).find((err, users) => {
-			if (err) {
-				res.send('Error');
-			} else {
-				res.render('round2u', { ungraded: users });
+		User.where({ payment: true, graded2: false, status1: true }).find(
+			(err, users) => {
+				if (err) {
+					res.send('Error');
+				} else {
+					res.render('round2u', { ungraded: users });
+				}
 			}
-		});
+		);
 	} else {
 		res.status(401);
 		res.end('Unauthorised');
@@ -1191,12 +1188,14 @@ app.post('/changeFee', (req, res) => {
 				console.log(err);
 				res.send('Error');
 			} else {
-				if (!user.submitted) {
+				if (user.status1) {
 					user.payment = key;
+					user.graded2 = false;
+					user.status2 = 0;
 					user.save();
 					res.send({ message: 'done' });
 				} else {
-					res.send({ message: 'no' });
+					res.send({ message: 'nope' });
 				}
 			}
 		});
@@ -1224,13 +1223,13 @@ app.post('/changeR1', (req, res) => {
 				console.log(err);
 				res.send('Error');
 			} else {
-				if (!key || user.submitted) {
-					user.graded2 = false;
-					user.status2 = 0;
+				if ((!key || user.submitted) && !user.payment) {
 					user.graded1 = true;
 					user.status1 = key;
 					user.save();
 					res.send({ message: 'done' });
+				} else if (user.payment) {
+					res.send({ message: 'nope' });
 				} else {
 					res.send({ message: 'no' });
 				}
@@ -1256,7 +1255,7 @@ app.post('/changeR2', (req, res) => {
 				console.log(err);
 				res.send('Error');
 			} else {
-				if (user.status1) {
+				if (user.payment && user.status1) {
 					user.graded2 = true;
 					user.status2 = key;
 					user.save();

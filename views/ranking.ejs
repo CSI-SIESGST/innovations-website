@@ -29,9 +29,44 @@
                 }
             }
         }
+
+        function abstractReq(filename) {
+            document.getElementById('loading').style.display = 'block';
+
+            var body = 'filename=' + encodeURIComponent(filename);
+
+            fetch("/abstract", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'                 
+                },
+                body: body
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.url)
+                {
+                    window.open(data.url)
+                    document.getElementById('loading').style.display = 'none';
+                }
+                else
+                {
+                    document.getElementById('loading').style.display = 'none';
+                    alert('Error retrieving abstract!');
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading').style.display = 'none';
+                alert('Error retrieving abstract!');
+            })
+        }
     </script>
 </head>
 <body>
+
+    <div id="loading" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.7); display: none; z-index: 100;">
+        <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Sending...</h2></span>
+    </div>
 
     <h5 class="my-3">Ranking</h5>
 
@@ -42,7 +77,7 @@
     users.forEach(user => {
         %>
         <div class="searchTeam my-1" team="<%= user.teamName %>">
-            <%= i %>. <%= user.teamName %> - <%= user.status2 %>
+            <%= i %>. <a href="#" onclick="abstractReq('<%= user.uploadLink %>')"><b><%= user.teamName %></b></a> - <%= user.status2 %>
         </div>
         <%
         i++;
