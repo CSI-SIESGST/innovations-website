@@ -1048,6 +1048,46 @@ app.get('/verified-users', (req, res) => {
 	}
 });
 
+app.get('/unpaid', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.where({ status1: true, payment: false }).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('unpaid', { unpaid: users });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
+app.get('/paid', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		User.where({ status1: true, payment: true }).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('paid', { paid: users });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
 app.get('/round1u', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (

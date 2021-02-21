@@ -42,28 +42,30 @@
 </head>
 <body style="margin: 0; padding: 0; scroll-behavior: smooth;">
 
-    <div style="height: 40px; padding-top: 10px; text-align: right;">
+    <div style="height: 45px; padding-top: 10px; text-align: right;">
         <ul style="list-style: none;" class="mb-0 pl-0 pr-5">
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="delete-broadcast" onclick="underlineMe('delete-broadcast')" href="/delete-broadcast" target="uni-frame">Delete Broadcast</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-dark" id="logs" onclick="underlineMe('logs')" href="/logs" target="uni-frame">Logs</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="participants" onclick="underlineMe('participants')" href="/participants" style="text-decoration: underline;" target="uni-frame">Participants</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="delete-broadcast" onclick="underlineMe('delete-broadcast')" href="/delete-broadcast" target="uni-frame">Delete Broadcast</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="verified-users" onclick="underlineMe('verified-users')" href="/verified-users" target="uni-frame">Verified</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="participants" onclick="underlineMe('participants')" href="/participants" style="text-decoration: underline;" target="uni-frame">Participants</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-danger" id="round1u" onclick="underlineMe('round1u')" href="/round1u" target="uni-frame" title="Ungraded!">Round1-U</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="verified-users" onclick="underlineMe('verified-users')" href="/verified-users" target="uni-frame">Verified</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-success" id="round1g" onclick="underlineMe('round1g')" href="/round1g" target="uni-frame" title="Graded!">Round1-G</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-danger" id="round1u" onclick="underlineMe('round1u')" href="/round1u" target="uni-frame" title="Ungraded!">Round1-U</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-danger" id="unpaid" onclick="underlineMe('unpaid')" href="/unpaid" target="uni-frame" title="Fee Pending!">Unpaid</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-success" id="round1g" onclick="underlineMe('round1g')" href="/round1g" target="uni-frame" title="Graded!">Round1-G</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-success" id="paid" onclick="underlineMe('paid')" href="/paid" target="uni-frame" title="Fee Paid!">Paid</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-danger" id="unpaid" onclick="underlineMe('unpaid')" href="/unpaid" target="uni-frame" title="Fee Pending!">Unpaid</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-danger" id="round2u" onclick="underlineMe('round2u')" href="/round2u" target="uni-frame" title="Ungraded!">Round2-U</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-success" id="paid" onclick="underlineMe('paid')" href="/paid" target="uni-frame" title="Fee Paid!">Paid</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-success" id="round2g" onclick="underlineMe('round2g')" href="/round2g" target="uni-frame" title="Graded!">Round2-G</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-danger" id="round2u" onclick="underlineMe('round2u')" href="/round2u" target="uni-frame" title="Ungraded!">Round2-U</a></li>
 
-            <li style="display: inline-block; padding: 0 15px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="ranking" onclick="underlineMe('ranking')" href="/ranking" target="uni-frame">Ranking</a></li>
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline text-success" id="round2g" onclick="underlineMe('round2g')" href="/round2g" target="uni-frame" title="Graded!">Round2-G</a></li>
+
+            <li style="display: inline-block; padding: 0 13px; font-size: 16px; line-height: 20px; text-align: center;"><a class="uline" id="ranking" onclick="underlineMe('ranking')" href="/ranking" target="uni-frame">Ranking</a></li>
 
         </ul>
     </div>
@@ -76,16 +78,16 @@
                 <input class="mb-1 w-100" type="text" name="" id="" placeholder="Search Team" onchange="searchChat(this.value);" onkeyup="searchChat(this.value);">
                 <div id="chat-section">
                     <% chats.forEach(chat => {
-                        %><div class="teamChat" id="<%= chat.teamName %>" title="<%= chat._id %>">
+                        %><div class="teamChat" id="<%= chat.teamName %>" onclick="underlineMe('nope')" title="<%= chat._id %>">
                             <a target="uni-frame" onclick="document.getElementById('<%= chat._id %>').style.fontWeight = 'normal'; socket.emit('admin-read', '<%= chat._id %>');" href="/chats/<%= chat._id %>">
                                 <p class="mb-1">
                                     <% if(chat.adminUnread) 
                                     {%>
-                                        <span style="font-weight: bold;" onclick="underlineMe('nope')" id="<%= chat._id %>"><%= chat.teamName %></span>
+                                        <span style="font-weight: bold;" id="<%= chat._id %>"><%= chat.teamName %></span>
                                     <%}
                                     else
                                     {%>
-                                        <span style="font-weight: normal;" onclick="underlineMe('nope')" id="<%= chat._id %>"><%= chat.teamName %></span>
+                                        <span style="font-weight: normal;" id="<%= chat._id %>"><%= chat.teamName %></span>
                                     <%}%>
                                 </p>
                             </a>
@@ -105,9 +107,9 @@
 
     <script type="text/javascript">
         window.onresize = () => {
-            document.getElementById('chat-and-frame').style.height = (window.innerHeight - 70) + 'px';
+            document.getElementById('chat-and-frame').style.height = (window.innerHeight - 45) + 'px';
         }
-        document.getElementById('chat-and-frame').style.height = (window.innerHeight - 70) + 'px';
+        document.getElementById('chat-and-frame').style.height = (window.innerHeight - 45) + 'px';
     </script>
 
 
