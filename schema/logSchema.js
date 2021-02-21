@@ -2,13 +2,10 @@ const mongoose = require('mongoose');
 
 const logSchema = new mongoose.Schema({
 	time: Number,
-	message: String,
-	sender: {
-		type: Boolean,
-		default: true
-	}
+	trigger: Boolean,
+	event: String
 });
 
-const Log = new mongoose.model('Broadcast', logSchema);
+const Log = new mongoose.model('Log', logSchema);
 
 module.exports = Log;

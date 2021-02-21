@@ -15,9 +15,12 @@ const verifyEmail = require('./functions/verifyEmail');
 const resetPassword = require('./functions/resetPassword');
 
 require('./db/mongoose');
+
 const User = require('./schema/userSchema');
 const Chat = require('./schema/chatSchema');
 const Broadcast = require('./schema/broadcastSchema');
+const Log = require('./schema/logSchema');
+
 const serviceAccount = {
 	type: 'service_account',
 	project_id: process.env.PROJECT_ID,
@@ -335,6 +338,15 @@ app.post('/abstract', (req, res) => {
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
 	) {
+		let log = new Log({
+			time: new Date().getTime(),
+			trigger: true,
+			event:
+				'Admin viewed abstract named <b>' + req.body.filename + '</b>'
+		});
+
+		log.save();
+
 		generateSignedUrl(req.body.filename).then((url) => {
 			res.status(200).json({ url });
 		});
@@ -377,6 +389,14 @@ app.post('/members', (req, res) => {
 						.replace(/"/g, '&quot;')
 				});
 			}
+
+			let log = new Log({
+				time: new Date().getTime(),
+				trigger: false,
+				event: '<b>' + req.user.teamName + '</b> confirmed their team!'
+			});
+			log.save();
+
 			req.user.teamConfirm = true;
 			req.user.save();
 			res.send({ message: 'done' });
@@ -451,6 +471,17 @@ app.post('/upload', (req, res) => {
 								req.user.uploadLink =
 									req.user.teamName + '_abstract.pdf';
 								req.user.save();
+
+								let log = new Log({
+									time: new Date().getTime(),
+									trigger: false,
+									event:
+										'<b>' +
+										req.user.teamName +
+										'</b> uploaded their abstract!'
+								});
+								log.save();
+
 								res.status(200).json({ message: 'done' });
 							})
 							.catch(console.error);
@@ -533,6 +564,16 @@ app.post('/forgot-password', async (req, res) => {
 			req.session[process.env.RESET_SESSION_VAR] = req.body.username;
 		}
 
+		let log = new Log({
+			time: new Date().getTime(),
+			trigger: false,
+			event:
+				'<b>' +
+				req.body.username +
+				'</b> requested forgot password email!'
+		});
+		log.save();
+
 		res.send({ message: mailStatus });
 		res.end();
 	}
@@ -571,6 +612,19 @@ app.post('/reset-password', async (req, res) => {
 									req.session[
 										process.env.RESET_SESSION_VAR
 									] = null;
+
+									let log = new Log({
+										time: new Date().getTime(),
+										trigger: false,
+										event:
+											'<b>' +
+											req.session[
+												process.env.RESET_SESSION_VAR
+											] +
+											'</b> reset their password!'
+									});
+									log.save();
+
 									res.send({ message: 1 });
 								}
 							});
@@ -621,6 +675,13 @@ app.post('/login', (req, res) => {
 				res.send({ message: 'Incorrect Email Address or Password' });
 			} else {
 				passport.authenticate('local')(req, res, () => {
+					let log = new Log({
+						time: new Date().getTime(),
+						trigger: false,
+						event: '<b>' + req.body.username + '</b> logged in!'
+					});
+					log.save();
+
 					res.send({ message: 'done' });
 				});
 			}
@@ -774,6 +835,16 @@ app.post('/signup', (req, res) => {
 						);
 
 						passport.authenticate('local')(req, res, () => {
+							let log = new Log({
+								time: new Date().getTime(),
+								trigger: false,
+								event:
+									'<b>' +
+									req.user.teamName +
+									'</b> registered!'
+							});
+							log.save();
+
 							res.send({ message: 'done' });
 						});
 					}
@@ -814,17 +885,28 @@ app.get('/verifymail', (req, res) => {
 
 	User.where({ username: email }).findOne((err, user) => {
 		if (err) {
-			res.status(404);
+			res.status(500);
 			res.end('Server Error!');
-		} else {
+		} else if (user) {
 			if (user.verified) {
 				res.redirect('/home');
 				res.end();
 			} else {
 				user.verified = true;
 				user.save();
+
+				let log = new Log({
+					time: new Date().getTime(),
+					trigger: false,
+					event: '<b>' + email + '</b> verified email successfully!'
+				});
+				log.save();
+
 				res.redirect('/login');
 			}
+		} else {
+			res.status(500);
+			res.end('Server Error!');
 		}
 	});
 });
@@ -847,6 +929,16 @@ app.post('/resend-verification', async (req, res) => {
 		};
 
 		var mailStatus = await verifyEmail(mailData);
+
+		let log = new Log({
+			time: new Date().getTime(),
+			trigger: false,
+			event:
+				'<b>' +
+				req.user.teamName +
+				'</b> requested resending email verification link!'
+		});
+		log.save();
 
 		res.send({ message: mailStatus });
 		res.end();
@@ -875,6 +967,14 @@ app.post('/csi-admin-login', (req, res) => {
 		// eslint-disable-next-line no-undef
 		req.session[process.env.ADMIN_SESSION_VAR] =
 			process.env.ADMIN_SESSION_VAL;
+
+		let log = new Log({
+			time: new Date().getTime(),
+			trigger: true,
+			event: 'Admin login.'
+		});
+		log.save();
+
 		res.redirect('/admin-panel');
 	} else {
 		res.redirect('/csi-admin-login');
@@ -931,7 +1031,8 @@ app.get('/ranking', (req, res) => {
 				}
 			});
 	} else {
-		res.status(401).send('Unauthorised!');
+		res.status(401);
+		res.end('Unauthorised');
 	}
 });
 
@@ -955,7 +1056,8 @@ app.get('/chats/:chatId', (req, res) => {
 			}
 		});
 	} else {
-		res.redirect('/csi-admin-login');
+		res.status(401);
+		res.end('Unauthorised');
 	}
 });
 
@@ -974,6 +1076,63 @@ app.get('/user-chat', (req, res) => {
 	}
 });
 
+app.get('/admin-logout', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		// eslint-disable-next-line no-undef
+		req.session[process.env.ADMIN_SESSION_VAR] = null;
+
+		res.redirect('/');
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
+app.get('/logs-user', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		Log.where({ trigger: false }).find((err, logs) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('logs', { logs: logs, trigger: 'User' });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
+app.get('/logs-admin', (req, res) => {
+	// eslint-disable-next-line no-undef
+	if (
+		req.session[process.env.ADMIN_SESSION_VAR] &&
+		req.session[process.env.ADMIN_SESSION_VAR] ==
+			process.env.ADMIN_SESSION_VAL
+	) {
+		Log.where({ trigger: true }).find((err, logs) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('logs', { logs: logs, trigger: 'User' });
+			}
+		});
+	} else {
+		res.status(401);
+		res.end('Unauthorised');
+	}
+});
+
 app.get('/admin-broadcast', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (
@@ -984,7 +1143,8 @@ app.get('/admin-broadcast', (req, res) => {
 		// eslint-disable-next-line no-undef
 		res.render('broadcast', { broadcast: process.env.ADMIN_BROADCAST });
 	} else {
-		res.redirect('/csi-admin-login');
+		res.status(401);
+		res.end('Unauthorised');
 	}
 });
 
@@ -1191,6 +1351,13 @@ app.post('/delete-broadcast', (req, res) => {
 						if (err) {
 							res.send({ message: 'no' });
 						} else {
+							let log = new Log({
+								time: new Date().getTime(),
+								trigger: true,
+								event:
+									'Admin deleted broadcast message <b>with</b> evidence!'
+							});
+							log.save();
 							res.send({ message: 'done' });
 						}
 					}
@@ -1204,6 +1371,14 @@ app.post('/delete-broadcast', (req, res) => {
 						if (err) {
 							res.send({ message: 'no' });
 						} else {
+							let log = new Log({
+								time: new Date().getTime(),
+								trigger: true,
+								event:
+									'Admin deleted broadcast message <b>without</b> evidence!'
+							});
+							log.save();
+
 							res.send({ message: 'done' });
 						}
 					}
@@ -1239,6 +1414,19 @@ app.post('/changeFee', (req, res) => {
 					user.graded2 = false;
 					user.status2 = 0;
 					user.save();
+
+					let log = new Log({
+						time: new Date().getTime(),
+						trigger: true,
+						event:
+							'Admin changed payment status of <b>' +
+							user.teamName +
+							'</b> to <b>' +
+							req.body.key +
+							'</b>'
+					});
+					log.save();
+
 					res.send({ message: 'done' });
 				} else {
 					res.send({ message: 'nope' });
@@ -1273,6 +1461,19 @@ app.post('/changeR1', (req, res) => {
 					user.graded1 = true;
 					user.status1 = key;
 					user.save();
+
+					let log = new Log({
+						time: new Date().getTime(),
+						trigger: true,
+						event:
+							'Admin changed ROUND 1 status of <b>' +
+							user.teamName +
+							'</b> to <b>' +
+							req.body.key +
+							'</b>'
+					});
+					log.save();
+
 					res.send({ message: 'done' });
 				} else if (user.payment) {
 					res.send({ message: 'nope' });
@@ -1305,6 +1506,19 @@ app.post('/changeR2', (req, res) => {
 					user.graded2 = true;
 					user.status2 = key;
 					user.save();
+
+					let log = new Log({
+						time: new Date().getTime(),
+						trigger: true,
+						event:
+							'Admin changed ROUND 2 status of <b>' +
+							user.teamName +
+							'</b> to <b>' +
+							req.body.key +
+							'</b>'
+					});
+					log.save();
+
 					res.send({ message: 'done' });
 				} else {
 					res.send({ message: 'no' });

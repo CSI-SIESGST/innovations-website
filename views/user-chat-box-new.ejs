@@ -48,7 +48,7 @@
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
-                                <% var time = new Date(message.time);
+                                <% var time = new Date(message.time + ((330 + new Date().getTimezoneOffset()) * 60000));
                                 var month = time.getMonth() + 1;
                                 if(month<10){month = '0'+month;}
                                 var minutes = time.getMinutes();
@@ -58,7 +58,7 @@
                                 else if(hours < 12){hours = hours + ':' + minutes + ' AM'}
                                 else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
                                 else {hours = (hours % 12) + ':' + minutes + ' PM'} %>
-                                <small class="pt-2" style="display: block; text-align: right; color: #ddd;"><%= time.getDate() %>/<%= month %>/<%= time.getFullYear() %> <%= hours %></small>
+                                <small class="pt-2" style="display: block; text-align: right; color: #ddd;"><%= time.getDate() %>/<%= month %>/<%= time.getFullYear() %> <%= hours %> IST</small>
                             </div>
                         </div>
                         <%
@@ -70,7 +70,7 @@
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
-                                <% var time = new Date(message.time);
+                                <% var time = new Date(message.time + ((330 + new Date().getTimezoneOffset()) * 60000));
                                 var month = time.getMonth() + 1;
                                 if(month<10){month = '0'+month;}
                                 var minutes = time.getMinutes();
@@ -80,7 +80,7 @@
                                 else if(hours < 12){hours = hours + ':' + minutes + ' AM'}
                                 else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
                                 else {hours = (hours % 12) + ':' + minutes + ' PM'} %>
-                                <small class="pt-2" style="display: block; text-align: left; color: #ddd;"><%= time.getDate() %>/<%= month %>/<%= time.getFullYear() %> <%= hours %></small>
+                                <small class="pt-2" style="display: block; text-align: left; color: #ddd;"><%= time.getDate() %>/<%= month %>/<%= time.getFullYear() %> <%= hours %> IST</small>
                             </div>
                         </div>
                         <%
@@ -121,7 +121,7 @@
             element.setAttribute('class', 'mr-auto my-1 chat-unit ml-2');
             element.setAttribute('style', 'max-width: 90%; text-align: left;');
 
-            var finalTime = new Date(time);
+            var finalTime = new Date(time + ((330 + new Date().getTimezoneOffset()) * 60000));
 
             var month = finalTime.getMonth() + 1;
             if(month<10){month = '0'+month;}
@@ -134,7 +134,7 @@
             else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
             else {hours = (hours % 12) + ':' + minutes + ' PM'}
             
-            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+message+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: #3964da; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+message+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + ' IST</small></div>';
             document.getElementById('chats').append(element);
 
             document.getElementById('seen').style.display = 'none';
@@ -173,7 +173,7 @@
             element.setAttribute('class', 'ml-auto my-1 chat-unit mr-2');
             element.setAttribute('style', 'max-width: 90%; text-align: right;');
 
-            var finalTime = new Date(time);
+            var finalTime = new Date(time + ((330 + new Date().getTimezoneOffset()) * 60000));
 
             var month = finalTime.getMonth() + 1;
             if(month<10){month = '0'+month;}
@@ -186,7 +186,7 @@
             else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
             else {hours = (hours % 12) + ':' + minutes + ' PM'}
 
-            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+msg+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; color: #fff; background: rgb(54, 165, 54); border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+msg+'<br><small class="pt-2" style="display: block; text-align: left; color: #ddd;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + ' IST</small></div>';
 
             document.getElementById('chats').append(element);
 
