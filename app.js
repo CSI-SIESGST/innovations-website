@@ -239,7 +239,7 @@ io.on('connection', (socket) => {
 	});
 
 	// eslint-disable-next-line no-undef
-	socket.on(process.env.ADMIN_BROADCAST, (message, callback) => {
+	socket.on(process.env.ADMIN_BROADCAST, (message, mode, callback) => {
 		message = anchorme({
 			input: message,
 			options: {
@@ -268,32 +268,96 @@ io.on('connection', (socket) => {
 
 		var time = new Date().getTime();
 
-		Chat.updateMany(
-			{},
-			{
-				$push: {
-					messages: { time: time, message: message, sender: true }
+		if (mode == 1) {
+			Chat.updateMany(
+				{},
+				{
+					$push: {
+						messages: { time: time, message: message, sender: true }
+					}
+				},
+				(err) => {
+					if (err) {
+						console.log(err);
+					} else {
+						Chat.updateMany({}, { userUnread: true }, (error) => {
+							if (error) {
+								console.log(error);
+							}
+						});
+					}
 				}
-			},
-			(err) => {
+			);
+
+			var broadcast = new Broadcast({ time: time, message: message });
+			broadcast.save();
+
+			callback();
+
+			socket.broadcast.emit('new-msg', '', message, time);
+		} else if (mode == 2) {
+			User.where({ status1: true }).find((err, users) => {
 				if (err) {
 					console.log(err);
 				} else {
-					Chat.updateMany({}, { userUnread: true }, (error) => {
-						if (error) {
-							console.log(error);
-						}
+					let idList = [];
+					users.forEach((user) => {
+						idList.push(user.teamName);
 					});
+
+					Chat.updateMany(
+						{ teamName: { $in: idList } },
+						{
+							$push: {
+								messages: {
+									time: time,
+									message: message,
+									sender: true
+								}
+							}
+						},
+						(err) => {
+							if (err) {
+								console.log(err);
+							} else {
+								Chat.updateMany(
+									{ teamName: { $in: idList } },
+									{ userUnread: true },
+									(error) => {
+										if (error) {
+											console.log(error);
+										} else {
+											callback();
+
+											Chat.where({
+												teamName: { $in: idList }
+											}).find((errors, chats) => {
+												if (errors) {
+													console.log(errors);
+												} else {
+													chats.forEach((chat) => {
+														socket
+															.to(
+																chat._id.toString()
+															)
+															.emit(
+																'new-msg',
+																'',
+																message,
+																time
+															);
+													});
+												}
+											});
+										}
+									}
+								);
+							}
+						}
+					);
 				}
-			}
-		);
-
-		var broadcast = new Broadcast({ time: time, message: message });
-		broadcast.save();
-
-		callback();
-
-		socket.broadcast.emit('new-msg', '', message, time);
+			});
+		}
 	});
 });
 

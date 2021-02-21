@@ -13,14 +13,14 @@
     <title>Admin Broadcast</title>
 
     <script type="text/javascript">
-        function btnChange(x) {
+        function btnChange(x, y) {
             if(x>0)
             {
-                document.getElementsByTagName('button')[0].removeAttribute('disabled')
+                document.getElementsByTagName('button')[y].removeAttribute('disabled')
             }
             else
             {
-                document.getElementsByTagName('button')[0].setAttribute('disabled','')
+                document.getElementsByTagName('button')[y].setAttribute('disabled','')
             }
         }
     </script>
@@ -31,12 +31,36 @@
         <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Sending...</h2></span>
     </div>
 
-    <h4 class="mt-5">Broadcast Message to Users</h4>
+    <h5 class="mt-4">Broadcast Message to All Users</h5>
 
-    <textarea class="mt-4" onkeyup="btnChange(this.value.trim().length);" onchange="btnChange(this.value.trim().length);" type="text" name="" id="input" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
+    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 0);" onchange="btnChange(this.value.trim().length, 0);" type="text" name="" id="input1" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
 
     <div style="text-align: right;">
-        <button class="btn-lg" onclick="sendMessage();" disabled>Send</button>
+        <button class="btn-lg" onclick="sendMessage(1);" disabled>Send</button>
+    </div>
+
+    <h5 class="mt-2">Broadcast Message to Users qualified in ROUND 1</h5>
+
+    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 1);" onchange="btnChange(this.value.trim().length, 1);" type="text" name="" id="input2" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
+
+    <div style="text-align: right;">
+        <button class="btn-lg" onclick="sendMessage(2);" disabled>Send</button>
+    </div>
+
+    <h5 class="mt-2">Broadcast Message to Users Qualified <b class="text-danger">but not paid!</b></h5>
+
+    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 2);" onchange="btnChange(this.value.trim().length, 2);" type="text" name="" id="input3" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
+
+    <div style="text-align: right;">
+        <button class="btn-lg" onclick="sendMessage(3);" disabled>Send</button>
+    </div>
+
+    <h5 class="mt-2">Broadcast Message to Users Qualified <b class="text-danger">and paid!</b></h5>
+
+    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 3);" onchange="btnChange(this.value.trim().length, 3);" type="text" name="" id="input4" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
+
+    <div style="text-align: right;">
+        <button class="btn-lg mb-4" onclick="sendMessage(4);" disabled>Send</button>
     </div>
     
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -51,19 +75,21 @@
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        function sendMessage() {
-            var msg = document.getElementById('input').value.trim();
+        function sendMessage(mode) {
+            var msg = document.getElementById('input' + mode).value.trim();
             if(msg.length>0)
             {
                 msg = htmlEntities(msg);
 
-                socket.emit(broadcast, msg.split('\n').join('<br>'), () => {
+                console.log(1);
+
+                socket.emit(broadcast, msg.split('\n').join('<br>'), mode, () => {
                     sendAck();
                 });
 
                 document.getElementById('loading').style.display = 'block';
 
-                document.getElementById('input').value = '';
+                document.getElementById('input' + mode).value = '';
             }
             else
             {
@@ -74,6 +100,7 @@
         function sendAck()
         {
             document.getElementById('loading').style.display = 'none';
+            console.log(2);
         }
     </script>
 </body>
