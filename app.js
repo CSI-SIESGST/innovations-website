@@ -342,7 +342,10 @@ app.post('/abstract', (req, res) => {
 			time: new Date().getTime(),
 			trigger: true,
 			event:
-				'Admin viewed abstract named <b>' + req.body.filename + '</b>'
+				req.session[process.env.ADMIN_NAME] +
+				' (Admin) viewed abstract named <b>' +
+				req.body.filename +
+				'</b>'
 		});
 
 		log.save();
@@ -968,10 +971,12 @@ app.post('/csi-admin-login', (req, res) => {
 		req.session[process.env.ADMIN_SESSION_VAR] =
 			process.env.ADMIN_SESSION_VAL;
 
+		req.session[process.env.ADMIN_NAME] = req.body.name;
+
 		let log = new Log({
 			time: new Date().getTime(),
 			trigger: true,
-			event: 'Admin login.'
+			event: req.body.name + ' (Admin) login.'
 		});
 		log.save();
 
@@ -1100,13 +1105,15 @@ app.get('/logs-user', (req, res) => {
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
 	) {
-		Log.where({ trigger: false }).find((err, logs) => {
-			if (err) {
-				res.send('Error');
-			} else {
-				res.render('logs', { logs: logs, trigger: 'User' });
-			}
-		});
+		Log.where({ trigger: false })
+			.sort({ _id: -1 })
+			.find((err, logs) => {
+				if (err) {
+					res.send('Error');
+				} else {
+					res.render('logs', { logs: logs, trigger: 'User' });
+				}
+			});
 	} else {
 		res.status(401);
 		res.end('Unauthorised');
@@ -1120,13 +1127,15 @@ app.get('/logs-admin', (req, res) => {
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
 	) {
-		Log.where({ trigger: true }).find((err, logs) => {
-			if (err) {
-				res.send('Error');
-			} else {
-				res.render('logs', { logs: logs, trigger: 'User' });
-			}
-		});
+		Log.where({ trigger: true })
+			.sort({ _id: -1 })
+			.find((err, logs) => {
+				if (err) {
+					res.send('Error');
+				} else {
+					res.render('logs', { logs: logs, trigger: 'Admin' });
+				}
+			});
 	} else {
 		res.status(401);
 		res.end('Unauthorised');
@@ -1355,7 +1364,8 @@ app.post('/delete-broadcast', (req, res) => {
 								time: new Date().getTime(),
 								trigger: true,
 								event:
-									'Admin deleted broadcast message <b>with</b> evidence!'
+									req.session[process.env.ADMIN_NAME] +
+									' (Admin) deleted broadcast message <b>with</b> evidence!'
 							});
 							log.save();
 							res.send({ message: 'done' });
@@ -1375,7 +1385,8 @@ app.post('/delete-broadcast', (req, res) => {
 								time: new Date().getTime(),
 								trigger: true,
 								event:
-									'Admin deleted broadcast message <b>without</b> evidence!'
+									req.session[process.env.ADMIN_NAME] +
+									' (Admin) deleted broadcast message <b>without</b> evidence!'
 							});
 							log.save();
 
@@ -1419,7 +1430,8 @@ app.post('/changeFee', (req, res) => {
 						time: new Date().getTime(),
 						trigger: true,
 						event:
-							'Admin changed payment status of <b>' +
+							req.session[process.env.ADMIN_NAME] +
+							' (Admin) changed payment status of <b>' +
 							user.teamName +
 							'</b> to <b>' +
 							req.body.key +
@@ -1466,7 +1478,8 @@ app.post('/changeR1', (req, res) => {
 						time: new Date().getTime(),
 						trigger: true,
 						event:
-							'Admin changed ROUND 1 status of <b>' +
+							req.session[process.env.ADMIN_NAME] +
+							' (Admin) changed ROUND 1 status of <b>' +
 							user.teamName +
 							'</b> to <b>' +
 							req.body.key +
@@ -1511,7 +1524,8 @@ app.post('/changeR2', (req, res) => {
 						time: new Date().getTime(),
 						trigger: true,
 						event:
-							'Admin changed ROUND 2 status of <b>' +
+							req.session[process.env.ADMIN_NAME] +
+							' (Admin) changed ROUND 2 status of <b>' +
 							user.teamName +
 							'</b> to <b>' +
 							req.body.key +
