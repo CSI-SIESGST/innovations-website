@@ -47,7 +47,7 @@
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
-                                <% var time = new Date(message.time + ((330 - new Date().getTimezoneOffset()) * 60000));
+                                <% var time = new Date(message.time + ((330 + new Date().getTimezoneOffset()) * 60000));
                                 var month = time.getMonth() + 1;
                                 if(month<10){month = '0'+month;}
                                 var minutes = time.getMinutes();
@@ -69,7 +69,7 @@
                             <div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">
                                 <%- message.message %>
                                 <br>
-                                <% var time = new Date(message.time + ((330 - new Date().getTimezoneOffset()) * 60000));
+                                <% var time = new Date(message.time + ((330 + new Date().getTimezoneOffset()) * 60000));
                                 var month = time.getMonth() + 1;
                                 if(month<10){month = '0'+month;}
                                 var minutes = time.getMinutes();
@@ -138,7 +138,7 @@
                 element.setAttribute('class', 'mr-auto my-1 chat-unit ml-3');
                 element.setAttribute('style', 'max-width: 80%; text-align: left;');
 
-                var finalTime = new Date(time + ((330 - new Date().getTimezoneOffset()) * 60000));
+                var finalTime = new Date(time + ((330 + new Date().getTimezoneOffset()) * 60000));
 
                 var month = finalTime.getMonth() + 1;
                 if(month<10){month = '0'+month;}
@@ -216,7 +216,7 @@
             element.setAttribute('class', 'ml-auto my-1 chat-unit mr-3');
             element.setAttribute('style', 'max-width: 80%; text-align: right;');
 
-            var finalTime = new Date(time + ((330 - new Date().getTimezoneOffset()) * 60000));
+            var finalTime = new Date(time + ((330 + new Date().getTimezoneOffset()) * 60000));
 
             var month = finalTime.getMonth() + 1;
             if(month<10){month = '0'+month;}
