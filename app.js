@@ -357,6 +357,130 @@ io.on('connection', (socket) => {
 					);
 				}
 			});
+		} else if (mode == 3) {
+			User.where({ status1: true, payment: false }).find((err, users) => {
+				if (err) {
+					console.log(err);
+				} else {
+					let idList = [];
+					users.forEach((user) => {
+						idList.push(user.teamName);
+					});
+
+					Chat.updateMany(
+						{ teamName: { $in: idList } },
+						{
+							$push: {
+								messages: {
+									time: time,
+									message: message,
+									sender: true
+								}
+							}
+						},
+						(err) => {
+							if (err) {
+								console.log(err);
+							} else {
+								Chat.updateMany(
+									{ teamName: { $in: idList } },
+									{ userUnread: true },
+									(error) => {
+										if (error) {
+											console.log(error);
+										} else {
+											callback();
+
+											Chat.where({
+												teamName: { $in: idList }
+											}).find((errors, chats) => {
+												if (errors) {
+													console.log(errors);
+												} else {
+													chats.forEach((chat) => {
+														socket
+															.to(
+																chat._id.toString()
+															)
+															.emit(
+																'new-msg',
+																'',
+																message,
+																time
+															);
+													});
+												}
+											});
+										}
+									}
+								);
+							}
+						}
+					);
+				}
+			});
+		} else if (mode == 4) {
+			User.where({ status1: true, payment: true }).find((err, users) => {
+				if (err) {
+					console.log(err);
+				} else {
+					let idList = [];
+					users.forEach((user) => {
+						idList.push(user.teamName);
+					});
+
+					Chat.updateMany(
+						{ teamName: { $in: idList } },
+						{
+							$push: {
+								messages: {
+									time: time,
+									message: message,
+									sender: true
+								}
+							}
+						},
+						(err) => {
+							if (err) {
+								console.log(err);
+							} else {
+								Chat.updateMany(
+									{ teamName: { $in: idList } },
+									{ userUnread: true },
+									(error) => {
+										if (error) {
+											console.log(error);
+										} else {
+											callback();
+
+											Chat.where({
+												teamName: { $in: idList }
+											}).find((errors, chats) => {
+												if (errors) {
+													console.log(errors);
+												} else {
+													chats.forEach((chat) => {
+														socket
+															.to(
+																chat._id.toString()
+															)
+															.emit(
+																'new-msg',
+																'',
+																message,
+																time
+															);
+													});
+												}
+											});
+										}
+									}
+								);
+							}
+						}
+					);
+				}
+			});
 		}
 	});
 });

@@ -33,7 +33,7 @@
 
     <h5 class="mt-4">Broadcast Message to All Users</h5>
 
-    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 0);" onchange="btnChange(this.value.trim().length, 0);" type="text" name="" id="input1" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
+    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 0);" onchange="btnChange(this.value.trim().length, 0);" type="text" name="" id="input1" rows="3" style="flex-grow: 1; width: 100%;"></textarea>
 
     <div style="text-align: right;">
         <button class="btn-lg" onclick="sendMessage(1);" disabled>Send</button>
@@ -41,7 +41,7 @@
 
     <h5 class="mt-2">Broadcast Message to Users qualified in ROUND 1</h5>
 
-    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 1);" onchange="btnChange(this.value.trim().length, 1);" type="text" name="" id="input2" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
+    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 1);" onchange="btnChange(this.value.trim().length, 1);" type="text" name="" id="input2" rows="3" style="flex-grow: 1; width: 100%;"></textarea>
 
     <div style="text-align: right;">
         <button class="btn-lg" onclick="sendMessage(2);" disabled>Send</button>
@@ -49,7 +49,7 @@
 
     <h5 class="mt-2">Broadcast Message to Users Qualified <b class="text-danger">but not paid!</b></h5>
 
-    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 2);" onchange="btnChange(this.value.trim().length, 2);" type="text" name="" id="input3" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
+    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 2);" onchange="btnChange(this.value.trim().length, 2);" type="text" name="" id="input3" rows="3" style="flex-grow: 1; width: 100%;"></textarea>
 
     <div style="text-align: right;">
         <button class="btn-lg" onclick="sendMessage(3);" disabled>Send</button>
@@ -57,7 +57,7 @@
 
     <h5 class="mt-2">Broadcast Message to Users Qualified <b class="text-danger">and paid!</b></h5>
 
-    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 3);" onchange="btnChange(this.value.trim().length, 3);" type="text" name="" id="input4" rows="7" style="flex-grow: 1; width: 100%;"></textarea>
+    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 3);" onchange="btnChange(this.value.trim().length, 3);" type="text" name="" id="input4" rows="3" style="flex-grow: 1; width: 100%;"></textarea>
 
     <div style="text-align: right;">
         <button class="btn-lg mb-4" onclick="sendMessage(4);" disabled>Send</button>
@@ -81,8 +81,6 @@
             {
                 msg = htmlEntities(msg);
 
-                console.log(1);
-
                 socket.emit(broadcast, msg.split('\n').join('<br>'), mode, () => {
                     sendAck();
                 });
@@ -100,7 +98,6 @@
         function sendAck()
         {
             document.getElementById('loading').style.display = 'none';
-            console.log(2);
         }
     </script>
 </body>
