@@ -151,7 +151,7 @@
                 else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
                 else {hours = (hours % 12) + ':' + minutes + ' PM'}
                 
-                element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+message+'<br><small class="text-muted pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+                element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #dedede; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+message+'<br><small class="text-muted pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + ' IST</small></div>';
                 document.getElementById('chats').append(element);
 
                 document.getElementById('seen').style.display = 'none';
@@ -229,7 +229,7 @@
             else if(hours == 12){hours = hours + ':' + minutes + ' PM'}
             else {hours = (hours % 12) + ':' + minutes + ' PM'}
 
-            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+msg+'<br><small class="text-muted pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + '</small></div>';
+            element.innerHTML = '<div style="padding: 5px 10px; text-align: justify; display: inline-block; background: #bbb; border-radius: 5px; max-width: 100%; overflow-wrap: break-word;">'+msg+'<br><small class="text-muted pt-2" style="display: block; text-align: left;">' + finalTime.getDate() + '/' + month + '/' + finalTime.getFullYear() + ' ' + hours + ' IST</small></div>';
 
             document.getElementById('chats').append(element);
 
