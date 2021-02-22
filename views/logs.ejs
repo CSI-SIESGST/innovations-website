@@ -21,7 +21,7 @@
             {
                 if(team[i].innerHTML.toLowerCase().includes(val.toLowerCase().trim()))
                 {
-                    team[i].style.display = 'flex';
+                    team[i].style.display = 'block';
                 }
                 else
                 {
@@ -45,8 +45,9 @@
             <%= new Date(log.time + ((330 + new Date().getTimezoneOffset()) * 60000)).toLocaleString() %>
             <br>
             <%- log.event %>
+            <hr class="my-2">
         </div>
-        <hr class="my-2">
+        
         <%
         i++;
     }); %>
