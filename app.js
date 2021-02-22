@@ -535,9 +535,9 @@ io.on('connection', (socket) => {
 
 app.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
-		res.render('index', { team: req.user.teamName });
+		res.render('newindex', { team: req.user.teamName });
 	} else {
-		res.render('index', { team: null });
+		res.render('newindex', { team: null });
 	}
 });
 
