@@ -175,26 +175,7 @@
 			         })
 			         .catch(error => {
 			             document.getElementById('status').innerHTML = 'Error Sending Mail';
-
-								setTimeout(() => {
-									location.replace('/home');
-								}, 5000);
-							} else {
-								document.getElementById('status').innerHTML =
-									'Error changing password';
-							}
-
-							document.getElementById('status').style.display =
-								'block';
-							document.getElementById('loading').style.display =
-								'none';
-						})
-						.catch((error) => {
-							document.getElementById('status').innerHTML =
-								'Error Sending Mail';
-
-							document.getElementById('loading').style.display =
-								'none';
+									 document.getElementById('loading').style.display ='none';
 						});
 				});
 		</script>
