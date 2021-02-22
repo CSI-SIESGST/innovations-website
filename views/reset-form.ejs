@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Forgot Password</title>
-        <link
+		<link
 			rel="stylesheet"
 			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 		/>
@@ -128,32 +128,53 @@
 					}
 					formBody = formBody.join('&');
 
-					fetch('/reset-password', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded'
-						},
-						body: formBody
-					})
-						.then((response) => response.json())
-						.then((data) => {
-							console.log(data);
-							if (data.message == 1) {
-								alert(
-									'Password Has been reset!\nPlease login with your new password.'
-								);
+			         fetch("/reset-password", {
+			             method: 'POST',
+			             headers: {
+			                 'Content-Type': 'application/x-www-form-urlencoded'
+			             },
+			             body: formBody
+			         })
+			         .then(response => response.json())
+			         .then(data => {
+			             console.log(data);
+			             if(data.message == 1)
+			             {
+			                 alert('Password Has been reset!\nPlease login with your new password.')
 
-								setTimeout(() => {
-									location.replace('/home');
-								}, 5000);
-							} else if (data.message == 0) {
-								document.getElementById('status').innerHTML =
-									'Password must be at least 8 characters long and must contain at least 1 uppercase letter, lowercase letter, number and special character';
-							} else if (data.message == 2) {
-								document.getElementById('status').innerHTML =
-									'Incorrect reset code';
-							} else if (data.message == 3 || data.message == 4) {
-								alert('Error changing password.');
+			                 setTimeout(() => {
+			                     location.replace('/home');
+			                 }, 5000);
+			             }
+			             else if(data.message == 0)
+			             {
+			                 document.getElementById('status').innerHTML = 'Password must be at least 8 characters long and must contain at least 1 uppercase letter, lowercase letter, number and special character';
+			                 document.getElementById('loading').style.display = 'none';
+			             }
+			             else if(data.message == 2)
+			             {
+			                 document.getElementById('status').innerHTML = 'Incorrect reset code'
+			                 document.getElementById('loading').style.display = 'none';
+			             }
+			             else if(data.message == 3 || data.message == 4)
+			             {
+			                 alert('Error changing password.')
+
+			                 setTimeout(() => {
+			                     location.replace('/home');
+			                 }, 5000);
+			             }
+			             else
+			             {
+			                 document.getElementById('status').innerHTML = 'Error changing password';
+			                 document.getElementById('loading').style.display = 'none';
+			             }
+
+			             document.getElementById('status').style.display = 'block';
+
+			         })
+			         .catch(error => {
+			             document.getElementById('status').innerHTML = 'Error Sending Mail';
 
 								setTimeout(() => {
 									location.replace('/home');

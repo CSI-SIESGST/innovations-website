@@ -24,31 +24,31 @@ const Log = require('./schema/logSchema');
 const indCost = 500;
 
 const regEndDate =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
-const teamConfirmDate = '23/02/2021';
+const teamConfirmDate = '23/02/2022';
 
 const teamConfirmDeadline =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
-const submissionDate = '23/02/2021';
+const submissionDate = '23/02/2022';
 
 const submissionDeadline =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round1Date = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
 
 const round1Result =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
-const paymentDate = '23/02/2021';
+const paymentDate = '23/02/2022';
 
 const paymentDeadline =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2DateTime = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
@@ -56,17 +56,17 @@ const round2DateTime = `<span class="d-inline-block">00/00/00 at</span> <span cl
 const round2Link = '#';
 
 const round2Start =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2ResultTime = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
 
 const round2End =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2Result =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const serviceAccount = {
@@ -535,9 +535,9 @@ io.on('connection', (socket) => {
 
 app.get('/', (req, res) => {
 	if (req.isAuthenticated()) {
-		res.render('index', { team: req.user.teamName });
+		res.render('newindex', { team: req.user.teamName });
 	} else {
-		res.render('index', { team: null });
+		res.render('newindex', { team: null });
 	}
 });
 
@@ -556,7 +556,7 @@ app.get('/members', (req, res) => {
 			!(
 				req.user.teamConfirm ||
 				new Date().getTime() +
-					(330 + new Date().getTimezoneOffset()) * 60000 >
+					(330 + new Date().getTimezoneOffset()) * 60000 <
 					teamConfirmDeadline
 			)
 		) {
@@ -607,7 +607,12 @@ app.post('/members', (req, res) => {
 	if (req.isAuthenticated()) {
 		if (!req.user.verified) {
 			res.status(401);
-		} else if (req.user.teamConfirm) {
+		} else if (
+			req.user.teamConfirm ||
+			new Date().getTime() +
+				(330 + new Date().getTimezoneOffset()) * 60000 >
+				teamConfirmDeadline
+		) {
 			res.status(401);
 		} else {
 			const num = parseInt(req.body.num);
@@ -686,7 +691,7 @@ app.get('/upload', (req, res) => {
 			!req.user.teamConfirm ||
 			(!req.user.submitted &&
 				new Date().getTime() +
-					(330 + new Date().getTimezoneOffset()) * 60000 >
+					(330 + new Date().getTimezoneOffset()) * 60000 <
 					submissionDeadline)
 		) {
 			res.redirect('/home');
@@ -705,7 +710,14 @@ app.get('/upload', (req, res) => {
 app.post('/upload', (req, res) => {
 	console.log(req.user.teamConfirm);
 	if (req.isAuthenticated()) {
-		if (!req.user.verified || !req.user.teamConfirm || req.user.submitted) {
+		if (
+			!req.user.verified ||
+			!req.user.teamConfirm ||
+			req.user.submitted ||
+			new Date().getTime() +
+				(330 + new Date().getTimezoneOffset()) * 60000 >
+				submissionDeadline
+		) {
 			res.status(401).end();
 		} else {
 			var form = new formidable.IncomingForm();
