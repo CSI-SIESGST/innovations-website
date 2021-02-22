@@ -21,6 +21,54 @@ const Chat = require('./schema/chatSchema');
 const Broadcast = require('./schema/broadcastSchema');
 const Log = require('./schema/logSchema');
 
+const indCost = 500;
+
+const regEndDate =
+	new Date('Jan 23, 2021 23:59:59').getTime() +
+	(330 + new Date().getTimezoneOffset()) * 60000;
+
+const teamConfirmDate = '23/02/2021';
+
+const teamConfirmDeadline =
+	new Date('Jan 23, 2021 23:59:59').getTime() +
+	(330 + new Date().getTimezoneOffset()) * 60000;
+
+const submissionDate = '23/02/2021';
+
+const submissionDeadline =
+	new Date('Jan 23, 2021 23:59:59').getTime() +
+	(330 + new Date().getTimezoneOffset()) * 60000;
+
+const round1Date = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
+
+const round1Result =
+	new Date('Jan 23, 2021 23:59:59').getTime() +
+	(330 + new Date().getTimezoneOffset()) * 60000;
+
+const paymentDate = '23/02/2021';
+
+const paymentDeadline =
+	new Date('Jan 23, 2021 23:59:59').getTime() +
+	(330 + new Date().getTimezoneOffset()) * 60000;
+
+const round2DateTime = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
+
+const round2Link = '#';
+
+const round2Start =
+	new Date('Jan 23, 2021 23:59:59').getTime() +
+	(330 + new Date().getTimezoneOffset()) * 60000;
+
+const round2ResultTime = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
+
+const round2End =
+	new Date('Jan 23, 2021 23:59:59').getTime() +
+	(330 + new Date().getTimezoneOffset()) * 60000;
+
+const round2Result =
+	new Date('Jan 23, 2021 23:59:59').getTime() +
+	(330 + new Date().getTimezoneOffset()) * 60000;
+
 const serviceAccount = {
 	type: 'service_account',
 	project_id: process.env.PROJECT_ID,
@@ -503,7 +551,15 @@ app.get('/info', (req, res) => {
 
 app.get('/members', (req, res) => {
 	if (req.isAuthenticated()) {
-		if (!req.user.verified) {
+		if (
+			!req.user.verified ||
+			!(
+				req.user.teamConfirm ||
+				new Date().getTime() +
+					(330 + new Date().getTimezoneOffset()) * 60000 >
+					teamConfirmDeadline
+			)
+		) {
 			res.redirect('/home');
 		} else {
 			res.render('members', {
@@ -611,21 +667,28 @@ app.get('/payment', (req, res) => {
 	}
 });
 
-app.get('/results', (req, res) => {
-	if (req.isAuthenticated() && req.user.verified && req.user.submitted) {
-		res.render('results', {
-			teamConfirm: req.user.teamConfirm,
-			payment: req.user.payment,
-			submitted: req.user.submitted
-		});
-	} else {
-		res.redirect('/home');
-	}
-});
+// app.get('/results', (req, res) => {
+// 	if (req.isAuthenticated() && req.user.verified && req.user.submitted) {
+// 		res.render('results', {
+// 			teamConfirm: req.user.teamConfirm,
+// 			payment: req.user.payment,
+// 			submitted: req.user.submitted
+// 		});
+// 	} else {
+// 		res.redirect('/home');
+// 	}
+// });
 
 app.get('/upload', (req, res) => {
 	if (req.isAuthenticated()) {
-		if (!req.user.verified) {
+		if (
+			!req.user.verified ||
+			!req.user.teamConfirm ||
+			(!req.user.submitted &&
+				new Date().getTime() +
+					(330 + new Date().getTimezoneOffset()) * 60000 >
+					submissionDeadline)
+		) {
 			res.redirect('/home');
 		} else {
 			res.render('abstract', {
@@ -697,13 +760,38 @@ app.get('/home', (req, res) => {
 					res.status(501);
 					res.end('Error');
 				} else if (chat) {
+					if (req.user.teamConfirm) {
+						totalCost =
+							indCost + indCost * req.user.teamMembers.length;
+					} else {
+						totalCost = indCost + '/member';
+					}
+					const currentTime =
+						new Date().getTime() +
+						(330 + new Date().getTimezoneOffset()) * 60000;
 					res.render('homenew', {
 						team: req.user.teamName,
 						chatId: chat._id,
 						unread: chat.userUnread,
 						teamConfirm: req.user.teamConfirm,
 						payment: req.user.payment,
-						submitted: req.user.submitted
+						submitted: req.user.submitted,
+						status1: req.user.status1,
+						totalCost: totalCost,
+						teamConfirmDeadline: teamConfirmDeadline < currentTime,
+						submissionDeadline: submissionDeadline < currentTime,
+						round1Result: round1Result < currentTime,
+						paymentDeadline: paymentDeadline < currentTime,
+						round2Start: round2Start < currentTime,
+						round2End: round2End < currentTime,
+						round2Result: round2Result < currentTime,
+						teamConfirmDate: teamConfirmDate,
+						submissionDate: submissionDate,
+						round1Date: round1Date,
+						paymentDate: paymentDate,
+						round2DateTime: round2DateTime,
+						round2Link: round2Link,
+						round2ResultTime: round2ResultTime
 					});
 				}
 			});
