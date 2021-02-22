@@ -70,10 +70,12 @@
                 else if(data.message == 0)
                 {
                     document.getElementById('status').innerHTML = 'Password must be at least 8 characters long and must contain at least 1 uppercase letter, lowercase letter, number and special character';
+                    document.getElementById('loading').style.display = 'none';
                 }
                 else if(data.message == 2)
                 {
                     document.getElementById('status').innerHTML = 'Incorrect reset code'
+                    document.getElementById('loading').style.display = 'none';
                 }
                 else if(data.message == 3 || data.message == 4)
                 {
@@ -86,10 +88,11 @@
                 else
                 {
                     document.getElementById('status').innerHTML = 'Error changing password';
+                    document.getElementById('loading').style.display = 'none';
                 }
 
                 document.getElementById('status').style.display = 'block';
-                document.getElementById('loading').style.display = 'none';
+                
             })
             .catch(error => {
                 document.getElementById('status').innerHTML = 'Error Sending Mail';

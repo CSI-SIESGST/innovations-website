@@ -556,7 +556,7 @@ app.get('/members', (req, res) => {
 			!(
 				req.user.teamConfirm ||
 				new Date().getTime() +
-					(330 + new Date().getTimezoneOffset()) * 60000 >
+					(330 + new Date().getTimezoneOffset()) * 60000 <
 					teamConfirmDeadline
 			)
 		) {
@@ -607,7 +607,12 @@ app.post('/members', (req, res) => {
 	if (req.isAuthenticated()) {
 		if (!req.user.verified) {
 			res.status(401);
-		} else if (req.user.teamConfirm) {
+		} else if (
+			req.user.teamConfirm ||
+			new Date().getTime() +
+				(330 + new Date().getTimezoneOffset()) * 60000 >
+				teamConfirmDeadline
+		) {
 			res.status(401);
 		} else {
 			const num = parseInt(req.body.num);
@@ -686,7 +691,7 @@ app.get('/upload', (req, res) => {
 			!req.user.teamConfirm ||
 			(!req.user.submitted &&
 				new Date().getTime() +
-					(330 + new Date().getTimezoneOffset()) * 60000 >
+					(330 + new Date().getTimezoneOffset()) * 60000 <
 					submissionDeadline)
 		) {
 			res.redirect('/home');
@@ -705,7 +710,14 @@ app.get('/upload', (req, res) => {
 app.post('/upload', (req, res) => {
 	console.log(req.user.teamConfirm);
 	if (req.isAuthenticated()) {
-		if (!req.user.verified || !req.user.teamConfirm || req.user.submitted) {
+		if (
+			!req.user.verified ||
+			!req.user.teamConfirm ||
+			req.user.submitted ||
+			new Date().getTime() +
+				(330 + new Date().getTimezoneOffset()) * 60000 >
+				submissionDeadline
+		) {
 			res.status(401).end();
 		} else {
 			var form = new formidable.IncomingForm();

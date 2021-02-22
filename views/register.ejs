@@ -215,6 +215,10 @@
 						} else {
 							document.getElementById('status').innerHTML =
 								data.message;
+							if(data.message == 'Password doesn\'t satisfy the conditions!')
+							{
+								alert('Password must be 8 characters long\nIt should have at least one UpperCase character, LowerCase character, Number, Special Symbol.')
+							}
 						}
 					})
 					.catch((error) => {
