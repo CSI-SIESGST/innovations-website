@@ -26,7 +26,11 @@
 			type="text/css"
 			href="assets/css/bootstrap.min.css"
 		/> -->
-		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="assets/css/font-awesome.css"
+		/>
 		<link
 			rel="stylesheet"
 			type="text/css"
@@ -34,19 +38,29 @@
 		/>
 	</head>
 
-	<body style="background-color: #5390f5;">
-
+	<body style="background-color: #5390f5">
 		<!--Navbar-->
-		<header class="header-area header-sticky" style="background-color: white; height: auto; box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06)">
+		<!-- <header
+			class="header-area header-sticky"
+			style="
+				background-color: white;
+				height: 10%;
+				box-shadow: 0 20px 28px 10px rgba(0, 0, 0, 0.06);
+			"
+		>
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<nav class="main-nav";">
-							<a href="/" class="logo" style="color: #3f3d56;">INNOVATIONS</a>
-							<!-- Navbar -->
-							<ul class="nav">
+						<nav class="main-nav" ;>
+							<a href="/" class="logo" style="color: #3f3d56"
+								>INNOVATIONS</a
+							>-->
+		<!-- Navbar -->
+		<!--<ul class="nav">
 								<li class="scroll-to-section">
-									<a href="/signup" style="color: #3f3d56;">Register</a>
+									<a href="/signup" style="color: #3f3d56"
+										>Register</a
+									>
 								</li>
 							</ul>
 							<a class="menu-trigger">
@@ -56,10 +70,10 @@
 					</div>
 				</div>
 			</div>
-		</header>
-		<!-- <nav class="navbar navbar-expand-md mb-4">
+		</header> -->
+		<nav class="navbar navbar-expand-md">
 			<div class="container">
-				<a href="/" class="navbar-brand mr-auto"> LOGO </a>
+				<a href="/" class="navbar-brand mr-auto"> INNOVATIONS </a>
 				<button
 					class="navbar-toggler"
 					data-toggle="collapse"
@@ -77,112 +91,114 @@
 				<div class="collapse navbar-collapse" id="navbarid">
 					<ul class="navbar-nav text-center ml-auto">
 						<li class="nav-item">
-							<a href="/info" class="nav-link">Info</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								Contact Us
-							</a>
-						</li>
-						<li class="nav-item">
 							<a href="/signup" class="nav-link">Register</a>
 						</li>
 					</ul>
 				</div>
 			</div>
-		</nav> -->
+		</nav>
 
-		<div style="padding: 50px;"></div>
-
-		<div class="container row mt-sm-5 mt-4" id="login">
-			<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 align-self-center justify-content-center text-center">
-				<div class="login-img-div mx-auto">
-					<img
-						src="images/login.png"
-						class="img-fluid login-img w-100 d-lg-block d-none"
-						alt="Responsive image"
-					/>
-					<img
-						src="images/login_sm.png"
-						class="img-fluid login-img w-100 d-block d-lg-none"
-						alt="Responsive image"
-					/>
+		<div style="padding: 50px">
+			<div class="container row pb-lg-4" id="login">
+				<div
+					class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 align-self-center justify-content-center text-center"
+				>
+					<div class="login-img-div mx-auto">
+						<img
+							src="images/login.png"
+							class="img-fluid login-img w-100 d-lg-block d-none"
+							alt="Responsive image"
+						/>
+						<img
+							src="images/login_sm.png"
+							class="img-fluid login-img w-100 d-block d-lg-none"
+							alt="Responsive image"
+						/>
+					</div>
+				</div>
+				<div
+					class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
+				>
+					<form id="log-in">
+						<div class="form-group">
+							<label class="text-danger" id="status"></label
+							><br />
+							<label>Leader's Email ID</label>
+							<input
+								type="email"
+								name="username"
+								class="form-control"
+								id="inputEmail1"
+								aria-describedby="emailHelp"
+								placeholder="Enter email ID"
+							/>
+						</div>
+						<div class="form-group">
+							<label>Password</label>
+							<input
+								type="password"
+								name="password"
+								class="form-control"
+								id="inputPassword1"
+								placeholder="Password"
+							/>
+						</div>
+						<small
+							><a href="/forgot-password"
+								>Forgot password ?</a
+							></small
+						>
+						<button type="submit" class="btn btn-primary btn-block">
+							Submit
+						</button>
+						<div class="text-center pb-4">
+							Haven't Registered?
+							<a href="/signup"> Register Now!</a>
+						</div>
+					</form>
 				</div>
 			</div>
-			<div
-				class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
-			>
-				<form id="log-in">
-					<div class="form-group">
-						<label class="text-danger" id="status"></label><br>
-						<label>Leader's Email ID</label>
-						<input
-							type="email"
-							name="username"
-							class="form-control"
-							id="inputEmail1"
-							aria-describedby="emailHelp"
-							placeholder="Enter email ID"
-						/>
-					</div>
-					<div class="form-group">
-						<label>Password</label>
-						<input
-							type="password"
-							name="password"
-							class="form-control"
-							id="inputPassword1"
-							placeholder="Password"
-						/>
-					</div>
-					<small><a href="/forgot-password">Forgot password ?</a></small>
-					<button type="submit" class="btn btn-primary btn-block">
-						Submit
-					</button>
-					<div class="text-center pb-4"><a href="/signup">Haven't Registered?<br>Register Now!</a></div>
-				</form>
-				
-			</div>
 		</div>
+
 		<script type="text/javascript">
-			function loginReq()
-			{
-				var form = new FormData(document.getElementById("log-in"));
+			function loginReq() {
+				var form = new FormData(document.getElementById('log-in'));
 				var formBody = [];
-				for ( var key of form.keys()){
+				for (var key of form.keys()) {
 					var encodedKey = encodeURIComponent(key);
 					var encodedValue = encodeURIComponent(form.get(key));
-					formBody.push(encodedKey + "=" + encodedValue);
+					formBody.push(encodedKey + '=' + encodedValue);
 				}
-				formBody = formBody.join("&");
-				fetch("/login", {
+				formBody = formBody.join('&');
+				fetch('/login', {
 					method: 'POST',
 					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded'                 
+						'Content-Type': 'application/x-www-form-urlencoded'
 					},
 					body: formBody
 				})
-				.then(response => response.json())
-				.then(data => {
-					if(data.message == 'done')
-					{
-						location.replace('/home')
-					}
-					else
-					{
-						document.getElementById('status').innerHTML = data.message;
-					}
-				})
-				.catch(error => {
-					document.getElementById('status').innerHTML = "Invalid username or password";
-				})
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.message == 'done') {
+							location.replace('/home');
+						} else {
+							document.getElementById('status').innerHTML =
+								data.message;
+						}
+					})
+					.catch((error) => {
+						document.getElementById('status').innerHTML =
+							'Invalid username or password';
+					});
 			}
-			document.getElementById("log-in").addEventListener("submit", (event) => {
-                event.preventDefault();
-                
-                loginReq();
-                return false;
-            })
+			document
+				.getElementById('log-in')
+				.addEventListener('submit', (event) => {
+					event.preventDefault();
+
+					loginReq();
+					return false;
+				});
 		</script>
 	</body>
 </html>

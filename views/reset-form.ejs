@@ -1,102 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Forgot Password</title>
+        <link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Rubik&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+	</head>
+	<body>
+		<div
+			id="loading"
+			style="
+				position: fixed;
+				left: 0;
+				top: 0;
+				height: 100%;
+				width: 100%;
+				background: rgba(255, 255, 255, 0.7);
+				display: none;
+				z-index: 100;
+			"
+		>
+			<span
+				style="
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, -50%);
+				"
+				><h2>Submitting</h2></span
+			>
+		</div>
 
-    
-</head>
-<body>
+		<div class="container row">
+			<div
+				class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
+			>
+				<img
+					src="images/forgot_password.png"
+					class="img-fluid w-100"
+					alt="Responsive image"
+				/>
+			</div>
+			<div
+				class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
+			>
+				<p id="status" style="display: none; color: red"></p>
+				<form id="reset-form">
+					<div class="form-group">
+						<label for="code"
+							>Please enter the verification code sent on your
+							email:</label
+						>
+						<input
+							type="text"
+							class="form-control"
+							name="code"
+							id="code"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="password">Enter new password</label>
+						<input
+							type="password"
+							class="form-control"
+							name="password"
+							id="password"
+							required
+						/>
 
-    <div id="loading" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background: rgba(255, 255, 255, 0.7); display: none; z-index: 100;">
-        <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);"><h2>Submitting</h2></span>
-    </div>
+						<label for="pwagain">Re-enter password</label>
+						<input
+							type="password"
+							class="form-control"
+							name="pwagain"
+							id="pwagain"
+							required
+						/>
+					</div>
+					<button type="submit" class="btn btn-primary btn-block">
+						Submit
+					</button>
+				</form>
+			</div>
+		</div>
 
-    <p id="status" style="display: none; color: red;"></p>
-    <form id="reset-form">
-        <label for="code">Please enter the verification code sent to you on email:</label>
-        <br>
-        <input type="text" name="code" id="code" required>
-        <br>
-        <label for="password">Enter New Password</label>
-        <input type="password" name="password" id="password" required>
-        <br>
-        <label for="pwagain">Re-enter password</label>
-        <input type="password" name="pwagain" id="pwagain" required>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
-    
-    <script>
-        document.getElementById('reset-form').addEventListener('submit', (event) => {
-            event.preventDefault();
+		<script>
+			document
+				.getElementById('reset-form')
+				.addEventListener('submit', (event) => {
+					event.preventDefault();
 
-            if(document.getElementById('password').value !== document.getElementById('pwagain').value)
-            {
-                alert('Passwords do not match');
-                return;
-            }
+					if (
+						document.getElementById('password').value !==
+						document.getElementById('pwagain').value
+					) {
+						alert('Passwords do not match');
+						return;
+					}
 
-            document.getElementById('loading').style.display = 'block';
+					document.getElementById('loading').style.display = 'block';
 
-            var form = new FormData(document.getElementById('reset-form'));
-            var formBody = [];
-            for (var key of form.keys()) {
-                var encodedKey = encodeURIComponent(key);
-                var encodedValue = encodeURIComponent(form.get(key));
-                formBody.push(encodedKey + '=' + encodedValue);
-            }
-            formBody = formBody.join('&');
+					var form = new FormData(
+						document.getElementById('reset-form')
+					);
+					var formBody = [];
+					for (var key of form.keys()) {
+						var encodedKey = encodeURIComponent(key);
+						var encodedValue = encodeURIComponent(form.get(key));
+						formBody.push(encodedKey + '=' + encodedValue);
+					}
+					formBody = formBody.join('&');
 
-            fetch("/reset-password", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'                 
-                },
-                body: formBody
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if(data.message == 1)
-                {
-                    alert('Password Has been reset!\nPlease login with your new password.')
-                    
-                    setTimeout(() => {
-                        location.replace('/home');
-                    }, 5000);
-                }
-                else if(data.message == 0)
-                {
-                    document.getElementById('status').innerHTML = 'Password must be at least 8 characters long and must contain at least 1 uppercase letter, lowercase letter, number and special character';
-                }
-                else if(data.message == 2)
-                {
-                    document.getElementById('status').innerHTML = 'Incorrect reset code'
-                }
-                else if(data.message == 3 || data.message == 4)
-                {
-                    alert('Error changing password.')
-                    
-                    setTimeout(() => {
-                        location.replace('/home');
-                    }, 5000);
-                }
-                else
-                {
-                    document.getElementById('status').innerHTML = 'Error changing password';
-                }
+					fetch('/reset-password', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						body: formBody
+					})
+						.then((response) => response.json())
+						.then((data) => {
+							console.log(data);
+							if (data.message == 1) {
+								alert(
+									'Password Has been reset!\nPlease login with your new password.'
+								);
 
-                document.getElementById('status').style.display = 'block';
-                document.getElementById('loading').style.display = 'none';
-            })
-            .catch(error => {
-                document.getElementById('status').innerHTML = 'Error Sending Mail';
+								setTimeout(() => {
+									location.replace('/home');
+								}, 5000);
+							} else if (data.message == 0) {
+								document.getElementById('status').innerHTML =
+									'Password must be at least 8 characters long and must contain at least 1 uppercase letter, lowercase letter, number and special character';
+							} else if (data.message == 2) {
+								document.getElementById('status').innerHTML =
+									'Incorrect reset code';
+							} else if (data.message == 3 || data.message == 4) {
+								alert('Error changing password.');
 
-                document.getElementById('loading').style.display = 'none';
-            })
-        })
-    </script>
-</body>
+								setTimeout(() => {
+									location.replace('/home');
+								}, 5000);
+							} else {
+								document.getElementById('status').innerHTML =
+									'Error changing password';
+							}
+
+							document.getElementById('status').style.display =
+								'block';
+							document.getElementById('loading').style.display =
+								'none';
+						})
+						.catch((error) => {
+							document.getElementById('status').innerHTML =
+								'Error Sending Mail';
+
+							document.getElementById('loading').style.display =
+								'none';
+						});
+				});
+		</script>
+	</body>
 </html>
