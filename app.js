@@ -66,7 +66,7 @@ const round2End =
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2Result =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const serviceAccount = {
@@ -672,17 +672,29 @@ app.get('/payment', (req, res) => {
 	}
 });
 
-// app.get('/results', (req, res) => {
-// 	if (req.isAuthenticated() && req.user.verified && req.user.submitted) {
-// 		res.render('results', {
-// 			teamConfirm: req.user.teamConfirm,
-// 			payment: req.user.payment,
-// 			submitted: req.user.submitted
-// 		});
-// 	} else {
-// 		res.redirect('/home');
-// 	}
-// });
+app.get('/round2Results', (req, res) => {
+	if (
+		req.isAuthenticated() &&
+		req.user.verified &&
+		new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000 >
+			round2Result
+	) {
+		User.find({ graded2: true })
+			.sort({ status2: -1 })
+			.limit(5)
+			.exec((err, users) => {
+				if (err) {
+					res.status(500).send('There was an error!');
+				} else if (users) {
+					res.render('round2Results', { users: users });
+				} else {
+					res.status(500).send('There was an error!');
+				}
+			});
+	} else {
+		res.redirect('/home');
+	}
+});
 
 app.get('/upload', (req, res) => {
 	if (req.isAuthenticated()) {
