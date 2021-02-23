@@ -66,7 +66,7 @@ const round2End =
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2Result =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const serviceAccount = {
@@ -672,7 +672,7 @@ app.get('/payment', (req, res) => {
 	}
 });
 
-app.get('/round2Results', (req, res) => {
+app.get('/final-results', (req, res) => {
 	if (
 		req.isAuthenticated() &&
 		req.user.verified &&
