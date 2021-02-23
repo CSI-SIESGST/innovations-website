@@ -555,9 +555,7 @@ app.get('/members', (req, res) => {
 			!req.user.verified ||
 			!(
 				req.user.teamConfirm ||
-				new Date().getTime() +
-					(330 + new Date().getTimezoneOffset()) * 60000 <
-					teamConfirmDeadline
+				new Date().getTime() < teamConfirmDeadline
 			)
 		) {
 			res.redirect('/home');
@@ -609,9 +607,7 @@ app.post('/members', (req, res) => {
 			res.status(401);
 		} else if (
 			req.user.teamConfirm ||
-			new Date().getTime() +
-				(330 + new Date().getTimezoneOffset()) * 60000 >
-				teamConfirmDeadline
+			new Date().getTime() > teamConfirmDeadline
 		) {
 			res.status(401);
 		} else {
@@ -676,8 +672,7 @@ app.get('/final-results', (req, res) => {
 	if (
 		req.isAuthenticated() &&
 		req.user.verified &&
-		new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000 >
-			round2Result
+		new Date().getTime() > round2Result
 	) {
 		User.find({ graded2: true })
 			.sort({ status2: -1 })
@@ -701,10 +696,7 @@ app.get('/upload', (req, res) => {
 		if (
 			!req.user.verified ||
 			!req.user.teamConfirm ||
-			(!req.user.submitted &&
-				new Date().getTime() +
-					(330 + new Date().getTimezoneOffset()) * 60000 >
-					submissionDeadline)
+			(!req.user.submitted && new Date().getTime() > submissionDeadline)
 		) {
 			res.redirect('/home');
 		} else {
@@ -726,9 +718,7 @@ app.post('/upload', (req, res) => {
 			!req.user.verified ||
 			!req.user.teamConfirm ||
 			req.user.submitted ||
-			new Date().getTime() +
-				(330 + new Date().getTimezoneOffset()) * 60000 >
-				submissionDeadline
+			new Date().getTime() > submissionDeadline
 		) {
 			res.status(401).end();
 		} else {
@@ -790,9 +780,7 @@ app.get('/home', (req, res) => {
 					} else {
 						totalCost = indCost + '/member';
 					}
-					const currentTime =
-						new Date().getTime() +
-						(330 + new Date().getTimezoneOffset()) * 60000;
+					const currentTime = new Date().getTime();
 					res.render('homenew', {
 						team: req.user.teamName,
 						chatId: chat._id,
@@ -995,10 +983,7 @@ app.post('/login', (req, res) => {
 app.get('/signup', (req, res) => {
 	if (req.isAuthenticated()) {
 		res.redirect('/home');
-	} else if (
-		new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000 <
-		regEndDate
-	) {
+	} else if (new Date().getTime() < regEndDate) {
 		res.render('register');
 	} else {
 		res.render('registration-ended');
