@@ -21,7 +21,11 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 		/>
-		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="assets/css/font-awesome.css"
+		/>
 		<link
 			rel="stylesheet"
 			type="text/css"
@@ -32,6 +36,7 @@
 	<body style="background-color: #5390f5">
 		<nav class="navbar navbar-expand-md">
 			<div class="container">
+				<img src="images/csi_logo.png" class="mr-3" />
 				<a href="/" class="navbar-brand mr-auto"> INNOVATIONS </a>
 				<button
 					class="navbar-toggler"
@@ -56,117 +61,139 @@
 				</div>
 			</div>
 		</nav>
-	<div class="pt-5 pr-4 pl-4">
-		<div class="container row mt-5" id="register" >
-			<div
-				class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center d-block d-sm-none d-md-block"
-			>
-				<img
-					src="images/register.png"
-					class="img-fluid w-100"
-					alt="Responsive image"
-				/>
-			</div>
+		<div class="pt-5 pr-4 pl-4">
+			<div class="container row mt-5" id="register">
+				<div
+					class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center d-block d-sm-none d-md-block"
+				>
+					<img
+						src="images/register.png"
+						class="img-fluid w-100"
+						alt="Responsive image"
+					/>
+				</div>
 
-			<!--Form-->
-			<div
-				class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
-			>
-				<form id="signup">
-					<label id="status" class="text-danger"></label>
-					<div class="form-row">
-						<div class="form-group col-sm-6">
-							<label for="firstname1">Team Name <span class="text-danger">*</span></label>
+				<!--Form-->
+				<div
+					class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 align-self-center justify-content-center"
+				>
+					<form id="signup">
+						<label id="status" class="text-danger"></label>
+						<div class="form-row">
+							<div class="form-group col-sm-6">
+								<label for="firstname1"
+									>Team Name
+									<span class="text-danger">*</span></label
+								>
+								<input
+									type="text"
+									name="team"
+									class="form-control"
+									id="firstname1"
+									placeholder="Team Name"
+									required
+								/>
+							</div>
+							<div class="form-group col-sm-6">
+								<label for="lastname1"
+									>Leader's Full Name
+									<span class="text-danger">*</span></label
+								>
+								<input
+									type="text"
+									name="leadername"
+									class="form-control"
+									id="lastname1"
+									placeholder="Full Name"
+									required
+								/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="collegename1"
+								>Leader's College Name
+								<span class="text-danger">*</span></label
+							>
 							<input
 								type="text"
-								name="team"
 								class="form-control"
-								id="firstname1"
-								placeholder="Team Name"
+								name="college"
+								id="collegename1"
+								placeholder="College Name"
 								required
 							/>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="lastname1">Leader's Full Name <span class="text-danger">*</span></label>
+						<div class="form-group">
+							<label for="contactnumber1"
+								>Leader's Contact Number
+								<span class="text-danger">*</span></label
+							>
 							<input
-								type="text"
-								name="leadername"
+								type="tel"
 								class="form-control"
-								id="lastname1"
-								placeholder="Full Name"
+								minlength="10"
+								pattern="[0-9]{10}"
+								name="contact"
+								id="contactnumber1"
+								placeholder="Contact number"
 								required
 							/>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="collegename1">Leader's College Name <span class="text-danger">*</span></label>
-						<input
-							type="text"
-							class="form-control"
-							name="college"
-							id="collegename1"
-							placeholder="College Name"
-							required
-						/>
-					</div>
-					<div class="form-group">
-						<label for="contactnumber1">Leader's Contact Number <span class="text-danger">*</span></label>
-						<input
-							type="tel"
-							class="form-control"
-							minlength=10
-							pattern="[0-9]{10}"
-							name="contact"
-							id="contactnumber1"
-							placeholder="Contact number"
-							required
-						/>
-					</div>
-					<div class="form-group">
-						<label for="email1">Leader's Email ID <span class="text-danger">*</span></label>
-						<input
-							type="email"
-							class="form-control"
-							name="username"
-							id="email1"
-							placeholder="Email Address"
-							required
-						/>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-sm-6">
-							<label for="inputPassword1">Password <span class="text-danger">*</span></label>
+						<div class="form-group">
+							<label for="email1"
+								>Leader's Email ID
+								<span class="text-danger">*</span></label
+							>
 							<input
-								type="password"
+								type="email"
 								class="form-control"
-								name="password"
-								id="inputPassword1"
-								placeholder="********"
+								name="username"
+								id="email1"
+								placeholder="Email Address"
 								required
 							/>
 						</div>
-						<div class="form-group col-sm-6">
-							<label for="confirmPassword1">Confirm Password <span class="text-danger">*</span></label>
-							<input
-								type="password"
-								class="form-control"
-								id="confirmPassword1"
-								placeholder="********"
-								name="passwordagain"
-								required
-							/>
+						<div class="form-row">
+							<div class="form-group col-sm-6">
+								<label for="inputPassword1"
+									>Password
+									<span class="text-danger">*</span></label
+								>
+								<input
+									type="password"
+									class="form-control"
+									name="password"
+									id="inputPassword1"
+									placeholder="********"
+									required
+								/>
+							</div>
+							<div class="form-group col-sm-6">
+								<label for="confirmPassword1"
+									>Confirm Password
+									<span class="text-danger">*</span></label
+								>
+								<input
+									type="password"
+									class="form-control"
+									id="confirmPassword1"
+									placeholder="********"
+									name="passwordagain"
+									required
+								/>
+							</div>
 						</div>
-					</div>
-					<button type="submit" class="btn btn-primary btn-block">
-						Register
-					</button>
-					<div class="text-center pb-4">Already Registered? <a href="/login"> Login!</a></div>
-				</form>
+						<button type="submit" class="btn btn-primary btn-block">
+							Register
+						</button>
+						<div class="text-center pb-4">
+							Already Registered? <a href="/login"> Login!</a>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-		</div>
 
-		
 		<script>
 			function signupReq() {
 				var form = new FormData(document.getElementById('signup'));
@@ -191,9 +218,13 @@
 						} else {
 							document.getElementById('status').innerHTML =
 								data.message;
-							if(data.message == 'Password doesn\'t satisfy the conditions!')
-							{
-								alert('Password must be 8 characters long\nIt should have at least one UpperCase character, LowerCase character, Number, Special Symbol.')
+							if (
+								data.message ==
+								"Password doesn't satisfy the conditions!"
+							) {
+								alert(
+									'Password must be 8 characters long\nIt should have at least one UpperCase character, LowerCase character, Number, Special Symbol.'
+								);
 							}
 						}
 					})

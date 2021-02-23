@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Members</title>
-	<meta charset="utf-8" />
+	<head>
+		<title>Members</title>
+		<meta charset="utf-8" />
 		<meta name="viewport" content="width = device-width, initial-scale=1" />
 		<link
 			rel="stylesheet"
@@ -21,183 +21,193 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 		/>
-		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="assets/css/font-awesome.css"
+		/>
 		<link
 			rel="stylesheet"
 			type="text/css"
 			href="assets/css/templatemo-art-factory.css"
 		/>
-</head>
-<body>
+	</head>
+	<body>
+		<!--Navbar-->
+		<nav
+			class="navbar navbar-expand-md"
+			style="box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06)"
+		>
+			<div class="container">
+				<img src="images/csi_logo.png" class="mr-3" />
+				<a href="/" class="navbar-brand mr-auto"> INNOVATIONS </a>
+				<button
+					class="navbar-toggler"
+					data-toggle="collapse"
+					data-target="#navbarid"
+				>
+					<span
+						><i
+							class="fa fa-bars"
+							aria-hidden="true"
+							style="color: #3f3d56"
+						></i
+					></span>
+				</button>
 
-	<!--Navbar-->
-	<nav class="navbar navbar-expand-md" style="box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06)">
-		<div class="container">
-			<a href="/" class="navbar-brand mr-auto"> INNOVATIONS </a>
-			<button
-				class="navbar-toggler"
-				data-toggle="collapse"
-				data-target="#navbarid"
-			>
-				<span
-					><i
-						class="fa fa-bars"
-						aria-hidden="true"
-						style="color: #3f3d56"
-					></i
-				></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarid">
-				<ul class="navbar-nav text-center ml-auto">
-					<li class="nav-item">
-						<a href="/home" class="nav-link">Team Profile</a>
-					</li>
-					<li class="nav-item">
-						<a href="/logout" class="nav-link">Logout</a>
-					</li>
-				</ul>
+				<div class="collapse navbar-collapse" id="navbarid">
+					<ul class="navbar-nav text-center ml-auto">
+						<li class="nav-item">
+							<a href="/home" class="nav-link">Team Profile</a>
+						</li>
+						<li class="nav-item">
+							<a href="/logout" class="nav-link">Logout</a>
+						</li>
+					</ul>
+				</div>
 			</div>
-		</div>
-	</nav>
-	<div style="padding: 20px;"></div>
+		</nav>
+		<div style="padding: 20px"></div>
 
-	<% if(!teamConfirm) { %>
-	<h2 style="text-align: center;">Fill Member Details</h2>
-	<div class="container active" id="details">
-				<form id="mem-form">
-					<div id="form-content">
+		<% if(!teamConfirm) { %>
+		<h2 style="text-align: center">Fill Member Details</h2>
+		<div class="container active" id="details">
+			<form id="mem-form">
+				<div id="form-content">
 					<div class="member-sec">
 						<h3 id="sub-heading">MEMBER - 1</h3>
-							<div class="container row">
-								<div
-									class="col-12 col-lg-6 col-xl-6 align-self-center justify-content-center">
-									<div class="form-group">
-											<input 
-											type="text"
-											class="form-control"
-											name="name1"
-											placeholder= "Leader Name"
-											value="<%= leaderName %> "
-											readonly
-											/>
-									</div>
-									<div class="form-group">
-										<input
-											type="email"
-											class="form-control"
-											name="email1"
-											placeholder="Leader Email"
-											value="<%= username %> "
-											readonly
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="text"
-											class="form-control"
-											name="college1"
-											placeholder="Leader College name"
-											value="<%= leaderCollege %> "
-											readonly
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="tel"
-											class="form-control"
-											name="contact1"
-											placeholder="Leader Contact number"
-											value="<%= leaderContact %> "
-											readonly
-										/>
-									</div>
+						<div class="container row">
+							<div
+								class="col-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
+							>
+								<div class="form-group">
+									<input
+										type="text"
+										class="form-control"
+										name="name1"
+										placeholder="Leader Name"
+										value="<%= leaderName %> "
+										readonly
+									/>
 								</div>
-								<div
-									class="col-lg-6 d-none d-lg-block align-self-center justify-content-center">
+								<div class="form-group">
+									<input
+										type="email"
+										class="form-control"
+										name="email1"
+										placeholder="Leader Email"
+										value="<%= username %> "
+										readonly
+									/>
+								</div>
+								<div class="form-group">
+									<input
+										type="text"
+										class="form-control"
+										name="college1"
+										placeholder="Leader College name"
+										value="<%= leaderCollege %> "
+										readonly
+									/>
+								</div>
+								<div class="form-group">
+									<input
+										type="tel"
+										class="form-control"
+										name="contact1"
+										placeholder="Leader Contact number"
+										value="<%= leaderContact %> "
+										readonly
+									/>
+								</div>
+							</div>
+							<div
+								class="col-lg-6 d-none d-lg-block align-self-center justify-content-center"
+							>
 								<img
 									src="images/complete-icon.png"
 									class="img-fluid"
 									alt="Responsive image"
 									style="margin-left: 40%"
 								/>
-								</div>
 							</div>
+						</div>
 					</div>
 					<div class="member-sec">
 						<h3 id="sub-heading">MEMBER - 2</h3>
 						<div class="container row">
 							<div
-								class="col-12 col-lg-6 align-self-center justify-content-center">
-									<div class="form-group">
-										<input 
+								class="col-12 col-lg-6 align-self-center justify-content-center"
+							>
+								<div class="form-group">
+									<input
 										type="text"
 										class="form-control"
-										placeholder= "Name"
+										placeholder="Name"
 										name="name2"
 										required
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="email"
-											class="form-control"
-											name="email2"
-											placeholder="Email"
-											required
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="text"
-											class="form-control"
-											name="college2"
-											placeholder="College name"
-											required
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="tel"
-											class="form-control"
-											name="contact2"
-											placeholder="Contact number"
-											required
-										/>
-									</div>
+									/>
 								</div>
-								<div
-									class="col-lg-6 d-none d-lg-block d-sm-none d-lg-block align-self-center justify-content-center">
+								<div class="form-group">
+									<input
+										type="email"
+										class="form-control"
+										name="email2"
+										placeholder="Email"
+										required
+									/>
+								</div>
+								<div class="form-group">
+									<input
+										type="text"
+										class="form-control"
+										name="college2"
+										placeholder="College name"
+										required
+									/>
+								</div>
+								<div class="form-group">
+									<input
+										type="tel"
+										class="form-control"
+										name="contact2"
+										placeholder="Contact number"
+										required
+									/>
+								</div>
+							</div>
+							<div
+								class="col-lg-6 d-none d-lg-block d-sm-none d-lg-block align-self-center justify-content-center"
+							>
 								<img
 									src="images/incomplete-icon.png"
 									class="img-fluid"
 									alt="Responsive image"
 									style="margin-left: 40%"
 								/>
-								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-					<div class="text-center">
-						<button id="add-mem-btn" class="btn btn-primary">
-							Add member slot
-						</button>
-						<button id="rm-mem-btn" class="btn btn-primary">
-							Remove slot
-						</button>
-					</div>
-					<button id="submit" class="btn btn-primary btn-block">
-						Confirm Members
+				<div class="text-center">
+					<button id="add-mem-btn" class="btn btn-primary">
+						Add member slot
 					</button>
-				
-				</form>
+					<button id="rm-mem-btn" class="btn btn-primary">
+						Remove slot
+					</button>
 				</div>
-			<script>
-				function addMember() {
-					var num = document.getElementsByClassName("member-sec").length;
-					document.getElementById("rm-mem-btn").disabled = false;
-					if (num == 2){
-						document.getElementById("form-content").innerHTML += `
+				<button id="submit" class="btn btn-primary btn-block">
+					Confirm Members
+				</button>
+			</form>
+		</div>
+		<script>
+			function addMember() {
+				var num = document.getElementsByClassName('member-sec').length;
+				document.getElementById('rm-mem-btn').disabled = false;
+				if (num == 2) {
+					document.getElementById('form-content').innerHTML += `
 						<div class="member-sec">
 							<h3 id="sub-heading">MEMBER - 3</h3>
 								<div class="container row">
@@ -252,9 +262,9 @@
 										</div>
 									</div>
 								</div>`;
-					}else if (num == 3){
-						document.getElementById("add-mem-btn").disabled = true;
-						document.getElementById("form-content").innerHTML += `
+				} else if (num == 3) {
+					document.getElementById('add-mem-btn').disabled = true;
+					document.getElementById('form-content').innerHTML += `
 						<div class="member-sec">
 							<h3 id="sub-heading">MEMBER - 4</h3>
 								<div class="container row">
@@ -309,47 +319,63 @@
 										</div>
 									</div>
 								</div>`;
-					}
-					
 				}
-				function removeMember(){
-					var members = document.getElementsByClassName("member-sec");
-					if(members.length > 2){
-						members[members.length - 1].remove();
-						document.getElementById("add-mem-btn").disabled = false;
-					}
-					if(members.length == 2){
-						document.getElementById("rm-mem-btn").disabled = true;
-					}
+			}
+			function removeMember() {
+				var members = document.getElementsByClassName('member-sec');
+				if (members.length > 2) {
+					members[members.length - 1].remove();
+					document.getElementById('add-mem-btn').disabled = false;
 				}
+				if (members.length == 2) {
+					document.getElementById('rm-mem-btn').disabled = true;
+				}
+			}
 
-				document.getElementById("add-mem-btn").addEventListener("click", function(event){
+			document
+				.getElementById('add-mem-btn')
+				.addEventListener('click', function (event) {
 					event.preventDefault();
 					addMember();
-				})
+				});
 
-				document.getElementById("rm-mem-btn").addEventListener("click", function(event){
+			document
+				.getElementById('rm-mem-btn')
+				.addEventListener('click', function (event) {
 					event.preventDefault();
 					removeMember();
-				})
-				
-				document.getElementById("mem-form").addEventListener("submit", function(event){
-					if(confirm('Do you want to confirm your team?\nTeam cannot be edited later!'))
-					{
-						var form = new FormData(document.getElementById('mem-form'));
-						var formBody = ['num='+document.getElementsByClassName("member-sec").length];
+				});
+
+			document
+				.getElementById('mem-form')
+				.addEventListener('submit', function (event) {
+					if (
+						confirm(
+							'Do you want to confirm your team?\nTeam cannot be edited later!'
+						)
+					) {
+						var form = new FormData(
+							document.getElementById('mem-form')
+						);
+						var formBody = [
+							'num=' +
+								document.getElementsByClassName('member-sec')
+									.length
+						];
 						for (var key of form.keys()) {
 							var encodedKey = encodeURIComponent(key);
-							var encodedValue = encodeURIComponent(form.get(key));
+							var encodedValue = encodeURIComponent(
+								form.get(key)
+							);
 							formBody.push(encodedKey + '=' + encodedValue);
 						}
 						formBody = formBody.join('&');
 
-
 						fetch('/members', {
 							method: 'POST',
 							headers: {
-								'Content-Type': 'application/x-www-form-urlencoded'
+								'Content-Type':
+									'application/x-www-form-urlencoded'
 							},
 							body: formBody
 						})
@@ -358,8 +384,9 @@
 								if (data.message == 'done') {
 									location.replace('/members');
 								} else {
-									document.getElementById('status').innerHTML =
-										data.message;
+									document.getElementById(
+										'status'
+									).innerHTML = data.message;
 								}
 							})
 							.catch((error) => {
@@ -368,138 +395,136 @@
 							});
 					}
 					event.preventDefault();
-				})
-			</script>
-			<% } else {
-				%>
-				<h2 style="text-align: center;">Member Details Confirmed</h2>
-				<div class="container active" id="details">
-				<form id="mem-form">
-					<div id="form-content">
+				});
+		</script>
+		<% } else { %>
+		<h2 style="text-align: center">Member Details Confirmed</h2>
+		<div class="container active" id="details">
+			<form id="mem-form">
+				<div id="form-content">
 					<div class="member-sec">
 						<h3 id="sub-heading">MEMBER - 1</h3>
-							<div class="container row">
-								<div
-									class="col-12 col-lg-6 col-xl-6 align-self-center justify-content-center">
-									<div class="form-group">
-											<input 
-											type="text"
-											class="form-control"
-											name="name1"
-											placeholder= "Leader Name"
-											value="<%= leaderName %> "
-											readonly
-											/>
-									</div>
-									<div class="form-group">
-										<input
-											type="email"
-											class="form-control"
-											name="email1"
-											placeholder="Leader Email"
-											value="<%= username %> "
-											readonly
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="text"
-											class="form-control"
-											name="college1"
-											placeholder="Leader College name"
-											value="<%= leaderCollege %> "
-											readonly
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="tel"
-											class="form-control"
-											name="contact1"
-											placeholder="Leader Contact number"
-											value="<%= leaderContact %> "
-											readonly
-										/>
-									</div>
+						<div class="container row">
+							<div
+								class="col-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
+							>
+								<div class="form-group">
+									<input
+										type="text"
+										class="form-control"
+										name="name1"
+										placeholder="Leader Name"
+										value="<%= leaderName %> "
+										readonly
+									/>
 								</div>
-								<div
-									class="col-lg-6 d-none d-lg-block align-self-center justify-content-center">
+								<div class="form-group">
+									<input
+										type="email"
+										class="form-control"
+										name="email1"
+										placeholder="Leader Email"
+										value="<%= username %> "
+										readonly
+									/>
+								</div>
+								<div class="form-group">
+									<input
+										type="text"
+										class="form-control"
+										name="college1"
+										placeholder="Leader College name"
+										value="<%= leaderCollege %> "
+										readonly
+									/>
+								</div>
+								<div class="form-group">
+									<input
+										type="tel"
+										class="form-control"
+										name="contact1"
+										placeholder="Leader Contact number"
+										value="<%= leaderContact %> "
+										readonly
+									/>
+								</div>
+							</div>
+							<div
+								class="col-lg-6 d-none d-lg-block align-self-center justify-content-center"
+							>
 								<img
 									src="images/complete-icon.png"
 									class="img-fluid"
 									alt="Responsive image"
 									style="margin-left: 40%"
 								/>
-								</div>
 							</div>
+						</div>
 					</div>
-					<% var i=1;
-					teamMembers.forEach(member => {
-						i++;
-						%>
-						<div class="member-sec">
+					<% var i=1; teamMembers.forEach(member => { i++; %>
+					<div class="member-sec">
 						<h3 id="sub-heading">MEMBER - <%= i %></h3>
-							<div class="container row">
-								<div
-									class="col-12 col-lg-6 col-xl-6 align-self-center justify-content-center">
-									<div class="form-group">
-											<input 
-											type="text"
-											class="form-control"
-											name="name1"
-											placeholder= "Leader Name"
-											value="<%= member.name %> "
-											readonly
-											/>
-									</div>
-									<div class="form-group">
-										<input
-											type="email"
-											class="form-control"
-											name="email1"
-											placeholder="Leader Email"
-											value="<%= member.email %> "
-											readonly
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="text"
-											class="form-control"
-											name="college1"
-											placeholder="Leader College name"
-											value="<%= member.college %> "
-											readonly
-										/>
-									</div>
-									<div class="form-group">
-										<input
-											type="tel"
-											class="form-control"
-											name="contact1"
-											placeholder="Leader Contact number"
-											value="<%= member.contact %> "
-											readonly
-										/>
-									</div>
+						<div class="container row">
+							<div
+								class="col-12 col-lg-6 col-xl-6 align-self-center justify-content-center"
+							>
+								<div class="form-group">
+									<input
+										type="text"
+										class="form-control"
+										name="name1"
+										placeholder="Leader Name"
+										value="<%= member.name %> "
+										readonly
+									/>
 								</div>
-								<div
-									class="col-lg-6 d-none d-lg-block align-self-center justify-content-center">
+								<div class="form-group">
+									<input
+										type="email"
+										class="form-control"
+										name="email1"
+										placeholder="Leader Email"
+										value="<%= member.email %> "
+										readonly
+									/>
+								</div>
+								<div class="form-group">
+									<input
+										type="text"
+										class="form-control"
+										name="college1"
+										placeholder="Leader College name"
+										value="<%= member.college %> "
+										readonly
+									/>
+								</div>
+								<div class="form-group">
+									<input
+										type="tel"
+										class="form-control"
+										name="contact1"
+										placeholder="Leader Contact number"
+										value="<%= member.contact %> "
+										readonly
+									/>
+								</div>
+							</div>
+							<div
+								class="col-lg-6 d-none d-lg-block align-self-center justify-content-center"
+							>
 								<img
 									src="images/complete-icon.png"
 									class="img-fluid"
 									alt="Responsive image"
 									style="margin-left: 40%"
 								/>
-								</div>
 							</div>
+						</div>
 					</div>
 					<% }); %>
 				</div>
-				
-				</form>
-				</div>
-				<%
-			} %> 
-</body>
+			</form>
+		</div>
+		<% } %>
+	</body>
 </html>
