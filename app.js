@@ -24,7 +24,7 @@ const Log = require('./schema/logSchema');
 const indCost = 500;
 
 const regEndDate =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const teamConfirmDate = '23/02/2022';
@@ -866,7 +866,6 @@ app.post('/forgot-password', async (req, res) => {
 		log.save();
 
 		res.send({ message: mailStatus });
-		res.end();
 	}
 });
 
