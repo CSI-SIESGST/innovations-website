@@ -62,9 +62,19 @@
 								</li>
 								<% if(team) { %>
 								<li>
+									<a href="/home">Team Profile</a>
+								</li>
+								<li>
 									<a href="/logout">Logout</a>
 								</li>
-								<%  } %>
+								<%  } else { %>
+								<li>
+									<a href="/login">Sign in</a>
+								</li>
+								<li>
+									<a href="/signup">Register</a>
+								</li>
+								<% } %>
 							</ul>
 							<a class="menu-trigger">
 								<span>Menu</span>
