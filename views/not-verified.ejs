@@ -71,7 +71,34 @@
 		</script>
 	</head>
 
-	<body style="background-color: #f55858; padding: 60px">
+	<body style="background-color: #f55858;">
+		<nav class="navbar navbar-expand-md">
+			<div class="container">
+				<a href="/" class="navbar-brand mr-auto"> INNOVATIONS </a>
+				<button
+					class="navbar-toggler"
+					data-toggle="collapse"
+					data-target="#navbarid"
+				>
+					<span
+						><i
+							class="fa fa-bars"
+							aria-hidden="true"
+							style="color: #3f3d56"
+						></i
+					></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarid">
+					<ul class="navbar-nav text-center ml-auto">
+						<li class="nav-item">
+							<a href="/logout" class="nav-link">Logout</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div style="padding: 60px;">
 		<div
 			id="loading"
 			style="
@@ -133,6 +160,7 @@
 					</button>
 				</div>
 			</div>
+		</div>
 		</div>
 	</body>
 </html>
