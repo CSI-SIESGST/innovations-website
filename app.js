@@ -24,7 +24,7 @@ const Log = require('./schema/logSchema');
 const indCost = 500;
 
 const regEndDate =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const teamConfirmDate = '23/02/2022';
@@ -66,7 +66,7 @@ const round2End =
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2Result =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const serviceAccount = {
@@ -995,8 +995,13 @@ app.post('/login', (req, res) => {
 app.get('/signup', (req, res) => {
 	if (req.isAuthenticated()) {
 		res.redirect('/home');
-	} else {
+	} else if (
+		new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000 <
+		regEndDate
+	) {
 		res.render('register');
+	} else {
+		res.render('registration-ended');
 	}
 });
 
