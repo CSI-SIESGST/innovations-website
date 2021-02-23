@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-            Payment
-        </title>
-        <meta charset="utf-8" />
+	<head>
+		<title>Payment</title>
+		<meta charset="utf-8" />
 		<meta name="viewport" content="width = device-width, initial-scale=1" />
 		<link
 			rel="stylesheet"
@@ -23,28 +21,45 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 		/>
-		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="assets/css/font-awesome.css"
+		/>
 		<link
 			rel="stylesheet"
 			type="text/css"
 			href="assets/css/templatemo-art-factory.css"
 		/>
-    </head>
-    <body>
-        <!-- Navbar -->
-		<header class="header-area header-sticky" style="height: auto; box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06)">
+	</head>
+	<body>
+		<!-- Navbar -->
+		<header
+			class="header-area header-sticky"
+			style="height: auto; box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06)"
+		>
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<nav class="main-nav";">
-							<a href="/" class="logo" style="color: #3f3d56;">INNOVATIONS</a>
+						<img src="images/csi_logo.png" class="mr-3" />
+						<nav class="main-nav" ;>
+							<a href="/" class="logo" style="color: #3f3d56"
+								>INNOVATIONS</a
+							>
 							<!-- Navbar -->
 							<ul class="nav">
-								<li class="scroll-to-section" style="color: #3f3d56;">
-									<a href="/home" style="color:#3f3d56;">Home</a>
+								<li
+									class="scroll-to-section"
+									style="color: #3f3d56"
+								>
+									<a href="/home" style="color: #3f3d56"
+										>Home</a
+									>
 								</li>
 								<li class="scroll-to-section">
-									<a href="/logout" style="color: #3f3d56;">Logout</a>
+									<a href="/logout" style="color: #3f3d56"
+										>Logout</a
+									>
 								</li>
 							</ul>
 							<a class="menu-trigger">
@@ -55,8 +70,8 @@
 				</div>
 			</div>
 		</header>
-		<div style="padding: 50px;"></div>
-        <!-- <nav class="navbar navbar-expand-md">
+		<div style="padding: 50px"></div>
+		<!-- <nav class="navbar navbar-expand-md">
 			<div class="container">
 				<a href="/" class="navbar-brand mr-auto"> LOGO </a>
 				<button
@@ -93,29 +108,31 @@
 				</div>
 			</div>
         </nav> -->
-        
-        <% if (!payment) { %>
-        <h1 class="text-dark mt-2" style="text-align: center;">Payment Instruction</h1>
 
-        <div class="container pt-5">
-            <ul style="font-size: x-large;">
-                <li>Add all the members in your group.</li>
-                <li>Contact on of the oranizers given below.</li>
-                <li>Make the payment as instructed.</li>
-                <li>Check your payment status in your teams profile.</li>
-            </ul>
-        </div>
-        <% } else { %>
-            <div class="container">
-                <div class="text-center align-middle pt-5">
-                    <img
-                        src="images/complete-icon.png"
-                        class="img-fluid"
-                        alt="Responsive image"
-                    />
-                </div>
-                <h2 style="text-align: center;" class="pt-3" >Payment Successful</h2>
-            </div>
-        <% } %>
-    </body>
+		<% if (!payment) { %>
+		<h1 class="text-dark mt-2" style="text-align: center">
+			Payment Instruction
+		</h1>
+
+		<div class="container pt-5">
+			<ul style="font-size: x-large">
+				<li>Add all the members in your group.</li>
+				<li>Contact on of the oranizers given below.</li>
+				<li>Make the payment as instructed.</li>
+				<li>Check your payment status in your teams profile.</li>
+			</ul>
+		</div>
+		<% } else { %>
+		<div class="container">
+			<div class="text-center align-middle pt-5">
+				<img
+					src="images/complete-icon.png"
+					class="img-fluid"
+					alt="Responsive image"
+				/>
+			</div>
+			<h2 style="text-align: center" class="pt-3">Payment Successful</h2>
+		</div>
+		<% } %>
+	</body>
 </html>
