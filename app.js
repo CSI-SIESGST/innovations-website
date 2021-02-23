@@ -691,7 +691,7 @@ app.get('/upload', (req, res) => {
 			!req.user.teamConfirm ||
 			(!req.user.submitted &&
 				new Date().getTime() +
-					(330 + new Date().getTimezoneOffset()) * 60000 <
+					(330 + new Date().getTimezoneOffset()) * 60000 >
 					submissionDeadline)
 		) {
 			res.redirect('/home');
