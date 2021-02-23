@@ -39,7 +39,7 @@
 						<!-- Navbar -->
 						<ul class="nav">
 							<li class="scroll-to-section" style="color: #3f3d56;">
-								<a href="/home" style="color:#3f3d56;">Home</a>
+								<a href="/home" style="color:#3f3d56;">Team Profile</a>
 							</li>
 							<li class="scroll-to-section">
 								<a href="/logout" style="color: #3f3d56;">Logout</a>
@@ -54,43 +54,6 @@
 		</div>
 	</header>
 	<div style="padding: 50px;"></div>
-    <!-- <nav class="navbar navbar-expand-md mb-4">
-		<div class="container">
-			<a href="/" class="navbar-brand mr-auto"> LOGO </a>
-			<button
-				class="navbar-toggler"
-				data-toggle="collapse"
-				data-target="#navbarid"
-			>
-				<span
-					><i
-						class="fa fa-bars"
-						aria-hidden="true"
-						style="color: #3f3d56"
-					></i
-				></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarid">
-				<ul class="navbar-nav text-center ml-auto">
-					<li class="nav-item">
-						<a href="/info" class="nav-link">Info</a>
-					</li>
-					<li class="nav-item">
-						<a href="#" class="nav-link"
-							>Contact Us</a
-						>
-					</li>
-					<li class="nav-item">
-						<a href="/home" class="nav-link">Team Profile</a>
-					</li>
-					<li class="nav-item">
-						<a href="/logout" class="nav-link">LOG OUT</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav> -->
     <% if (!submitted) { %>
     <h2 id="sub-heading" style="text-align: center;">SUBMIT YOUR ABSTRACT</h2>
 				<div class="container">
@@ -122,7 +85,7 @@
     </form>
     <h3 style="text-align: center;"><u>Note:</u></h3>
     <h4 style="text-align: center;">You need to confirm members and make payment before submitting your abstract.</h4>
-    <% if (!(payment && teamConfirm)) { %>
+    <% if (!(teamConfirm)) { %>
         <script>
            document.getElementById("submit").addEventListener("click", function(event){
                event.preventDefault();

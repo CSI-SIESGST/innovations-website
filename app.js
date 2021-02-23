@@ -85,7 +85,7 @@ const serviceAccount = {
 //initialize firebase app
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
-	storageBucket: 'innovations-csi.appspot.com'
+	storageBucket: 'csi-innovations.appspot.com'
 });
 
 //firebase bucket
