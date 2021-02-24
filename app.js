@@ -24,7 +24,7 @@ const Log = require('./schema/logSchema');
 const indCost = 500;
 
 const regEndDate =
-	new Date('Jan 23, 2021 23:59:59').getTime() +
+	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const teamConfirmDate = '23/02/2022';
@@ -119,7 +119,14 @@ const app = express();
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 100 // limit each IP to 100 requests per windowMs
+	max: 200 // limit each IP to 100 requests per windowMs
+});
+
+const createAccountLimiter = rateLimit({
+	windowMs: 60 * 60 * 1000, // 1 hour window
+	max: 5, // start blocking after 5 requests
+	message:
+		'Too many accounts created from this IP, please try again after an hour'
 });
 
 app.set('trust proxy', '127.0.0.1');
@@ -866,7 +873,6 @@ app.post('/forgot-password', async (req, res) => {
 		log.save();
 
 		res.send({ message: mailStatus });
-		res.end();
 	}
 });
 
@@ -990,7 +996,7 @@ app.get('/signup', (req, res) => {
 	}
 });
 
-app.post('/signup', (req, res) => {
+app.post('/signup', createAccountLimiter, (req, res) => {
 	if (req.isAuthenticated()) {
 		res.status(404);
 	} else if (
@@ -1169,39 +1175,39 @@ app.get('/verifymail', (req, res) => {
 	if (req.isAuthenticated() && req.user.username != email) {
 		res.status(404);
 		res.end();
-	}
-
-	if (time + 24 * 60 * 60 * 1000 < new Date().getTime()) {
+	} else if (time + 24 * 60 * 60 * 1000 < new Date().getTime()) {
 		res.status(401);
 		res.render('verification-expired');
-	}
+		res.end();
+	} else {
+		User.where({ username: email }).findOne((err, user) => {
+			if (err) {
+				res.status(500);
+				res.end('Server Error!');
+			} else if (user) {
+				if (user.verified) {
+					res.redirect('/home');
+					res.end();
+				} else {
+					user.verified = true;
+					user.save();
 
-	User.where({ username: email }).findOne((err, user) => {
-		if (err) {
-			res.status(500);
-			res.end('Server Error!');
-		} else if (user) {
-			if (user.verified) {
-				res.redirect('/home');
-				res.end();
+					let log = new Log({
+						time: new Date().getTime(),
+						trigger: false,
+						event:
+							'<b>' + email + '</b> verified email successfully!'
+					});
+					log.save();
+
+					res.redirect('/login');
+				}
 			} else {
-				user.verified = true;
-				user.save();
-
-				let log = new Log({
-					time: new Date().getTime(),
-					trigger: false,
-					event: '<b>' + email + '</b> verified email successfully!'
-				});
-				log.save();
-
-				res.redirect('/login');
+				res.status(500);
+				res.end('Server Error!');
 			}
-		} else {
-			res.status(500);
-			res.end('Server Error!');
-		}
-	});
+		});
+	}
 });
 
 app.post('/resend-verification', async (req, res) => {
