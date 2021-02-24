@@ -904,12 +904,6 @@ app.post('/reset-password', async (req, res) => {
 									res.send({ message: 5 });
 									console.log(error);
 								} else {
-									user.resetPw.available = false;
-									user.save();
-									req.session[
-										process.env.RESET_SESSION_VAR
-									] = null;
-
 									let log = new Log({
 										time: new Date().getTime(),
 										trigger: false,
@@ -921,6 +915,12 @@ app.post('/reset-password', async (req, res) => {
 											'</b> reset their password!'
 									});
 									log.save();
+
+									user.resetPw.available = false;
+									user.save();
+									req.session[
+										process.env.RESET_SESSION_VAR
+									] = null;
 
 									res.send({ message: 1 });
 								}
