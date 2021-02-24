@@ -1841,6 +1841,10 @@ app.post('/changeR2', (req, res) => {
 	}
 });
 
+app.use((req, res, next) => {
+	res.status(404).render('error-404');
+});
+
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, console.log(`Server started on port ${PORT}`));
