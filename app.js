@@ -57,17 +57,17 @@ const round2DateTime = `<span class="d-inline-block">00/00/00 at</span> <span cl
 const round2Link = '#';
 
 const round2Start =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2ResultTime = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
 
 const round2End =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2Result =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const serviceAccount = {
@@ -674,7 +674,7 @@ app.get('/final-results', (req, res) => {
 		req.user.verified &&
 		new Date().getTime() > round2Result
 	) {
-		User.find({ graded2: true })
+		User.find({ graded2: true, domain: req.user.domain })
 			.sort({ status2: -1 })
 			.limit(5)
 			.exec((err, users) => {
@@ -1318,24 +1318,36 @@ app.get('/admin-panel', (req, res) => {
 	}
 });
 
-app.get('/ranking', (req, res) => {
+app.get('/ranking/:domain', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (
 		req.session[process.env.ADMIN_SESSION_VAR] &&
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
 	) {
-		User.find({ graded2: true })
-			.sort({ status2: -1 })
-			.exec((err, users) => {
-				if (err) {
-					res.status(500).send('There was an error!');
-				} else if (users) {
-					res.render('ranking', { users: users });
-				} else {
-					res.status(500).send('There was an error!');
-				}
-			});
+		let dom;
+		let flag = true;
+		if (req.params.domain == 's') {
+			dom = true;
+		} else if (req.params.domain == 'h') {
+			dom = false;
+		} else {
+			res.redirect('/');
+			flag = false;
+		}
+		if (flag) {
+			User.find({ graded2: true, domain: dom })
+				.sort({ status2: -1 })
+				.exec((err, users) => {
+					if (err) {
+						res.status(500).send('There was an error!');
+					} else if (users) {
+						res.render('ranking', { users: users });
+					} else {
+						res.status(500).send('There was an error!');
+					}
+				});
+		}
 	} else {
 		res.status(401);
 		res.end('Unauthorised');

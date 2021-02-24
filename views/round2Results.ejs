@@ -30,11 +30,48 @@
 </head>
 
 <body>
+
+    <nav
+			class="navbar navbar-expand-md"
+			style="box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06)"
+		>
+			<div class="container">
+				<img src="images/csi_logo.png" class="mr-3" onclick="location.href='/'" style="float: left; cursor: pointer;"/>
+				<a href="/" class="navbar-brand mr-auto"> INNOVATIONS </a>
+				<button
+					class="navbar-toggler"
+					data-toggle="collapse"
+					data-target="#navbarid"
+				>
+					<span
+						><i
+							class="fa fa-bars"
+							aria-hidden="true"
+							style="color: #3f3d56"
+						></i
+					></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarid">
+					<ul class="navbar-nav text-center ml-auto">
+						<li class="nav-item">
+							<a href="/" class="nav-link">Home</a>
+						</li>
+						<li class="nav-item">
+							<a href="/home" class="nav-link">Team Profile</a>
+						</li>
+						<li class="nav-item">
+							<a href="/logout" class="nav-link">Logout</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
     
     
     
     <!-- About -->
-    <div class="container mt-5">
+    <div class="container">
         <div class="row">
             <div
             class="col-lg-12 col-md-12 col-sm-12"
@@ -72,7 +109,8 @@
                                     </tr>
                                 <% } if(users[2]) { %>
                                     <tr>
-                                        <td id="rank_three"><%= users[2].teamName %></td>
+                                        <!-- <td id="rank_three"><%= users[2].teamName %></td> -->
+                                        <td><%= users[2].teamName %></td>
                                     </tr>
                                 <% } if(users[3]) { %>
                                     <tr>
