@@ -75,9 +75,10 @@
 						<form id="abstract-form">
                             <label id="status"></label>
 							<div class="form-group">
-								<label>Upload your file...</label>
+								<label>Upload your file... (max. 10MB)</label>
 								<input
 									type="file"
+									id="upload-file"
 									accept="application/pdf"
                                     class="form-control"
 									name="file"
@@ -86,27 +87,28 @@
 							</div>
                             <button
                                 id="submit"
+								type="submit"
                                 class="btn btn-primary btn-block">
 								SUBMIT
 							</button>
 						</form>
                     </div>
             </div>
-    </form>
+    
     <h3 style="text-align: center;"><u>Note:</u></h3>
     <h4 style="text-align: center;">You need to confirm members before submitting your abstract.</h4>
     <% if (!(teamConfirm)) { %>
         <script>
-           document.getElementById("submit").addEventListener("click", function(event){
+           document.getElementById("abstract-form").addEventListener("submit", function(event){
                event.preventDefault();
                alert("Team confirmation or payment is pending");
            })
         </script>
     <% }else { %>
         <script>
-            document.getElementById("submit").addEventListener("click", function(event){
+            document.getElementById("abstract-form").addEventListener("submit", function(event){
                 event.preventDefault();
-                if(confirm("Are you sure you this document as your abstract?\nOnce Submitted it cannot be changes later")){
+                if(confirm("Are you sure you this document as your abstract?\nOnce Submitted it cannot be changed later")){
                     var form = new FormData(document.getElementById('abstract-form'));
                     
                     fetch('/upload', {
@@ -131,6 +133,34 @@
                 }
             })
         </script>
+		<script>
+			var uploadField = document.getElementById("upload-file");
+	
+			uploadField.onchange = function() {
+				if(this.files[0].size > 10485760)
+				{
+					alert("File size cannot be more than 10MB!");
+					this.value = "";
+				}
+				else if(this.files.length > 1)
+				{
+					console.log(this.files.length);
+					alert("Only one file is allowed");
+					this.value = "";
+				}
+				else
+				{
+					const name = this.files[0].name
+					const lastDot = name.lastIndexOf('.');
+					if(name.substring(lastDot + 1).toLowerCase() != 'pdf')
+					{
+						alert("Only PDF file type is allowed");
+						this.value = "";
+					}
+				}
+				
+			};
+		</script>
     <% } %>
     <% }else { %>
         <div class="container">
@@ -143,5 +173,7 @@
             </div>
             <h2 style="text-align: center;" class="pt-3" >Abstract Submitted</h2>
     <% } %>
+
+	
 </body>
 </html>

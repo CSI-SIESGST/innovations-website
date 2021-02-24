@@ -255,10 +255,13 @@
         function searchTeams(val)
         {
             var team = document.getElementsByClassName('searchTeam');
+            var username = document.getElementsByClassName('search-username');
+
+            const valTrim = val.toLowerCase().trim()
 
             for(var i=0; i<team.length; i++)
             {
-                if(team[i].getAttribute('team').toLowerCase().trim().startsWith(val.toLowerCase().trim()))
+                if(team[i].getAttribute('team').toLowerCase().trim().startsWith(valTrim) || username[i].innerHTML.toLowerCase().trim().startsWith(valTrim))
                 {
                     team[i].style.display = 'flex';
                 }
@@ -328,7 +331,7 @@
     </div>
 
     <div>
-        <input type="text" name="" id="" class="w-100" placeholder="Search Teams..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
+        <input type="text" name="" id="" class="w-100" placeholder="Search Teams/Usernames..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
         
         <% users.forEach(user => {
             %>
@@ -426,7 +429,7 @@
                             <hr class="my-1">
 
                             <div class="row">
-                                <div class="col-4" style="overflow-wrap: break-word;">
+                                <div class="col-4 search-username" style="overflow-wrap: break-word;">
                                     <%= user.username %>
                                 </div>
                                 <div class="col-3" style="overflow-wrap: break-word;">

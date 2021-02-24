@@ -42,7 +42,7 @@ const submissionDeadline =
 const round1Date = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
 
 const round1Result =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const paymentDate = '23/02/2022';
@@ -56,13 +56,13 @@ const round2DateTime = `<span class="d-inline-block">00/00/00 at</span> <span cl
 const round2Link = '#';
 
 const round2Start =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2ResultTime = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
 
 const round2End =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2Result =
@@ -548,14 +548,6 @@ app.get('/', (req, res) => {
 	}
 });
 
-app.get('/info', (req, res) => {
-	if (req.isAuthenticated()) {
-		res.render('info', { team: req.user.teamName });
-	} else {
-		res.render('info', { team: null });
-	}
-});
-
 app.get('/members', (req, res) => {
 	if (req.isAuthenticated()) {
 		if (
@@ -734,7 +726,11 @@ app.post('/upload', (req, res) => {
 				if (files.file) {
 					if (files.file.type != 'application/pdf') {
 						res.status(400).json({
-							message: 'file must be of type pdf'
+							message: 'File must be of type PDF'
+						});
+					} else if (files.file.size > 10485760) {
+						res.status(400).json({
+							message: 'File size cannot be more than 10MB'
 						});
 					} else {
 						uploadFile(

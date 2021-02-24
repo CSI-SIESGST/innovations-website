@@ -70,14 +70,44 @@
 
     <h5 class="my-3">Ranking</h5>
 
-    <input type="text" name="" id="" class="w-100 mb-2" placeholder="Search Teams..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
+    <input type="text" name="" id="" class="w-100 mb-2" placeholder="Search Teams/Usernames..." onkeyup="searchTeams(this.value);" onchange="searchTeams(this.value);">
+
+    <div class="row mx-0 mt-2 text-center">
+        <div class="col-1">
+            <b>Rank</b>
+        </div>
+        <div class="col-4">
+            <b>Team Name</b>
+        </div>
+        <div class="col-5">
+            <b>Leader Email Address</b>
+        </div>
+        <div class="col-2">
+            <b>Score</b>
+        </div>
+    </div>
 
     <%
     let i = 1;
     users.forEach(user => {
         %>
+
         <div class="searchTeam my-1" team="<%= user.teamName %>">
-            <%= i %>. <a href="#" onclick="abstractReq('<%= user.uploadLink %>')"><b><%= user.teamName %></b></a> - <%= user.status2 %>
+
+            <div class="row mx-0 text-center">
+                <div class="col-1">
+                    <%= i %>
+                </div>
+                <div class="col-4">
+                    <a href="#" onclick="abstractReq('<%= user.uploadLink %>')"><b><%= user.teamName %></b></a>
+                </div>
+                <div class="col-5">
+                    <%= user.username %>
+                </div>
+                <div class="col-2">
+                    <b><%= user.status2 %></b>
+                </div>
+            </div>
         </div>
         <%
         i++;

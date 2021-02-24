@@ -425,21 +425,21 @@ input[type='search']:focus {
 }
 
 #rank_one {
-	color: #f5c93a;
+	color: #daa520;
 	background-color: #fff;
 	font-weight: bold;
 	font-size: x-large;
 	padding: 5px;
 }
 #rank_two {
-	color: #c0c0c0;
+	color: #84898b;
 	background-color: #fff;
 	font-weight: bold;
 	font-size: x-large;
 	padding: 5px;
 }
 #rank_three {
-	color: #cd7f32;
+	color: #b9722d;
 	background-color: #fff;
 	font-weight: bold;
 	font-size: x-large;
