@@ -625,9 +625,6 @@ header
 	.header-area .container {
 		padding: 0px;
 	}
-	.header-area .logo {
-		margin-left: 30px;
-	}
 	.header-area .menu-trigger {
 		display: block !important;
 	}
@@ -710,13 +707,24 @@ header
 	}
 }
 
+@media (max-width: 400px) {
+	.header-area .main-nav .logo {
+		font-size: 20px;
+	}
+}
+
+@media (max-width: 337px) {
+	.header-area .main-nav .logo {
+		font-size: 18px;
+	}
+}
+
 /* 
 ---------------------------------------------
 welcome
 --------------------------------------------- 
 */
 #welcome {
-	
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -735,8 +743,8 @@ TRY IT ... with or without CENTER CENTER
 
 .welcome-area .header-text {
 	position: absolute;
-	top: 55%;
-	transform: translateY(-210px);
+	top: 450px;
+	transform: translateY(-260px);
 	text-align: left;
 	width: 100%;
 }
@@ -766,8 +774,7 @@ TRY IT ... with or without CENTER CENTER
 
 @media (max-width: 991px) {
 	.welcome-area .header-text {
-		top: 55% !important;
-		transform: perspective(1px) translateY(-200px) !important;
+		transform: perspective(1px) translateY(-230px) !important;
 	}
 	.welcome-area .header-text h1 {
 		font-size: 36px;
@@ -786,8 +793,7 @@ TRY IT ... with or without CENTER CENTER
 
 @media (max-width: 820px) {
 	.welcome-area .header-text {
-		top: 55% !important;
-		transform: perspective(1px) translateY(-200px) !important;
+		transform: perspective(1px) translateY(-210px) !important;
 	}
 	.welcome-area .header-text h1 {
 		font-size: 36px;
@@ -799,13 +805,12 @@ TRY IT ... with or without CENTER CENTER
 	}
 }
 
-@media (max-width: 765px) {
+@media (max-width: 767px) {
 	.welcome-area {
 		margin-bottom: 100px;
 	}
 	.welcome-area .header-text {
-		top: 55% !important;
-		transform: perspective(1px) translateY(-150px) !important;
+		transform: perspective(1px) translateY(-230px) !important;
 		text-align: center;
 	}
 	.welcome-area .header-text .buttons {
@@ -841,13 +846,13 @@ about
 */
 
 #about {
-	padding: 120px 0px;
+	padding: 100px 0px;
 	border-bottom: 1px solid #eee;
 }
 
 @media (max-width: 765px) {
 	#about {
-		padding: 20px 0px 120px 0px;
+		padding: 20px 0px 20px 0px;
 	}
 }
 
@@ -860,7 +865,7 @@ about
 }
 
 #about2 {
-	padding: 120px 0px;
+	padding: 50px 0px;
 }
 
 #about2 .right-image {
@@ -1096,7 +1101,13 @@ accordions
 */
 
 #frequently-question {
-	padding: 120px 0px;
+	padding: 50px 0px;
+}
+
+@media (max-width: 991px) {
+	#frequently-question {
+		padding: 0px 0px 50px;
+	}
 }
 
 #frequently-question .section-heading p {
