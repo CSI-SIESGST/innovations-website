@@ -212,37 +212,40 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('msg-to-admin', (teamName, message, chatsId, callback) => {
-		Chat.where({ teamName: teamName }).findOne((err, chat) => {
-			if (err) {
-				// eslint-disable-next-line no-undef
-				socket.to(chatsId).emit('refresh');
-			} else {
-				var time = new Date().getTime();
+		message = message.trim();
+		if (message.length > 0) {
+			Chat.where({ teamName: teamName }).findOne((err, chat) => {
+				if (err) {
+					// eslint-disable-next-line no-undef
+					socket.to(chatsId).emit('refresh');
+				} else {
+					var time = new Date().getTime();
 
-				callback({ time: time });
+					callback({ time: time });
 
-				let fmsg = String(message)
-					.replace(/&/g, '&amp;')
-					.replace(/</g, '&lt;')
-					.replace(/>/g, '&gt;')
-					.replace(/"/g, '&quot;')
-					.replace(/(\r\n|\n)/g, '<br/>');
+					let fmsg = String(message)
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;')
+						.replace(/(\r\n|\n)/g, '<br/>');
 
-				// eslint-disable-next-line no-undef
-				socket
-					.to(process.env.ADMIN_ROOM)
-					.emit('new-msg', teamName, fmsg, time);
+					// eslint-disable-next-line no-undef
+					socket
+						.to(process.env.ADMIN_ROOM)
+						.emit('new-msg', teamName, fmsg, time);
 
-				chat.messages.push({
-					time: time,
-					message: fmsg,
-					sender: false
-				});
-				chat.adminUnread = true;
+					chat.messages.push({
+						time: time,
+						message: fmsg,
+						sender: false
+					});
+					chat.adminUnread = true;
 
-				chat.save();
-			}
-		});
+					chat.save();
+				}
+			});
+		}
 	});
 
 	socket.on('msg-to-user', (teamName, message, chatsId, callback) => {
@@ -320,11 +323,13 @@ io.on('connection', (socket) => {
 			}
 		});
 
+		let ogMsg = message;
+
 		message = '<small><b>Broadcast Message</b></small><br>' + message;
 
 		var time = new Date().getTime();
 
-		if (mode == 1) {
+		if (mode == 1 || mode == 5) {
 			Chat.updateMany(
 				{},
 				{
@@ -351,14 +356,30 @@ io.on('connection', (socket) => {
 			callback();
 
 			socket.broadcast.emit('new-msg', '', message, time);
-		} else if (mode == 2) {
+
+			if (mode == 5) {
+				let uNameList = [];
+				User.where({}).find((err, users) => {
+					if (err) {
+						console.log(err);
+					} else {
+						users.forEach((user) => {
+							uNameList.push(user.username);
+						});
+						emailTo(uNameList, ogMsg);
+					}
+				});
+			}
+		} else if (mode == 2 || mode == 6) {
 			User.where({ status1: true }).find((err, users) => {
 				if (err) {
 					console.log(err);
 				} else {
 					let idList = [];
+					let uNameList = [];
 					users.forEach((user) => {
 						idList.push(user.teamName);
+						uNameList.push(user.username);
 					});
 
 					Chat.updateMany(
@@ -403,6 +424,13 @@ io.on('connection', (socket) => {
 																time
 															);
 													});
+
+													if (mode == 6) {
+														emailTo(
+															uNameList,
+															ogMsg
+														);
+													}
 												}
 											});
 										}
@@ -413,14 +441,16 @@ io.on('connection', (socket) => {
 					);
 				}
 			});
-		} else if (mode == 3) {
+		} else if (mode == 3 || mode == 7) {
 			User.where({ status1: true, payment: false }).find((err, users) => {
 				if (err) {
 					console.log(err);
 				} else {
 					let idList = [];
+					let uNameList = [];
 					users.forEach((user) => {
 						idList.push(user.teamName);
+						uNameList.push(user.username);
 					});
 
 					Chat.updateMany(
@@ -465,6 +495,13 @@ io.on('connection', (socket) => {
 																time
 															);
 													});
+
+													if (mode == 7) {
+														emailTo(
+															uNameList,
+															ogMsg
+														);
+													}
 												}
 											});
 										}
@@ -475,14 +512,16 @@ io.on('connection', (socket) => {
 					);
 				}
 			});
-		} else if (mode == 4) {
+		} else if (mode == 4 || mode == 8) {
 			User.where({ status1: true, payment: true }).find((err, users) => {
 				if (err) {
 					console.log(err);
 				} else {
 					let idList = [];
+					let uNameList = [];
 					users.forEach((user) => {
 						idList.push(user.teamName);
+						uNameList.push(user.username);
 					});
 
 					Chat.updateMany(
@@ -527,6 +566,13 @@ io.on('connection', (socket) => {
 																time
 															);
 													});
+
+													if (mode == 8) {
+														emailTo(
+															uNameList,
+															ogMsg
+														);
+													}
 												}
 											});
 										}

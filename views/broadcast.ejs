@@ -16,11 +16,13 @@
         function btnChange(x, y) {
             if(x>0)
             {
-                document.getElementsByTagName('button')[y].removeAttribute('disabled')
+                document.getElementsByTagName('button')[y*2].removeAttribute('disabled')
+                document.getElementsByTagName('button')[(y*2)+1].removeAttribute('disabled')
             }
             else
             {
-                document.getElementsByTagName('button')[y].setAttribute('disabled','')
+                document.getElementsByTagName('button')[y*2].setAttribute('disabled','')
+                document.getElementsByTagName('button')[(y*2)+1].setAttribute('disabled','')
             }
         }
     </script>
@@ -37,6 +39,7 @@
 
     <div style="text-align: right;">
         <button class="btn-lg" onclick="sendMessage(1);" disabled>Send</button>
+        <button class="btn-lg" onclick="sendMessage(5);" disabled>Send with Email</button>
     </div>
 
     <h5 class="mt-2">Broadcast Message to Users qualified in ROUND 1</h5>
@@ -45,6 +48,7 @@
 
     <div style="text-align: right;">
         <button class="btn-lg" onclick="sendMessage(2);" disabled>Send</button>
+        <button class="btn-lg" onclick="sendMessage(6);" disabled>Send with Email</button>
     </div>
 
     <h5 class="mt-2">Broadcast Message to Users Qualified <b class="text-danger">but not paid!</b></h5>
@@ -53,6 +57,7 @@
 
     <div style="text-align: right;">
         <button class="btn-lg" onclick="sendMessage(3);" disabled>Send</button>
+        <button class="btn-lg" onclick="sendMessage(7);" disabled>Send with Email</button>
     </div>
 
     <h5 class="mt-2">Broadcast Message to Users Qualified <b class="text-danger">and paid!</b></h5>
@@ -61,6 +66,7 @@
 
     <div style="text-align: right;">
         <button class="btn-lg mb-4" onclick="sendMessage(4);" disabled>Send</button>
+        <button class="btn-lg mb-4" onclick="sendMessage(8);" disabled>Send with Email</button>
     </div>
     
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -76,7 +82,16 @@
         }
 
         function sendMessage(mode) {
-            var msg = document.getElementById('input' + mode).value.trim();
+            if(mode < 5)
+            {
+                var msg = document.getElementById('input' + mode).value.trim();
+            }
+            else
+            {
+                let inpId = mode - 4;
+                var msg = document.getElementById('input' + inpId).value.trim();
+            }
+            
             if(msg.length>0)
             {
                 msg = htmlEntities(msg);
