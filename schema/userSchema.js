@@ -97,6 +97,10 @@ const userSchema = new mongoose.Schema({
 		time: Number,
 		code: Number,
 		available: Boolean
+	},
+	domain: {
+		type: Boolean,
+		required: true
 	}
 });
 

@@ -20,6 +20,7 @@ const User = require('./schema/userSchema');
 const Chat = require('./schema/chatSchema');
 const Broadcast = require('./schema/broadcastSchema');
 const Log = require('./schema/logSchema');
+const { domain } = require('process');
 
 const indCost = 500;
 
@@ -42,7 +43,7 @@ const submissionDeadline =
 const round1Date = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
 
 const round1Result =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
+	new Date('Jan 23, 2021 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const paymentDate = '23/02/2022';
@@ -1002,16 +1003,18 @@ app.post('/signup', createAccountLimiter, (req, res) => {
 			req.body.leadername &&
 			req.body.college &&
 			req.body.contact &&
-			req.body.team
+			req.body.team &&
+			req.body.domain
 		) ||
 		req.body.password == '' ||
 		req.body.username == '' ||
 		req.body.leadername == '' ||
 		req.body.college == '' ||
 		req.body.contact == '' ||
-		req.body.team == ''
+		req.body.team == '' ||
+		!(req.body.domain == 'S' || req.body.domain == 'H')
 	) {
-		res.status(404);
+		res.status(401);
 	} else if (req.body.password !== req.body.passwordagain) {
 		res.send({ message: 'Passwords do not match' });
 	} else {
@@ -1019,6 +1022,11 @@ app.post('/signup', createAccountLimiter, (req, res) => {
 			'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'
 		);
 		if (patt.test(req.body.password)) {
+			let domain = false;
+			if (req.body.domain == 'S') {
+				domain = true;
+			}
+
 			User.register(
 				{
 					username: String(req.body.username)
@@ -1047,6 +1055,7 @@ app.post('/signup', createAccountLimiter, (req, res) => {
 						.replace(/>/g, '&gt;')
 						.replace(/"/g, '&quot;'),
 					verified: false,
+					domain: domain,
 					teamMembers: []
 				},
 				req.body.password,
