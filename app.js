@@ -13,6 +13,7 @@ const formidable = require('formidable');
 
 const verifyEmail = require('./functions/verifyEmail');
 const resetPassword = require('./functions/resetPassword');
+const emailTo = require('./functions/broadcastEmail');
 
 require('./db/mongoose');
 
