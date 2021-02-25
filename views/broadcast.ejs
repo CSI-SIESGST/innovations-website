@@ -102,7 +102,17 @@
 
                 document.getElementById('loading').style.display = 'block';
 
-                document.getElementById('input' + mode).value = '';
+                if(mode < 5)
+                {
+                    document.getElementById('input' + mode).value = '';
+                }
+                else
+                {
+                    let inpId = mode - 4;
+                    document.getElementById('input' + inpId).value = '';
+                }
+
+                $('button').attr('disabled', '');
             }
             else
             {
