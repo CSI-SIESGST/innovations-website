@@ -13,8 +13,13 @@
 
     <script>
 
-        function changeR1(id)
+        function changeR1(id,graded)
         {
+            if(graded == 'true' && !confirm('User is already been graded for round 2.\nDo you want to reset his round 2 grades?'))
+            {
+                return;
+            }
+
             if(document.getElementById(id).innerHTML.includes('text-success'))
             {
                 document.getElementById('loading').style.display = 'block';
@@ -34,6 +39,10 @@
                     {
                         document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
                         document.getElementById('loading').style.display = 'none';
+                        if(graded == 'true')
+                        {
+                            location.reload()
+                        }
                     }
                     else if(data.message == 'nope')
                     {
@@ -76,6 +85,10 @@
                     {
                         document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
                         document.getElementById('loading').style.display = 'none';
+                        if(graded == 'true')
+                        {
+                            location.reload()
+                        }
                     }
                     else if(data.message == 'nope')
                     {
@@ -212,7 +225,7 @@
                     {
                         %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
                     } %>
-                    <button class="ml-1" onclick="changeR1('<%= user._id %>')">!</button>
+                    <button class="ml-1" onclick="changeR1('<%= user._id %>', '<%= user.graded2 %>')">!</button>
                 </div>
                 <div class="col-12">
                     

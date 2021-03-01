@@ -23,8 +23,6 @@ const Broadcast = require('./schema/broadcastSchema');
 const Log = require('./schema/logSchema');
 const { domain } = require('process');
 
-const indCost = 500;
-
 const regEndDate =
 	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
@@ -45,12 +43,6 @@ const round1Date = `<span class="d-inline-block">00/00/00 at</span> <span class=
 
 const round1Result =
 	new Date('Jan 23, 2021 23:59:59').getTime() +
-	(330 + new Date().getTimezoneOffset()) * 60000;
-
-const paymentDate = '23/02/2022';
-
-const paymentDeadline =
-	new Date('Jan 23, 2022 23:59:59').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2DateTime = `<span class="d-inline-block">00/00/00 at</span> <span class="d-inline-block">00:00 PM IST</span>`;
@@ -442,148 +434,6 @@ io.on('connection', (socket) => {
 					);
 				}
 			});
-		} else if (mode == 3 || mode == 7) {
-			User.where({ status1: true, payment: false }).find((err, users) => {
-				if (err) {
-					console.log(err);
-				} else {
-					let idList = [];
-					let uNameList = [];
-					users.forEach((user) => {
-						idList.push(user.teamName);
-						uNameList.push(user.username);
-					});
-
-					Chat.updateMany(
-						{ teamName: { $in: idList } },
-						{
-							$push: {
-								messages: {
-									time: time,
-									message: message,
-									sender: true
-								}
-							}
-						},
-						(err) => {
-							if (err) {
-								console.log(err);
-							} else {
-								Chat.updateMany(
-									{ teamName: { $in: idList } },
-									{ userUnread: true },
-									(error) => {
-										if (error) {
-											console.log(error);
-										} else {
-											callback();
-
-											Chat.where({
-												teamName: { $in: idList }
-											}).find((errors, chats) => {
-												if (errors) {
-													console.log(errors);
-												} else {
-													chats.forEach((chat) => {
-														socket
-															.to(
-																chat._id.toString()
-															)
-															.emit(
-																'new-msg',
-																'',
-																message,
-																time
-															);
-													});
-
-													if (mode == 7) {
-														emailTo(
-															uNameList,
-															ogMsg
-														);
-													}
-												}
-											});
-										}
-									}
-								);
-							}
-						}
-					);
-				}
-			});
-		} else if (mode == 4 || mode == 8) {
-			User.where({ status1: true, payment: true }).find((err, users) => {
-				if (err) {
-					console.log(err);
-				} else {
-					let idList = [];
-					let uNameList = [];
-					users.forEach((user) => {
-						idList.push(user.teamName);
-						uNameList.push(user.username);
-					});
-
-					Chat.updateMany(
-						{ teamName: { $in: idList } },
-						{
-							$push: {
-								messages: {
-									time: time,
-									message: message,
-									sender: true
-								}
-							}
-						},
-						(err) => {
-							if (err) {
-								console.log(err);
-							} else {
-								Chat.updateMany(
-									{ teamName: { $in: idList } },
-									{ userUnread: true },
-									(error) => {
-										if (error) {
-											console.log(error);
-										} else {
-											callback();
-
-											Chat.where({
-												teamName: { $in: idList }
-											}).find((errors, chats) => {
-												if (errors) {
-													console.log(errors);
-												} else {
-													chats.forEach((chat) => {
-														socket
-															.to(
-																chat._id.toString()
-															)
-															.emit(
-																'new-msg',
-																'',
-																message,
-																time
-															);
-													});
-
-													if (mode == 8) {
-														emailTo(
-															uNameList,
-															ogMsg
-														);
-													}
-												}
-											});
-										}
-									}
-								);
-							}
-						}
-					);
-				}
-			});
 		}
 	});
 });
@@ -701,20 +551,6 @@ app.post('/members', (req, res) => {
 	}
 });
 
-app.get('/payment', (req, res) => {
-	if (req.isAuthenticated()) {
-		if (!req.user.verified) {
-			res.redirect('/home');
-		} else {
-			res.render('payment', {
-				payment: req.user.payment
-			});
-		}
-	} else {
-		res.redirect('/login');
-	}
-});
-
 app.get('/final-results', (req, res) => {
 	if (
 		req.isAuthenticated() &&
@@ -749,7 +585,6 @@ app.get('/upload', (req, res) => {
 		} else {
 			res.render('abstract', {
 				teamConfirm: req.user.teamConfirm,
-				payment: req.user.payment,
 				submitted: req.user.submitted
 			});
 		}
@@ -825,33 +660,23 @@ app.get('/home', (req, res) => {
 					res.status(501);
 					res.end('Error');
 				} else if (chat) {
-					if (req.user.teamConfirm) {
-						totalCost =
-							indCost + indCost * req.user.teamMembers.length;
-					} else {
-						totalCost = indCost + '/member';
-					}
 					const currentTime = new Date().getTime();
 					res.render('homenew', {
 						team: req.user.teamName,
 						chatId: chat._id,
 						unread: chat.userUnread,
 						teamConfirm: req.user.teamConfirm,
-						payment: req.user.payment,
 						submitted: req.user.submitted,
 						status1: req.user.status1,
-						totalCost: totalCost,
 						teamConfirmDeadline: teamConfirmDeadline < currentTime,
 						submissionDeadline: submissionDeadline < currentTime,
 						round1Result: round1Result < currentTime,
-						paymentDeadline: paymentDeadline < currentTime,
 						round2Start: round2Start < currentTime,
 						round2End: round2End < currentTime,
 						round2Result: round2Result < currentTime,
 						teamConfirmDate: teamConfirmDate,
 						submissionDate: submissionDate,
 						round1Date: round1Date,
-						paymentDate: paymentDate,
 						round2DateTime: round2DateTime,
 						round2Link: round2Link,
 						round2ResultTime: round2ResultTime
@@ -1577,46 +1402,6 @@ app.get('/verified-users', (req, res) => {
 	}
 });
 
-app.get('/unpaid', (req, res) => {
-	// eslint-disable-next-line no-undef
-	if (
-		req.session[process.env.ADMIN_SESSION_VAR] &&
-		req.session[process.env.ADMIN_SESSION_VAR] ==
-			process.env.ADMIN_SESSION_VAL
-	) {
-		User.where({ status1: true, payment: false }).find((err, users) => {
-			if (err) {
-				res.send('Error');
-			} else {
-				res.render('unpaid', { unpaid: users });
-			}
-		});
-	} else {
-		res.status(401);
-		res.end('Unauthorised');
-	}
-});
-
-app.get('/paid', (req, res) => {
-	// eslint-disable-next-line no-undef
-	if (
-		req.session[process.env.ADMIN_SESSION_VAR] &&
-		req.session[process.env.ADMIN_SESSION_VAR] ==
-			process.env.ADMIN_SESSION_VAL
-	) {
-		User.where({ status1: true, payment: true }).find((err, users) => {
-			if (err) {
-				res.send('Error');
-			} else {
-				res.render('paid', { paid: users });
-			}
-		});
-	} else {
-		res.status(401);
-		res.end('Unauthorised');
-	}
-});
-
 app.get('/round1u', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (
@@ -1644,15 +1429,13 @@ app.get('/round2u', (req, res) => {
 		req.session[process.env.ADMIN_SESSION_VAR] ==
 			process.env.ADMIN_SESSION_VAL
 	) {
-		User.where({ payment: true, graded2: false, status1: true }).find(
-			(err, users) => {
-				if (err) {
-					res.send('Error');
-				} else {
-					res.render('round2u', { ungraded: users });
-				}
+		User.where({ graded2: false, status1: true }).find((err, users) => {
+			if (err) {
+				res.send('Error');
+			} else {
+				res.render('round2u', { ungraded: users });
 			}
-		);
+		});
 	} else {
 		res.status(401);
 		res.end('Unauthorised');
@@ -1762,55 +1545,6 @@ app.post('/delete-broadcast', (req, res) => {
 	}
 });
 
-app.post('/changeFee', (req, res) => {
-	// eslint-disable-next-line no-undef
-	if (
-		req.session[process.env.ADMIN_SESSION_VAR] &&
-		req.session[process.env.ADMIN_SESSION_VAR] ==
-			process.env.ADMIN_SESSION_VAL
-	) {
-		let key;
-		if (req.body.key == 'true') {
-			key = true;
-		} else {
-			key = false;
-		}
-		User.findById(req.body.id, (err, user) => {
-			if (err) {
-				console.log(err);
-				res.send('Error');
-			} else {
-				if (user.status1) {
-					user.payment = key;
-					user.graded2 = false;
-					user.status2 = 0;
-					user.save();
-
-					let log = new Log({
-						time: new Date().getTime(),
-						trigger: true,
-						event:
-							req.session[process.env.ADMIN_NAME] +
-							' (Admin) changed payment status of <b>' +
-							user.teamName +
-							'</b> to <b>' +
-							req.body.key +
-							'</b>'
-					});
-					log.save();
-
-					res.send({ message: 'done' });
-				} else {
-					res.send({ message: 'nope' });
-				}
-			}
-		});
-	} else {
-		res.status(401);
-		res.end('Unauthorised');
-	}
-});
-
 app.post('/changeR1', (req, res) => {
 	// eslint-disable-next-line no-undef
 	if (
@@ -1829,9 +1563,11 @@ app.post('/changeR1', (req, res) => {
 				console.log(err);
 				res.send('Error');
 			} else {
-				if ((!key || user.submitted) && !user.payment) {
+				if (!key || user.submitted) {
 					user.graded1 = true;
 					user.status1 = key;
+					user.graded2 = false;
+					user.status2 = 0;
 					user.save();
 
 					let log = new Log({
@@ -1848,8 +1584,6 @@ app.post('/changeR1', (req, res) => {
 					log.save();
 
 					res.send({ message: 'done' });
-				} else if (user.payment) {
-					res.send({ message: 'nope' });
 				} else {
 					res.send({ message: 'no' });
 				}
@@ -1875,7 +1609,7 @@ app.post('/changeR2', (req, res) => {
 				console.log(err);
 				res.send('Error');
 			} else {
-				if (user.payment && user.status1) {
+				if (user.status1) {
 					user.graded2 = true;
 					user.status2 = key;
 					user.save();

@@ -60,11 +60,6 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		default: []
 	},
-	payment: {
-		type: Boolean,
-		required: true,
-		default: false
-	},
 	submitted: {
 		type: Boolean,
 		required: true,
