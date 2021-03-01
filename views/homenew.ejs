@@ -339,72 +339,8 @@
 						<% } %>
 
 						<hr class="my-0">
-	
-						<%
-						if (!round1Result && (!teamConfirmDeadline || teamConfirm) && ((!submissionDeadline || submitted))) { %>
-							<div class="row">
-								<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
-									<h3>
-										Payment ₹<%= totalCost %>
-									</h3>
-									<span class="text-primary">If selected for round 2</span>
-								</div>
-								<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
-									<button class="next-button text-dark">
-										<i class="fas fa-ellipsis-h fa-2x"></i>
-									</button>
-								</div>
-							</div>
-						<% }
-						else if (payment) { %>
-							<div class="row">
-								<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
-									<h3>
-										Payment <%= totalCost %>
-									</h3>
-									<span class="text-success"><b>Done</b></span>
-								</div>
-								<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
-									<button class="next-button text-success">
-										<i class="fas fa-check-circle fa-2x"></i>
-									</button>
-								</div>
-							</div>
-						<% } else if(status1 && !paymentDeadline) { %>
-							<div class="row" onclick="location.href='/payment'" style="cursor: pointer;">
-								<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
-									<h3>
-										Payment <%= totalCost %>
-									</h3>
-									<span class="text-danger">Pending</span>
-									<br>
-									<small>Last Date: <%= paymentDate %></small>
-								</div>
-								<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
-									<button class="next-button text-primary">
-										<i class="fa fa-angle-right fa-3x"></i>
-									</button>
-								</div>
-							</div>
-						<% } else if (status1 && paymentDeadline) { %>
-							<div class="row">
-								<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
-									<h3>
-										Payment <%= totalCost %>
-									</h3>
-									<span class="text-danger">Deadline Passed!</span>
-								</div>
-								<div class="col-3 col-sm-3 col-md-3 col-lg-4 mx-auto py-3">
-									<button class="next-button text-danger">
-										<i class="fas fa-times fa-2x"></i>
-									</button>
-								</div>
-							</div>
-						<% } %>	
-						
-						<hr class="my-0">
-					
-					<% if(payment && round1Result && !round2Start) {
+											
+					<% if(status1 && round1Result && !round2Start) {
 						%>
 						<div class="row">
 							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
@@ -424,7 +360,7 @@
 							</div>
 						</div>
 						<%
-					} else if(payment && round2Start && !round2End) {
+					} else if(status1 && round2Start && !round2End) {
 						%>
 						<div class="row" onclick="window.open('<%= round2Link %>', '_blank')" style="cursor: pointer;">
 							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
@@ -442,7 +378,7 @@
 							</div>
 						</div>
 						<%
-					} else if(payment && round2End && !round2Result) {
+					} else if(status1 && round2End && !round2Result) {
 						%>
 						<div class="row">
 							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">
@@ -458,7 +394,7 @@
 							</div>
 						</div>
 						<%
-					} else if(payment && round2Result) {
+					} else if(status1 && round2Result) {
 						%>
 						<div class="row" onclick="location.href='/final-results'" style="cursor: pointer;">
 							<div class="col-9 col-sm-9 col-md-9 col-lg-8 mx-auto py-3 text-center">

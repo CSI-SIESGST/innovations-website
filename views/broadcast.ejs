@@ -50,24 +50,6 @@
         <button class="btn-lg" onclick="sendMessage(2);" disabled>Send</button>
         <button class="btn-lg" onclick="sendMessage(6);" disabled>Send with Email</button>
     </div>
-
-    <h5 class="mt-2">Broadcast Message to Users Qualified <b class="text-danger">but not paid!</b></h5>
-
-    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 2);" onchange="btnChange(this.value.trim().length, 2);" type="text" name="" id="input3" rows="3" style="flex-grow: 1; width: 100%;"></textarea>
-
-    <div style="text-align: right;">
-        <button class="btn-lg" onclick="sendMessage(3);" disabled>Send</button>
-        <button class="btn-lg" onclick="sendMessage(7);" disabled>Send with Email</button>
-    </div>
-
-    <h5 class="mt-2">Broadcast Message to Users Qualified <b class="text-danger">and paid!</b></h5>
-
-    <textarea class="mt-2" onkeyup="btnChange(this.value.trim().length, 3);" onchange="btnChange(this.value.trim().length, 3);" type="text" name="" id="input4" rows="3" style="flex-grow: 1; width: 100%;"></textarea>
-
-    <div style="text-align: right;">
-        <button class="btn-lg mb-4" onclick="sendMessage(4);" disabled>Send</button>
-        <button class="btn-lg mb-4" onclick="sendMessage(8);" disabled>Send with Email</button>
-    </div>
     
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 

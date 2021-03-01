@@ -12,93 +12,14 @@
     <title>Verified Participants</title>
 
     <script>
-        function changeFee(id, userId, graded)
+        
+        function changeR1(id, graded)
         {
             if(graded == 'true' && !confirm('User is already been graded for round 2.\nDo you want to reset his round 2 grades?'))
             {
                 return;
             }
 
-            document.getElementsByName(userId)[0].value = 0;
-            document.getElementsByName(id)[0].value = 0;
-
-            if(document.getElementById(id).innerHTML.includes('text-success'))
-            {
-                document.getElementById('loading').style.display = 'block';
-
-                var body = 'key=' + encodeURIComponent('false') + '&id=' + encodeURIComponent(userId);
-
-                fetch("/changeFee", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'                 
-                    },
-                    body: body
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.message == 'done')
-                    {
-                        document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                    else if(data.message == 'nope')
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Cannot change fee status as user has already not qualified round 1')
-                    }
-                    else
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Error Changing Data')
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('loading').style.display = 'none';
-                    alert('Error Changing Data')
-                })
-                
-            }
-            else
-            {
-                document.getElementById('loading').style.display = 'block';
-
-                var body = 'key=' + encodeURIComponent('true') + '&id=' + encodeURIComponent(userId);
-
-                fetch("/changeFee", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'                 
-                    },
-                    body: body
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.message == 'done')
-                    {
-                        document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
-                        document.getElementById('loading').style.display = 'none';
-                    }
-                    else if(data.message == 'nope')
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Cannot change fee status as user has already not qualified round 1')
-                    }
-                    else
-                    {
-                        document.getElementById('loading').style.display = 'none';
-                        alert('Error Changing Data')
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('loading').style.display = 'none';
-                    alert('Error Changing Data')
-                })
-            }
-        }
-
-        function changeR1(id)
-        {
             if(document.getElementById(id).innerHTML.includes('text-success'))
             {
                 document.getElementById('loading').style.display = 'block';
@@ -118,6 +39,10 @@
                     {
                         document.getElementById(id).innerHTML = '<b class="text-danger">No</b>';
                         document.getElementById('loading').style.display = 'none';
+                        if(graded == 'true')
+                        {
+                            location.reload()
+                        }
                     }
                     else if(data.message == 'nope')
                     {
@@ -160,6 +85,10 @@
                     {
                         document.getElementById(id).innerHTML = '<b class="text-success">Yes</b>';
                         document.getElementById('loading').style.display = 'none';
+                        if(graded == 'true')
+                        {
+                            location.reload()
+                        }
                     }
                     else if(data.message == 'nope')
                     {
@@ -371,29 +300,11 @@
                         %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
                     }
                     if(user.submitted) { %>
-                        <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>')">!</button>
+                        <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>', '<%= user.graded2 %>')">!</button>
                     <% } %>
                     
                 </div>
-                <div class="col-2">
-                    <%
-                    if(!user.status1)
-                    {
-                        %>Fee: <span id="<%= user.teamName %>"><b class="text-primary">NA</b></span><%
-                    }
-                    else if(user.payment)
-                    {
-                        %>Fee: <span id="<%= user.teamName %>"><b class="text-success">Yes</b></span><%
-                    }
-                    else
-                    {
-                        %>Fee: <span id="<%= user.teamName %>"><b class="text-danger">No</b></span><%
-                    }
-                    if(user.status1) { %>
-                        <button class="ml-1" onclick="changeFee('<%= user.teamName %>', '<%= user._id %>', '<%= user.graded2 %>')">!</button>
-                    <% } %>
-
-                </div>
+                
                 <div class="col-2">
                     <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" min="0" max="100" step="1" readonly>
                     <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
