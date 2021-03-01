@@ -230,6 +230,16 @@ a.main-button-slider {
 	transition: all 0.3s ease 0s;
 }
 
+#home-login-btn {
+	background-color: #fff;
+	color: #f55858;
+}
+
+#home-login-btn:hover {
+	background-color: #0088e8;
+	color: #fff;
+}
+
 a.main-button-slider:hover {
 	background-color: #0088e8;
 }
