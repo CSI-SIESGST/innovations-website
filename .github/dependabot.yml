@@ -13,9 +13,7 @@ updates:
       prefix: "npm"
       include: "scope"
     labels:
-      - "npm"
-      - "dependencies"
-      - "update"
+      - "dependency-update"
     reviewers: 
       - "abhijoshi2k"
     schedule:
