@@ -296,14 +296,14 @@
                         %>Abstract: <b class="text-danger">No</b><%
                     } %>
                 </div>
-                <div class="col-2">
+                <div class="col-3">
                     <% if(user.status1)
                     {
-                        %>R1: <span id="<%= user._id %>"><b class="text-success">Yes</b></span><%
+                        %>Round 1: <span id="<%= user._id %>"><b class="text-success">Yes</b></span><%
                     }
                     else
                     {
-                        %>R1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
+                        %>Round 1: <span id="<%= user._id %>"><b class="text-danger">No</b></span><%
                     }
                     if(user.submitted) { %>
                         <button class="ml-1 <%= user._id %>" onclick="changeR1('<%= user._id %>', '<%= user.graded2 %>')">!</button>
@@ -311,8 +311,9 @@
 
                 </div>
 
-                <div class="col-2">
-                    <input type="number" style="background: #eee;" class="w-75" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" min="0" max="100" readonly>
+                <div class="col-3">
+                    Round 2:
+                    <input type="number" style="background: #eee;" class="w-50" name="<%= user._id %>" id="" value="<%= user.status2 %>" step="1" min="0" max="100" readonly>
                     <input type="hidden" name="<%= user.teamName %>" id="" value="<%= user.status2 %>">
                     <% if(user.status1) { %>
                         <button class="ml-1" onclick="changeR2('<%= user._id %>', '<%= user.teamName %>')">!</button>
