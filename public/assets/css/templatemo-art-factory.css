@@ -1483,3 +1483,9 @@ preloader
 		opacity: 0;
 	}
 }
+
+.sponsor-images-home {
+	width: 100%;
+	height: auto;
+	max-width: 200px;
+}
