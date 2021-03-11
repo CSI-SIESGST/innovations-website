@@ -24,43 +24,43 @@ const Log = require('./schema/logSchema');
 const { domain } = require('process');
 
 const regEndDate =
-	new Date('Mar 17, 2021 23:59:59').getTime() +
+	new Date('Apr 02, 2021 00:00:00').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
-const teamConfirmDate = '19/03/2021';
+const teamConfirmDate = '03/04/2021';
 
 const teamConfirmDeadline =
-	new Date('Mar 19, 2021 23:59:59').getTime() +
+	new Date('Apr 04, 2021 00:00:00').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
-const submissionDate = '19/03/2021';
+const submissionDate = '03/04/2021';
 
 const submissionDeadline =
-	new Date('Mar 19, 2021 23:59:59').getTime() +
+	new Date('Apr 04, 2021 00:00:00').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
-const round1Date = `<span class="d-inline-block">21/03/2021 at</span> <span class="d-inline-block">12:00 AM IST</span>`;
+const round1Date = `<span class="d-inline-block">05/04/2021 at</span> <span class="d-inline-block">09:00 PM IST</span>`;
 
 const round1Result =
-	new Date('Mar 21, 2021 00:00:00').getTime() +
+	new Date('Apr 05, 2021 21:00:00').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
-const round2DateTime = `<span class="d-inline-block">27/03/2021 at</span> <span class="d-inline-block">09:00 AM IST</span>`;
+const round2DateTime = `<span class="d-inline-block">10/04/2021 at</span> <span class="d-inline-block">09:00 AM IST</span>`;
 
 const round2Link = process.env.MEET_LINK;
 
 const round2Start =
-	new Date('Mar 27, 2021 08:50:00').getTime() +
+	new Date('Apr 10, 2021 08:50:00').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
-const round2ResultTime = `<span class="d-inline-block">27/03/2021 at</span> <span class="d-inline-block">09:00 PM IST</span>`;
+const round2ResultTime = `<span class="d-inline-block">10/04/2021 at</span> <span class="d-inline-block">09:00 PM IST</span>`;
 
 const round2End =
-	new Date('Mar 27, 2021 18:00:00').getTime() +
+	new Date('Apr 10, 2021 18:00:00').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const round2Result =
-	new Date('Mar 27, 2021 21:00:00').getTime() +
+	new Date('Apr 10, 2021 21:00:00').getTime() +
 	(330 + new Date().getTimezoneOffset()) * 60000;
 
 const serviceAccount = {
